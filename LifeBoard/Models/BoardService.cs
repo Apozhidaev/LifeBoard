@@ -35,7 +35,10 @@ namespace LifeBoard.Models
 
         public IEnumerable<Issue> GetIssues(IssueFilter filter)
         {
-            return _issues;
+            return _issues.Where(
+                i => filter.Types.Contains(i.Type) &&
+                    filter.Statuses.Contains(i.Status) &&
+                    filter.Priorities.Contains(i.Priority));
         }
 
         public void Open()
@@ -194,6 +197,11 @@ namespace LifeBoard.Models
         public IEnumerable<IssueType> GetTypes()
         {
             return new[] { IssueType.Task, IssueType.Story, IssueType.Epic };
+        }
+
+        public IEnumerable<IssueStatus> GetStatuses()
+        {
+            return new[] {IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved, IssueStatus.Closed};
         }
     }
 }

@@ -44,6 +44,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -82,6 +83,9 @@
     <Compile Include="ViewModels\IFramePageViewModel.cs" />
     <Compile Include="ViewModels\Issues\EditIssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\IssueFilterViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssuePriorityViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueStatusViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueTypeViewModel.cs" />
     <Compile Include="ViewModels\Issues\IssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\MainIssuesViewModel.cs" />
     <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
