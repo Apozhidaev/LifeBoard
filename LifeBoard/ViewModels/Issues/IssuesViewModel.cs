@@ -28,11 +28,12 @@ namespace LifeBoard.ViewModels.Issues
             : base(parent)
         {
             _boardService = boardService;
-            IssueFilter = new IssueFilterViewModel(boardService);
+            IssueFilter = new IssueFilterViewModel(this, boardService);
             CreateIssue = new CreateIssueViewModel(this, boardService);
             EditIssue = new EditIssueViewModel(this, boardService);
             ShowIssue = new ShowIssueViewModel(this, boardService);
             Issues = new ObservableCollection<IssueViewModel>();
+            Search();
         }
 
         public void Delete(Issue issue)

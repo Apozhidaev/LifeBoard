@@ -7,14 +7,16 @@ namespace LifeBoard.ViewModels.Issues
 {
     public class IssueFilterViewModel
     {
+        private readonly IssuesViewModel _service;
         private readonly BoardService _boardService;
 
-        public IssueFilterViewModel(BoardService boardService)
+        public IssueFilterViewModel(IssuesViewModel service, BoardService boardService)
         {
+            _service = service;
             _boardService = boardService;
-            Types = new ObservableCollection<IssueTypeViewModel>(_boardService.GetTypes().Select(t => new IssueTypeViewModel(t)));
-            Statuses = new ObservableCollection<IssueStatusViewModel>(_boardService.GetStatuses().Select(t => new IssueStatusViewModel(t)));
-            Priorities = new ObservableCollection<IssuePriorityViewModel>(_boardService.GetPriorities().Select(t => new IssuePriorityViewModel(t)));
+            Types = new ObservableCollection<IssueTypeViewModel>(_boardService.GetTypes().Select(t => new IssueTypeViewModel(service, t)));
+            Statuses = new ObservableCollection<IssueStatusViewModel>(_boardService.GetStatuses().Select(t => new IssueStatusViewModel(service, t)));
+            Priorities = new ObservableCollection<IssuePriorityViewModel>(_boardService.GetPriorities().Select(t => new IssuePriorityViewModel(service, t)));
         }
 
         public ObservableCollection<IssueTypeViewModel> Types { get; set; }

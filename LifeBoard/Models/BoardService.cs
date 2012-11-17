@@ -203,5 +203,14 @@ namespace LifeBoard.Models
         {
             return new[] {IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved, IssueStatus.Closed};
         }
+
+        public IssueFilter GetInProgressFilter()
+        {
+            var filter = new IssueFilter();
+            filter.Priorities = new HashSet<int>(GetPriorities());
+            filter.Statuses = new HashSet<IssueStatus>(new[] {IssueStatus.InProgress});
+            filter.Types = new HashSet<IssueType>(GetTypes());
+            return filter;
+        }
     }
 }

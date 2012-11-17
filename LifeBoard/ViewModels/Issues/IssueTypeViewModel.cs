@@ -8,8 +8,11 @@ namespace LifeBoard.ViewModels.Issues
 {
     public class IssueTypeViewModel : ViewModelBase
     {
-        public IssueTypeViewModel(IssueType issueType)
+        private readonly IssuesViewModel _service;
+
+        public IssueTypeViewModel(IssuesViewModel service, IssueType issueType)
         {
+            _service = service;
             IssueType = issueType;
             IsChecked = true;
         }
@@ -22,5 +25,10 @@ namespace LifeBoard.ViewModels.Issues
         public bool IsChecked { get; set; }
 
         public IssueType IssueType { get; private set; }
+
+        public IssuesViewModel Parent
+        {
+            get { return _service; }
+        }
     }
 }
