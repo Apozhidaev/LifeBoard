@@ -79,6 +79,7 @@
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\IssueLink.cs" />
+    <Compile Include="ViewModels\BackPageViewModelBase.cs" />
     <Compile Include="ViewModels\Dashboard\IssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
     <Compile Include="ViewModels\IFrameViewModel.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="ViewModels\Issues\StatusViewModel.cs" />
     <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
     <Compile Include="ViewModels\Issues\MainIssuesViewModel.cs" />
-    <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
+    <Compile Include="ViewModels\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ParentViewModelBase.cs" />
     <Compile Include="Views\Issues\EditIssueView.xaml.cs">

@@ -272,10 +272,10 @@
                             <SelectiveScrollingGrid>
                                 <SelectiveScrollingGrid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Show" Command="{Binding Parent.ShowCommand}" CommandParameter="{Binding}"/>
-                                        <MenuItem Header="Edit" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Show" Command="{Binding Parent.Parent.ShowCommand}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Edit" Command="{Binding Parent.Parent.EditCommand}" CommandParameter="{Binding}"/>
                                         <Separator/>
-                                        <MenuItem Header="Delete" Command="{Binding Parent.DeleteCommand}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Delete" Command="{Binding Parent.Parent.DeleteCommand}" CommandParameter="{Binding}"/>
                                     </ContextMenu>
                                 </SelectiveScrollingGrid.ContextMenu>
                                 <SelectiveScrollingGrid.ColumnDefinitions>

@@ -30,10 +30,10 @@ namespace LifeBoard.ViewModels
             }
         }
 
-        public DashboardViewModel DashboardPage { get; set; }
+        public DashboardViewModel DashboardPage { get; private set; }
 
-        public MainIssuesViewModel IssuesPage { get; set; }
+        public MainIssuesViewModel IssuesPage { get; private set; }
 
-        public ConfigurationViewModel ConfigurationPage { get; set; }
+        public ConfigurationViewModel ConfigurationPage { get; private set; }
     }
 }

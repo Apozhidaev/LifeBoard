@@ -4,9 +4,9 @@ using LifeBoard.Commands;
 using LifeBoard.Models;
 using LifeBoard.Views.Issues;
 
-namespace LifeBoard.ViewModels.Issues
+namespace LifeBoard.ViewModels
 {
-    public class ShowIssueViewModel : PageViewModelBase
+    public class ShowIssueViewModel : BackPageViewModelBase
     {
         private Issue _issue;
 
@@ -14,12 +14,9 @@ namespace LifeBoard.ViewModels.Issues
 
         private ShowIssueView _showIssueView;
 
-        private readonly IssuesViewModel _parent;
-
-        public ShowIssueViewModel(IssuesViewModel parent, BoardService boardService)
-            : base(parent.Frame)
+        public ShowIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
+            : base(parent, backNavigateCommand)
         {
-            _parent = parent;
             _boardService = boardService;
         }
 
@@ -64,15 +61,6 @@ namespace LifeBoard.ViewModels.Issues
             UpdateSource();
             Navigate();
         }
-
-        #region Commands
-
-        public ICommand BackNavigateCommand
-        {
-            get { return _parent.NavigateCommand; }
-        }
-
-        #endregion
 
         private void UpdateSource()
         {

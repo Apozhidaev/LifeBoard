@@ -1,4 +1,7 @@
-﻿using LifeBoard.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
+using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -6,21 +9,30 @@ namespace LifeBoard.ViewModels.Issues
     {
         private Issue _issue;
 
-        public EditIssueViewModel(IssuesViewModel parent, BoardService boardService)
-            : base(parent, boardService)
+        public EditIssueViewModel(MainIssuesViewModel parent, ICommand backNavigateCommand, BoardService boardService)
+            : base(parent, backNavigateCommand, boardService)
         {
+            SubmitTitle = "Edit";
         }
 
-        public void Submit(Issue issue)
+        public void Edit(Issue issue)
         {
             _issue = issue;
             FromIssue();
+            ParentIssues.Clear();
+            foreach (var parent in BoardService.GetParents(issue.Id))
+            {
+                ParentIssues.Add(new IssueViewModel(this, parent));
+            }
             Navigate();
         }
 
         protected override void Submit()
         {
             ToIssue();
+            int id = _issue.Id;
+            var parents = ParentIssues.Select(pi => pi.Model.Id);
+            BoardService.SetParents(id, parents);
             base.Submit();
         }
 
@@ -38,6 +50,11 @@ namespace LifeBoard.ViewModels.Issues
             _issue.Priority = Priority;
             _issue.Summary = Summary;
             _issue.Description = Description;
+        }
+
+        protected override IEnumerable<Issue> GetFilterIssues()
+        {
+            return BoardService.GetIssuesExeptChildren(_issue.Id, Filter.ToModel());
         }
     }
 }

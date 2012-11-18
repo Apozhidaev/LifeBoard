@@ -10,29 +10,97 @@ using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class EditIssueViewModelBase : PageViewModelBase
+    public class EditIssueViewModelBase : BackPageViewModelBase
     {
         private int _priority;
         private IssueType _type;
         private string _summary;
         private string _description;
         private readonly BoardService _boardService;
-        private EditIssueView _editIssueView;
-        private readonly IssuesViewModel _parent;
+        private EditIssueView _editIssueView;      
         private DelegateCommand _submitCommand;
         private DelegateCommand<IssueViewModel> _addCommand;
         private DelegateCommand<IssueViewModel> _removeCommand;
 
-        public EditIssueViewModelBase(IssuesViewModel parent, BoardService boardService)
-            : base(parent.Frame)
+        public EditIssueViewModelBase(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
+            : base(parent, backNavigateCommand)
         {
-            _parent = parent;
             _boardService = boardService;
             Issues = new ObservableCollection<IssueViewModel>();
             ParentIssues = new ObservableCollection<IssueViewModel>();
             Filter = new FilterViewModel(this);
             Filter.SetModel(boardService.GetFullFilter(), boardService.GetFullFilter());
+            SubmitTitle = "Submit";
         }
+
+        #region Commands
+
+        public ICommand SubmitCommand
+        {
+            get { return _submitCommand ?? (_submitCommand = new DelegateCommand(Submit, CanSubmit)); }
+        }
+
+        public ICommand AddCommand
+        {
+            get { return _addCommand ?? (_addCommand = new DelegateCommand<IssueViewModel>(Add, CanAdd)); }
+        }
+
+        public ICommand RemoveCommand
+        {
+            get { return _removeCommand ?? (_removeCommand = new DelegateCommand<IssueViewModel>(Remove)); }
+        }
+
+        protected virtual void Submit()
+        {
+            BackNavigateCommand.Execute(null);
+        }
+
+        private bool CanSubmit()
+        {
+            return !String.IsNullOrEmpty(Summary);
+        }
+
+        private void Add(IssueViewModel item)
+        {
+            ParentIssues.Add(item);
+        }
+
+        private bool CanAdd(IssueViewModel item)
+        {
+            return item != null && ParentIssues.All(pi => pi.Model.Id != item.Model.Id);
+        }
+
+        private void Remove(IssueViewModel item)
+        {
+            ParentIssues.Remove(item);
+        }
+
+        private DelegateCommand _searchCommand;
+
+        public ICommand SearchCommand
+        {
+            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
+        }
+
+        private void Search()
+        {
+            var issues = GetFilterIssues();
+            Issues.Clear();
+            foreach (var issue in issues)
+            {
+                Issues.Add(new IssueViewModel(this, issue));
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+        public string SubmitTitle { get; set; }
+
+        public ObservableCollection<IssueViewModel> Issues { get; set; }
+
+        public ObservableCollection<IssueViewModel> ParentIssues { get; set; }
 
         public FilterViewModel Filter { get; private set; }
 
@@ -58,7 +126,6 @@ namespace LifeBoard.ViewModels.Issues
                 {
                     _type = value;
                     UpdateFilter();
-                    Search();
                     OnPropertyChanged("Type");
                 }
             }
@@ -100,80 +167,26 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
+        #endregion
+
+        #region Overrides
+
         public override Page Page
         {
             get { return _editIssueView ?? (_editIssueView = new EditIssueView(this)); }
         }
 
-        public ICommand SubmitCommand
+        public override void Navigate()
         {
-            get { return _submitCommand ?? (_submitCommand = new DelegateCommand(Submit, CanSubmit)); }
+            UpdateFilter();
+            base.Navigate();
         }
 
-        public ICommand BackNavigateCommand
-        {
-            get { return _parent.NavigateCommand; }
-        }
-
-        public ObservableCollection<IssueViewModel> Issues { get; set; }
-
-        public ObservableCollection<IssueViewModel> ParentIssues { get; set; }
-
-        public ICommand AddCommand
-        {
-            get { return _addCommand ?? (_addCommand = new DelegateCommand<IssueViewModel>(Add, CanAdd)); }
-        }
-
-        public ICommand RemoveCommand
-        {
-            get { return _removeCommand ?? (_removeCommand = new DelegateCommand<IssueViewModel>(Remove)); }
-        }
-
-        protected virtual void Submit()
-        {
-            _parent.Navigate();
-        }
+        #endregion
 
         protected BoardService BoardService
         {
             get { return _boardService; }
-        }
-
-        private bool CanSubmit()
-        {
-            return !String.IsNullOrEmpty(Summary);
-        }
-
-        private void Add(IssueViewModel item)
-        {
-            ParentIssues.Add(item);
-        }
-
-        private bool CanAdd(IssueViewModel item)
-        {
-            return item != null && ParentIssues.All(pi => pi.Model.Id != item.Model.Id);
-        }
-
-        private void Remove(IssueViewModel item)
-        {
-            ParentIssues.Remove(item);
-        }
-
-        private DelegateCommand _searchCommand;
-
-        public ICommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
-        }
-
-        private void Search()
-        {
-            var issues = _boardService.GetIssues(Filter.ToModel());
-            Issues.Clear();
-            foreach (var issue in issues)
-            {
-                Issues.Add(new IssueViewModel(this, issue));
-            }
         }
 
         private void UpdateFilter()
@@ -187,6 +200,22 @@ namespace LifeBoard.ViewModels.Issues
             {
                 ParentIssues.Remove(parent);
             }
+            Search();
+        }
+
+        protected virtual IEnumerable<Issue> GetFilterIssues()
+        {
+            return _boardService.GetIssues(Filter.ToModel());
+        }
+
+        protected virtual void ClearForm()
+        {
+            Type = IssueType.Task;
+            Priority = 3;
+            Summary = String.Empty;
+            Description = String.Empty;
+            Issues.Clear();
+            ParentIssues.Clear();
         }
     }
 }
