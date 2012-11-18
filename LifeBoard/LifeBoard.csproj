@@ -81,19 +81,18 @@
     <Compile Include="Models\IssueLink.cs" />
     <Compile Include="ViewModels\Dashboard\IssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
-    <Compile Include="ViewModels\IFramePageViewModel.cs" />
+    <Compile Include="ViewModels\IFrameViewModel.cs" />
     <Compile Include="ViewModels\Issues\EditIssueViewModel.cs" />
-    <Compile Include="ViewModels\Issues\IssueFilterViewModel.cs" />
-    <Compile Include="ViewModels\Issues\IssuePriorityViewModel.cs" />
-    <Compile Include="ViewModels\Issues\IssueStatusViewModel.cs" />
-    <Compile Include="ViewModels\Issues\IssueTypeViewModel.cs" />
+    <Compile Include="ViewModels\Issues\EditIssueViewModelBase.cs" />
     <Compile Include="ViewModels\Issues\IssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\FilterViewModel.cs" />
+    <Compile Include="ViewModels\Issues\PriorityViewModel.cs" />
+    <Compile Include="ViewModels\Issues\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
     <Compile Include="ViewModels\Issues\MainIssuesViewModel.cs" />
     <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\Issues\CreateIssueView.xaml.cs">
-      <DependentUpon>CreateIssueView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\ParentViewModelBase.cs" />
     <Compile Include="Views\Issues\EditIssueView.xaml.cs">
       <DependentUpon>EditIssueView.xaml</DependentUpon>
     </Compile>
@@ -101,10 +100,6 @@
       <DependentUpon>IssuesView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Configuration\ConfigurationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Issues\CreateIssueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

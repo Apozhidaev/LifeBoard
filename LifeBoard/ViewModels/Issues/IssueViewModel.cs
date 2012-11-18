@@ -1,19 +1,14 @@
-﻿using System.Windows.Input;
-using LifeBoard.Commands;
-using LifeBoard.Models;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class IssueViewModel
+    public class IssueViewModel : ViewModelBase
     {
         private readonly Issue _issue;
 
-        private readonly IssuesViewModel _parent;
+        private readonly object _parent;
 
-        public IssueViewModel(IssuesViewModel parent, Issue issue)
+        public IssueViewModel(object parent, Issue issue)
         {
             _parent = parent;
             _issue = issue;
@@ -49,40 +44,14 @@ namespace LifeBoard.ViewModels.Issues
             set { _issue.Status = value; }
         }
 
-        private DelegateCommand _showCommand;
-
-        public ICommand ShowCommand
+        public Issue Model
         {
-            get { return _showCommand ?? (_showCommand = new DelegateCommand(Show)); }
+            get { return _issue; }
         }
 
-        public void Show()
+        public object Parent
         {
-            _parent.ShowIssue.Show(_issue);
-        }
-
-        private DelegateCommand _editCommand;
-
-        public ICommand EditCommand
-        {
-            get { return _editCommand ?? (_editCommand = new DelegateCommand(Edit)); }
-        }
-
-        private void Edit()
-        {
-            _parent.EditIssue.Edit(_issue);
-        }
-
-        private DelegateCommand _deleteCommand;
-
-        public ICommand DeleteCommand
-        {
-            get { return _deleteCommand ?? (_deleteCommand = new DelegateCommand(Delete)); }
-        }
-
-        private void Delete()
-        {
-            _parent.Delete(_issue);
+            get { return _parent; }
         }
     }
 }

@@ -14,14 +14,5 @@ namespace LifeBoard.Views.Issues
             InitializeComponent();
             DataContext = model;
         }
-
-        private void OnDataGridMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var issue = _dataGrid.SelectedValue as IssueViewModel;
-            if (issue != null)
-            {
-                issue.Show();
-            }
-        }
     }
 }

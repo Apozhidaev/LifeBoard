@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -16,7 +15,7 @@ namespace LifeBoard.ViewModels.Issues
 
         public ObservableCollection<IssueViewModel> Issues { get; private set; }
 
-        public IssueFilterViewModel IssueFilter { get; private set; }
+        public FilterViewModel Filter { get; private set; }
 
         public CreateIssueViewModel CreateIssue { get; private set; }
 
@@ -24,15 +23,16 @@ namespace LifeBoard.ViewModels.Issues
 
         public ShowIssueViewModel ShowIssue { get; private set; }
 
-        public IssuesViewModel(IFramePageViewModel parent, BoardService boardService)
+        public IssuesViewModel(IFrameViewModel parent, BoardService boardService)
             : base(parent)
         {
             _boardService = boardService;
-            IssueFilter = new IssueFilterViewModel(this, boardService);
+            Filter = new FilterViewModel(this);
             CreateIssue = new CreateIssueViewModel(this, boardService);
             EditIssue = new EditIssueViewModel(this, boardService);
             ShowIssue = new ShowIssueViewModel(this, boardService);
             Issues = new ObservableCollection<IssueViewModel>();
+            Filter.SetModel(boardService.GetFullFilter(), boardService.GetDefaultFilter());
             Search();
         }
 
@@ -51,7 +51,7 @@ namespace LifeBoard.ViewModels.Issues
 
         private void Search()
         {
-            var issues = _boardService.GetIssues(IssueFilter.ToModel());
+            var issues = _boardService.GetIssues(Filter.ToModel());
             Issues.Clear();
             foreach (var issue in issues)
             {
@@ -68,6 +68,42 @@ namespace LifeBoard.ViewModels.Issues
         {
             base.Navigate();
             Search();
+        }
+
+        private DelegateCommand<IssueViewModel> _showCommand;
+
+        public ICommand ShowCommand
+        {
+            get { return _showCommand ?? (_showCommand = new DelegateCommand<IssueViewModel>(Show)); }
+        }
+
+        public void Show(IssueViewModel issue)
+        {
+            ShowIssue.Show(issue.Model);
+        }
+
+        private DelegateCommand<IssueViewModel> _editCommand;
+
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new DelegateCommand<IssueViewModel>(Edit)); }
+        }
+
+        private void Edit(IssueViewModel issue)
+        {
+            EditIssue.Submit(issue.Model);
+        }
+
+        private DelegateCommand<IssueViewModel> _deleteCommand;
+
+        public ICommand DeleteCommand
+        {
+            get { return _deleteCommand ?? (_deleteCommand = new DelegateCommand<IssueViewModel>(Delete)); }
+        }
+
+        private void Delete(IssueViewModel issue)
+        {
+            Delete(issue.Model);
         }
     }
 }

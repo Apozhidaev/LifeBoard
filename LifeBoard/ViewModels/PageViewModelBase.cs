@@ -8,12 +8,12 @@ namespace LifeBoard.ViewModels
     {
         private DelegateCommand _navigateCommand;
 
-        protected PageViewModelBase(IFramePageViewModel framePage)
+        protected PageViewModelBase(IFrameViewModel frame)
         {
-            FramePage = framePage;
+            Frame = frame;
         }
 
-        public IFramePageViewModel FramePage { get; private set; }
+        public IFrameViewModel Frame { get; private set; }
 
         public ICommand NavigateCommand
         {
@@ -24,13 +24,13 @@ namespace LifeBoard.ViewModels
 
         public bool IsChecked 
         {
-            get { return Equals(FramePage.Current, this); }
+            get { return Equals(Frame.Current, this); }
         }
 
         public virtual void Navigate()
         {
-            var old = FramePage.Current;
-            FramePage.Current = this;
+            var old = Frame.Current;
+            Frame.Current = this;
             old.OnPropertyChanged("IsChecked");
             OnPropertyChanged("IsChecked");
         }

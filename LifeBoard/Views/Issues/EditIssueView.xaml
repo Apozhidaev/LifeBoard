@@ -4,19 +4,59 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="800"
 	Title="EditIssueView">
-
+    <Page.Resources>
+        <DataTemplate x:Key="AddItemDataTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Summary}" Height="30" HorizontalAlignment="Left" Margin="40,0,0,0"/>
+                <Button Content="Add" Command="{Binding Parent.AddCommand}" CommandParameter="{Binding}" Width="30" Height="30" HorizontalAlignment="Left" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="RemoveItemDataTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Summary}" Height="30" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                <Button Content="Remove" Command="{Binding Parent.RemoveCommand}" CommandParameter="{Binding}" Width="50" Height="30" HorizontalAlignment="Left" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
-        <Button Content="Edit" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding EditCommand}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="Submit" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding SubmitCommand}" Style="{DynamicResource MainButtonStyle}" Grid.Column="1"/>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding BackNavigateCommand}" Style="{DynamicResource BackButtonStyle}"/>
-        <TextBox Height="25" Margin="165,144,20,0" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top"/>
-        <TextBox Height="150" Margin="165,237,20,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
-        <TextBlock Text="Summary:" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
-        <TextBlock Text="Description:" HorizontalAlignment="Left" Margin="48,230,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-        <TextBlock Text="Type:" HorizontalAlignment="Left" Margin="48,93,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
-        <ComboBox HorizontalAlignment="Left" Margin="165,101,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Types}" SelectedValue="{Binding Type}"/>
-        <TextBlock Text="Priority:" HorizontalAlignment="Left" Margin="48,183,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
-        <ComboBox HorizontalAlignment="Left" Margin="165,191,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Priorities}" SelectedValue="{Binding Priority}"/>
+        <ScrollViewer Margin="0,60,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Height="25" Margin="15,51,20,0" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top" Grid.Column="1"/>
+                <TextBox Height="150" Margin="15,144,20,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Column="1"/>
+                <TextBlock Text="Summary:" HorizontalAlignment="Left" Margin="48,44,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
+                <TextBlock Text="Description:" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                <TextBlock Text="Type:" HorizontalAlignment="Left" Margin="48,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
+                <ComboBox HorizontalAlignment="Left" Margin="15,8,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Types}" SelectedValue="{Binding Type}" Grid.Column="1"/>
+                <TextBlock Text="Priority:" HorizontalAlignment="Left" Margin="48,90,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
+                <ComboBox HorizontalAlignment="Left" Margin="15,98,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Priorities}" SelectedValue="{Binding Priority}" Grid.Column="1"/>
+                <Grid Grid.Column="1" Margin="15,317,20,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Types:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="0,105,0,0" TextWrapping="Wrap" Text="Statuses:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="0,225,0,0" TextWrapping="Wrap" Text="Priorities:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                    <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,32,0,0" VerticalAlignment="Top"/>
+                    <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,137,0,0" VerticalAlignment="Top"/>
+                    <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,257,0,0" VerticalAlignment="Top"/>
+                    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="60" HorizontalAlignment="Stretch" Margin="5,35,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Types}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
+                    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="80" HorizontalAlignment="Stretch" Margin="5,140,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Statuses}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
+                    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch" Margin="5,260,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
+                    <ListBox Grid.Column="1" Margin="10" ItemTemplate="{DynamicResource AddItemDataTemplate}" ItemsSource="{Binding Issues}"/>
+                    <ListBox Grid.Column="2" Margin="10" ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}"/>
+                </Grid>
+                <TextBlock Text="Parents:" HorizontalAlignment="Left" Margin="48,317,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

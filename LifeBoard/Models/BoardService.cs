@@ -84,7 +84,7 @@ namespace LifeBoard.Models
         public void DeleteIssue(Issue issue)
         {
             _issues.Remove(issue);
-            foreach (var projectIssue in _issueLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id))
+            foreach (var projectIssue in _issueLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
             {
                 _issueLinks.Remove(projectIssue);
             }
@@ -210,6 +210,44 @@ namespace LifeBoard.Models
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses = new HashSet<IssueStatus>(new[] {IssueStatus.InProgress});
             filter.Types = new HashSet<IssueType>(GetTypes());
+            return filter;
+        }
+
+        public IssueFilter GetDefaultFilter()
+        {
+            var filter = new IssueFilter();
+            filter.Priorities = new HashSet<int>(GetPriorities());
+            filter.Statuses = new HashSet<IssueStatus>(new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved });
+            filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
+            return filter;
+        }
+
+        public IssueFilter GetFullFilter()
+        {
+            var filter = new IssueFilter();
+            filter.Priorities = new HashSet<int>(GetPriorities());
+            filter.Statuses = new HashSet<IssueStatus>(GetStatuses());
+            filter.Types = new HashSet<IssueType>(GetTypes());
+            return filter;
+        }
+
+        public IssueFilter GetFilter(IssueType type)
+        {
+            var filter = new IssueFilter();
+            if (type == IssueType.Epic)
+            {
+                filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
+            }
+            else if (type == IssueType.Story)
+            {
+                filter.Types = new HashSet<IssueType>(new[] { IssueType.Story, IssueType.Epic });
+            }
+            else
+            {
+                filter.Types = new HashSet<IssueType>(GetTypes());
+            }
+            filter.Priorities = new HashSet<int>(GetPriorities());
+            filter.Statuses = new HashSet<IssueStatus>(GetStatuses());
             return filter;
         }
     }

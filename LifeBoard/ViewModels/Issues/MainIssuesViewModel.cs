@@ -4,13 +4,13 @@ using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class MainIssuesViewModel : PageViewModelBase, IFramePageViewModel
+    public class MainIssuesViewModel : PageViewModelBase, IFrameViewModel
     {
         private MainIssuesView _mainIssuesView;
 
         private PageViewModelBase _current;
 
-        public MainIssuesViewModel(IFramePageViewModel parent, BoardService boardService)
+        public MainIssuesViewModel(IFrameViewModel parent, BoardService boardService)
             : base(parent)
         {
             _current = new IssuesViewModel(this, boardService);

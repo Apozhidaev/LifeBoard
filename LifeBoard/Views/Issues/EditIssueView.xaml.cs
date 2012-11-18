@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LifeBoard.ViewModels;
 using LifeBoard.ViewModels.Issues;
 
 namespace LifeBoard.Views.Issues
@@ -20,7 +21,7 @@ namespace LifeBoard.Views.Issues
     /// </summary>
     public partial class EditIssueView : Page
     {
-        public EditIssueView(EditIssueViewModel model)
+        public EditIssueView(EditIssueViewModelBase model)
         {
             InitializeComponent();
             DataContext = model;

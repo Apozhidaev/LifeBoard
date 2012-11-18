@@ -5,7 +5,7 @@ using LifeBoard.ViewModels.Issues;
 
 namespace LifeBoard.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IFramePageViewModel
+    public class MainViewModel : ViewModelBase, IFrameViewModel
     {
         private PageViewModelBase _current;
 

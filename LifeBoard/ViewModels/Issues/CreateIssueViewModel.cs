@@ -8,94 +8,11 @@ using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class CreateIssueViewModel : PageViewModelBase
+    public class CreateIssueViewModel : EditIssueViewModelBase
     {
-        private int _priority;
-
-        private IssueType _type;
-
-        private string _summary;
-
-        private string _description;
-
-        private readonly BoardService _boardService;
-
-        private CreateIssueView _createIssueView;
-
-        private readonly IssuesViewModel _parent;
-
         public CreateIssueViewModel(IssuesViewModel parent, BoardService boardService)
-            : base(parent.FramePage)
+            : base(parent, boardService)
         {
-            _parent = parent;
-            _boardService = boardService;
-        }
-
-        public int Priority
-        {
-            get { return _priority; }
-            set
-            {
-                if (_priority != value)
-                {
-                    _priority = value;
-                    OnPropertyChanged("Priority");
-                }
-            }
-        }
-
-        public IssueType Type
-        {
-            get { return _type; }
-            set
-            {
-                if (_type != value)
-                {
-                    _type = value;
-                    OnPropertyChanged("Type");
-                }
-            }
-        }
-
-        public IEnumerable<int> Priorities
-        {
-            get { return _boardService.GetPriorities(); }
-        }
-
-        public IEnumerable<IssueType> Types
-        {
-            get { return _boardService.GetTypes(); }
-        }
-
-        public string Summary
-        {
-            get { return _summary; }
-            set
-            {
-                if (_summary != value)
-                {
-                    _summary = value;
-                    OnPropertyChanged("Summary");
-                }
-            }
-        }
-
-        public string Description
-        {
-            get { return _description; }
-            set
-            {
-                if (_description != value)
-                {
-                    _description = value;
-                    OnPropertyChanged("Description");
-                }
-            }
-        }
-
-        public override Page Page
-        {
-            get { return _createIssueView ?? (_createIssueView = new CreateIssueView(this)); }
         }
 
         private void ClearForm()
@@ -112,38 +29,10 @@ namespace LifeBoard.ViewModels.Issues
             base.Navigate();
         }
 
-        #region Commands
-
-        private DelegateCommand _createCommand;
-
-        public ICommand CreateCommand
+        protected override void Submit()
         {
-            get { return _createCommand ?? (_createCommand = new DelegateCommand(Create, CanCreate)); }
+            BoardService.CreateIssue(Type, Priority, Summary, Description);
+            base.Submit();
         }
-
-        private void Create()
-        {
-            _boardService.CreateIssue(Type, Priority, Summary, Description);
-            _parent.Navigate();
-        }
-
-        private bool CanCreate()
-        {
-            return !String.IsNullOrEmpty(Summary);
-        }
-
-        private DelegateCommand _backNavigateCommand;
-
-        public ICommand BackNavigateCommand
-        {
-            get { return _backNavigateCommand ?? (_backNavigateCommand = new DelegateCommand(BackNavigate)); }
-        }
-
-        private void BackNavigate()
-        {
-            _parent.Navigate();
-        }
-
-        #endregion
     }
 }

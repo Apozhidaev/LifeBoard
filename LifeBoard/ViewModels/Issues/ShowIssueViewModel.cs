@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
@@ -18,7 +17,7 @@ namespace LifeBoard.ViewModels.Issues
         private readonly IssuesViewModel _parent;
 
         public ShowIssueViewModel(IssuesViewModel parent, BoardService boardService)
-            : base(parent.FramePage)
+            : base(parent.Frame)
         {
             _parent = parent;
             _boardService = boardService;
