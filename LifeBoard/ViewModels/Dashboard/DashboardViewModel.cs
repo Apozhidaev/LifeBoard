@@ -11,7 +11,8 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private DashboardView _dashboardView;
 
-        public DashboardViewModel(IFrameViewModel parent, BoardService boardService) : base(parent)
+        public DashboardViewModel(IFrameViewModel parent, BoardService boardService) 
+            : base(parent)
         {
             _boardService = boardService;
             Issues = new ObservableCollection<IssueViewModel>();
@@ -37,7 +38,7 @@ namespace LifeBoard.ViewModels.Dashboard
             Issues.Clear();
             foreach (var issue in issues)
             {
-                Issues.Add(new IssueViewModel(issue));
+                Issues.Add(new IssueViewModel(this, issue));
             }
         }
     }

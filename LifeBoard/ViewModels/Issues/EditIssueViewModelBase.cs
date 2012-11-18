@@ -98,9 +98,9 @@ namespace LifeBoard.ViewModels.Issues
 
         public string SubmitTitle { get; set; }
 
-        public ObservableCollection<IssueViewModel> Issues { get; set; }
+        public ObservableCollection<IssueViewModel> Issues { get; private set; }
 
-        public ObservableCollection<IssueViewModel> ParentIssues { get; set; }
+        public ObservableCollection<IssueViewModel> ParentIssues { get; private set; }
 
         public FilterViewModel Filter { get; private set; }
 

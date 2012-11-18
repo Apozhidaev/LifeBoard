@@ -1,6 +1,6 @@
 ﻿using LifeBoard.Models;
 
-namespace LifeBoard.ViewModels.Issues
+namespace LifeBoard.ViewModels
 {
     public class IssueViewModel : ViewModelBase
     {
@@ -17,31 +17,31 @@ namespace LifeBoard.ViewModels.Issues
         public int Priority
         {
             get { return _issue.Priority; }
-            set { _issue.Priority = value; }
+            //set { _issue.Priority = value; }
         }
 
         public string Summary
         {
             get { return _issue.Summary; }
-            set { _issue.Summary = value; }
+            //set { _issue.Summary = value; }
         }
 
         public string Description
         {
             get { return _issue.Description; }
-            set { _issue.Description = value; }
+            //set { _issue.Description = value; }
         }
 
         public IssueType IssueType
         {
             get { return _issue.Type; }
-            set { _issue.Type = value; }
+            //set { _issue.Type = value; }
         }
 
         public IssueStatus Status
         {
             get { return _issue.Status; }
-            set { _issue.Status = value; }
+            //set { _issue.Status = value; }
         }
 
         public Issue Model

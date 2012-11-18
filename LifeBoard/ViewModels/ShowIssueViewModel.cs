@@ -1,7 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
+using LifeBoard.ViewModels.Issues;
 using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels
@@ -18,7 +20,10 @@ namespace LifeBoard.ViewModels
             : base(parent, backNavigateCommand)
         {
             _boardService = boardService;
+            Children = new ObservableCollection<IssueViewModel>();
         }
+
+        public ObservableCollection<IssueViewModel> Children { get; private set; }
 
         public string Summary
         {
@@ -58,6 +63,11 @@ namespace LifeBoard.ViewModels
         public void Show(Issue issue)
         {
             _issue = issue;
+            Children.Clear();
+            foreach (var child in _boardService.GetChildren(_issue.Id))
+            {
+                Children.Add(new IssueViewModel(this, child));
+            }
             UpdateSource();
             Navigate();
         }

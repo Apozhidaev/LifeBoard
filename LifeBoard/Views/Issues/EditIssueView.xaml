@@ -37,7 +37,7 @@
                 <ComboBox HorizontalAlignment="Left" Margin="15,8,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Types}" SelectedValue="{Binding Type}" Grid.Column="1"/>
                 <TextBlock Text="Priority:" HorizontalAlignment="Left" Margin="48,90,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
                 <ComboBox HorizontalAlignment="Left" Margin="15,98,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Priorities}" SelectedValue="{Binding Priority}" Grid.Column="1"/>
-                <Grid Grid.Column="1" Margin="15,317,20,10">
+                <Grid Grid.Column="1" Margin="15,317,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
@@ -52,8 +52,8 @@
                     <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="60" HorizontalAlignment="Stretch" Margin="5,35,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Types}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
                     <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="80" HorizontalAlignment="Stretch" Margin="5,140,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Statuses}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
                     <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch" Margin="5,260,5,0" VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}" ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
-                    <ListBox Grid.Column="1" Margin="10" ItemTemplate="{DynamicResource AddItemDataTemplate}" ItemsSource="{Binding Issues}"/>
-                    <ListBox Grid.Column="2" Margin="10" ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}"/>
+                    <ListBox Grid.Column="1" Margin="10,10,10,0" ItemTemplate="{DynamicResource AddItemDataTemplate}" ItemsSource="{Binding Issues}" MaxHeight="400"/>
+                    <ListBox Grid.Column="2" Margin="10,10,10,0" ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}" MaxHeight="400"/>
                 </Grid>
                 <TextBlock Text="Parents:" HorizontalAlignment="Left" Margin="48,317,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
             </Grid>
