@@ -11,7 +11,7 @@ namespace LifeBoard.ViewModels.Issues
 {
     public class CreateIssueViewModel : EditIssueViewModelBase
     {
-        public CreateIssueViewModel(MainIssuesViewModel parent, ICommand backNavigateCommand, BoardService boardService)
+        public CreateIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
             : base(parent, backNavigateCommand, boardService)
         {
             SubmitTitle = "Create";
@@ -28,6 +28,7 @@ namespace LifeBoard.ViewModels.Issues
             int id = BoardService.CreateIssue(Type, Priority, Summary, Description);
             var parents = ParentIssues.Select(pi => pi.Model.Id);
             BoardService.SetParents(id, parents);
+            BoardService.Submit();
             base.Submit();
         }
     }

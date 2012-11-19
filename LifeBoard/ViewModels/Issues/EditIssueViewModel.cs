@@ -9,7 +9,7 @@ namespace LifeBoard.ViewModels.Issues
     {
         private Issue _issue;
 
-        public EditIssueViewModel(MainIssuesViewModel parent, ICommand backNavigateCommand, BoardService boardService)
+        public EditIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
             : base(parent, backNavigateCommand, boardService)
         {
             SubmitTitle = "Edit";
@@ -33,6 +33,7 @@ namespace LifeBoard.ViewModels.Issues
             int id = _issue.Id;
             var parents = ParentIssues.Select(pi => pi.Model.Id);
             BoardService.SetParents(id, parents);
+            BoardService.Submit();
             base.Submit();
         }
 

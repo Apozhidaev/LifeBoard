@@ -12,32 +12,32 @@ namespace LifeBoard
     /// </summary>
     public partial class App : Application
     {
-        private readonly BoardService _boardService = new BoardService();
+        private readonly DocumentRepository _repository = new DocumentRepository();
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
             if (Environment.GetCommandLineArgs().Length > 1)
             {
-                _boardService.SetFilePath(Environment.GetCommandLineArgs()[1]);
+                _repository.SetFilePath(Environment.GetCommandLineArgs()[1]);
             }
-            if (!_boardService.IsFileExists)
+            if (!_repository.IsFileExists)
             {
                 var dlg = new OpenFileDialog();
                 dlg.DefaultExt = ".life";
                 dlg.Filter = "Life Board documents (.life)|*.life";
                 if (dlg.ShowDialog() == true)
                 {
-                    _boardService.SetFilePath(dlg.FileName);
+                    _repository.SetFilePath(dlg.FileName);
                 }
             }
-            _boardService.Open();
-            var view = new MainView(new MainViewModel(_boardService));
+            _repository.Open();
+            var view = new MainView(new MainViewModel(new BoardService(_repository)));
             view.Show();
         }
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            if(!_boardService.IsFileExists)
+            if (!_repository.IsFileExists)
             {
                 var dlg = new SaveFileDialog();
                 dlg.DefaultExt = ".life";
@@ -46,9 +46,9 @@ namespace LifeBoard
                 {
                     return;
                 }
-                _boardService.SetFilePath(dlg.FileName);
+                _repository.SetFilePath(dlg.FileName);
             }
-            _boardService.Save();
+            _repository.Save();
         }
     }
 }

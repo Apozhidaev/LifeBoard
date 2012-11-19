@@ -90,6 +90,7 @@ namespace LifeBoard.ViewModels.Issues
         public void Delete(Issue issue)
         {
             _boardService.DeleteIssue(issue);
+            _boardService.Submit();
             Issues.Search();
         }
     }

@@ -8,15 +8,25 @@ namespace LifeBoard.Models
 {
     public class BoardService
     {
-        private string _path = "";
+        private readonly Document _document;
 
-        private Dictionary<int, Issue> _issues;
-
-        private List<IssueLink> _issueLinks;
+        private readonly DocumentRepository _repository;
 
         private readonly Dictionary<int, HashSet<int>> _parentChildren = new Dictionary<int, HashSet<int>>();
 
         private readonly Dictionary<int, HashSet<int>> _childParents = new Dictionary<int, HashSet<int>>();
+
+        public BoardService(DocumentRepository repository)
+        {
+            _document = repository.Document;
+            _repository = repository;
+            UpdateLinks();
+        }
+
+        public void Submit()
+        {
+            _repository.Save();
+        }
 
         /// <summary>
         /// Refactoring
@@ -25,42 +35,32 @@ namespace LifeBoard.Models
         /// <param name="parents"></param>
         public void SetParents(int id, IEnumerable<int> parents)
         {
-            foreach (var issueLink in _issueLinks.Where(l => l.ChildId == id).ToList())
+            foreach (var issueLink in _document.IssuesLinks.Where(l => l.ChildId == id).ToList())
             {
-                _issueLinks.Remove(issueLink);
+                _document.IssuesLinks.Remove(issueLink);
             }
             foreach (var parent in parents)
             {
-                _issueLinks.Add(new IssueLink {ChildId = id, ParentId = parent});
+                _document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
             }
             UpdateLinks();
         }
 
-        public void SetFilePath(string path)
-        {
-            _path = path;
-        }
-
-        public bool IsFileExists
-        {
-            get { return File.Exists(_path); }
-        }
-
         public IEnumerable<Issue> GetParents(int id)
         {
-            return _issues.Values.Where(i => _parentChildren.ContainsKey(i.Id) && _parentChildren[i.Id].Contains(id));
+            return _document.Issues.Values.Where(i => _parentChildren.ContainsKey(i.Id) && _parentChildren[i.Id].Contains(id));
         }
 
         public IEnumerable<Issue> GetChildren(int id)
         {
-            return _issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
+            return _document.Issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
         }
 
         public IEnumerable<Issue> GetAllChildren(int id)
         {
             var allChildren = new HashSet<int>();
             SetChildren(id, allChildren);
-            return allChildren.Select(child => _issues[child]);
+            return allChildren.Select(child => _document.Issues[child]);
         }
 
         private void SetChildren(int id, HashSet<int> allChildren)
@@ -77,12 +77,12 @@ namespace LifeBoard.Models
 
         public IEnumerable<Issue> GetIssues()
         {
-            return _issues.Values;
+            return _document.Issues.Values;
         }
 
         public IEnumerable<Issue> GetIssues(IssueFilter filter)
         {
-            return _issues.Values.Where(
+            return _document.Issues.Values.Where(
                 i => filter.Types.Contains(i.Type) &&
                     filter.Statuses.Contains(i.Status) &&
                     filter.Priorities.Contains(i.Priority));
@@ -95,96 +95,21 @@ namespace LifeBoard.Models
             return GetIssues(filter).Where(i => i.Id != id && !allChildren.Contains(i.Id));
         }
 
-        public void Open()
-        {
-            FileStream fs = null;
-            try
-            {
-                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
-                fs = new FileStream(_path, FileMode.Open);
-                SetDocument((XMLDocuments.V1.Document)serializer.Deserialize(fs));
-            }
-            catch
-            {
-                SetDocument(CreateDocoment());
-            }
-            finally
-            {
-                if (fs != null)
-                {
-                    fs.Close();
-                }
-            }
-        }
-
-        public void Save()
-        {
-            TextWriter writer = null;
-            try
-            {
-                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
-                writer = new StreamWriter(_path);
-                serializer.Serialize(writer, GetDocoment());
-            }
-            finally
-            {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
-            }
-        }
-
         public void DeleteIssue(Issue issue)
         {
-            _issues.Remove(issue.Id);
-            foreach (var projectIssue in _issueLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
+            _document.Issues.Remove(issue.Id);
+            foreach (var projectIssue in _document.IssuesLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
             {
-                _issueLinks.Remove(projectIssue);
+                _document.IssuesLinks.Remove(projectIssue);
             }
             UpdateLinks();
-        }
-
-        private int NewIssueId()
-        {
-            int id = 1;
-            while (true)
-            {
-                if (!_issues.ContainsKey(id))
-                {
-                    break;
-                }
-                ++id;
-            }
-            return id;
-        }
-
-        private void SetDocument(XMLDocuments.V1.Document document)
-        {
-            _issues = document.Issues.Select(i => new Issue
-                                                      {
-                                                          Id = i.Id,
-                                                          Priority = i.Priority,
-                                                          Summary = i.Summary,
-                                                          Description = i.Description,
-                                                          Type = i.Type,
-                                                          Status = i.Status
-                                                      }).ToDictionary(i => i.Id);
-            _issueLinks = document.IssuesLinks.Select(pi => new IssueLink
-                                                                     {
-                                                                         ChildId = pi.ParentId,
-                                                                         ParentId = pi.ChildId
-                                                                     }).ToList();
-
-            UpdateLinks();
-
         }
 
         private void UpdateLinks()
         {
             _parentChildren.Clear();
             _childParents.Clear();
-            foreach (var projectIssue in _issueLinks)
+            foreach (var projectIssue in _document.IssuesLinks)
             {
                 if (!_parentChildren.ContainsKey(projectIssue.ParentId))
                 {
@@ -200,49 +125,9 @@ namespace LifeBoard.Models
             }
         }
 
-        private XMLDocuments.V1.Document GetDocoment()
-        {
-            return new XMLDocuments.V1.Document
-                       {
-                           Issues = _issues.Values.Select(i => new XMLDocuments.V1.Issue
-                                                            {
-                                                                Id = i.Id,
-                                                                Priority = i.Priority,
-                                                                Summary = i.Summary,
-                                                                Description = i.Description,
-                                                                Type = i.Type,
-                                                                Status = i.Status
-                                                            }).ToArray(),
-                           IssuesLinks = _issueLinks.Select(pi => new XMLDocuments.V1.IssueLinks
-                                                                           {
-                                                                               ParentId = pi.ChildId,
-                                                                               ChildId = pi.ParentId
-                                                                           }).ToArray()
-                       };
-        }
-
-        private XMLDocuments.V1.Document CreateDocoment()
-        {
-            return new XMLDocuments.V1.Document
-                       {
-                           Issues = new XMLDocuments.V1.Issue[0],
-                           IssuesLinks = new XMLDocuments.V1.IssueLinks[0]
-                       };
-        }
-
         public int CreateIssue(IssueType type, int priority, string summary, string description)
         {
-            int id = NewIssueId();
-            _issues.Add(id,new Issue
-            {
-                Id = id,
-                Type = type,
-                Status = IssueStatus.Open,
-                Priority = priority,
-                Summary = summary,
-                Description = description
-            });
-            return id;
+            return _repository.CreateIssue(type, priority, summary, description);
         }
 
         public IEnumerable<int> GetPriorities()

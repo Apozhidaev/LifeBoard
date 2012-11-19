@@ -65,7 +65,7 @@
     		<Setter Property="Background" Value="#FFDDDDDD"/>
     		<Setter Property="BorderBrush" Value="#FF707070"/>
     		<Setter Property="Foreground" Value="Black"/>
-    		<Setter Property="BorderThickness" Value="1"/>
+    		<Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="13"/>
     		<Setter Property="HorizontalContentAlignment" Value="Center"/>
     		<Setter Property="VerticalContentAlignment" Value="Center"/>

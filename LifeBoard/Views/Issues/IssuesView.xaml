@@ -34,7 +34,8 @@
     		RowStyle="{DynamicResource IssueDataGridRowStyle}"
     		AlternatingRowBackground="WhiteSmoke" 
     		AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
-    		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single">
+    		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
+            MouseDoubleClick="OnDataGridMouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
                 <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
