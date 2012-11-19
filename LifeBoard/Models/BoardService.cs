@@ -25,7 +25,7 @@ namespace LifeBoard.Models
 
         public void Submit()
         {
-            _repository.Save();
+            _repository.Submit();
         }
 
         /// <summary>

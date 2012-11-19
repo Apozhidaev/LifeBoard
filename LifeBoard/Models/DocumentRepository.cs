@@ -28,6 +28,11 @@ namespace LifeBoard.Models
             get { return File.Exists(_path); }
         }
 
+        public bool IsPathRooted
+        {
+            get { return Path.IsPathRooted(_path); }
+        }
+
         public int CreateIssue(IssueType type, int priority, string summary, string description)
         {
             int id = NewIssueId();
@@ -67,7 +72,7 @@ namespace LifeBoard.Models
 
         public void Save()
         {
-            if(!IsFileExists)
+            if (!IsPathRooted)
             {
                 return;
             }
@@ -85,6 +90,15 @@ namespace LifeBoard.Models
                     writer.Close();
                 }
             }
+        }
+
+        public void Submit()
+        {
+            if (!IsFileExists)
+            {
+                return;
+            }
+            Save();
         }
 
         private void SetDocument(XMLDocuments.V1.Document document)
