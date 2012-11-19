@@ -137,7 +137,7 @@ namespace LifeBoard.Models
 
         public IEnumerable<IssueType> GetTypes()
         {
-            return new[] { IssueType.Task, IssueType.Story, IssueType.Epic };
+            return new[] { IssueType.Note, IssueType.Task, IssueType.Story, IssueType.Epic };
         }
 
         public IEnumerable<IssueStatus> GetStatuses()
@@ -183,9 +183,9 @@ namespace LifeBoard.Models
             {
                 filter.Types = new HashSet<IssueType>(new[] { IssueType.Story, IssueType.Epic });
             }
-            else
+            else 
             {
-                filter.Types = new HashSet<IssueType>(GetTypes());
+                filter.Types = new HashSet<IssueType>(new[] { IssueType.Task, IssueType.Story, IssueType.Epic });
             }
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses = new HashSet<IssueStatus>(GetStatuses());
