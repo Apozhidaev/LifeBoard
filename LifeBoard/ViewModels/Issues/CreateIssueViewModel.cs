@@ -11,16 +11,16 @@ namespace LifeBoard.ViewModels.Issues
 {
     public class CreateIssueViewModel : EditIssueViewModelBase
     {
-        public CreateIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
-            : base(parent, backNavigateCommand, boardService)
+        public CreateIssueViewModel(INavigatePage parent, BoardService boardService)
+            : base(parent, boardService)
         {
             SubmitTitle = "Create";
         }
 
-        public override void Navigate()
+        protected override void OnNavigated()
         {
             ClearForm();
-            base.Navigate();
+            base.OnNavigated();
         }
 
         protected override void Submit()

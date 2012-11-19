@@ -21,10 +21,22 @@ namespace LifeBoard.Views.Issues
     /// </summary>
     public partial class ShowIssueView : Page
     {
+        private readonly ShowIssueViewModel _model;
+
         public ShowIssueView(ShowIssueViewModel model)
         {
             InitializeComponent();
             DataContext = model;
+            _model = model;
+        }
+
+        private void OnDataGridMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var issue = _dataGrid.SelectedValue as IssueViewModel;
+            if (issue != null)
+            {
+                ((MainIssuesViewModel)_model.Parent).Show(issue);
+            }
         }
     }
 }

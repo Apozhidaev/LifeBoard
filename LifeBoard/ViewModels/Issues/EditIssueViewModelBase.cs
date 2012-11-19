@@ -10,21 +10,23 @@ using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class EditIssueViewModelBase : BackPageViewModelBase
+    public class EditIssueViewModelBase : PageViewModelBase
     {
         private int _priority;
         private IssueType _type;
         private string _summary;
         private string _description;
-        private readonly BoardService _boardService;
-        private EditIssueView _editIssueView;      
+        private EditIssueView _editIssueView;  
+        private readonly INavigatePage _parent;
+        private readonly BoardService _boardService;    
         private DelegateCommand _submitCommand;
         private DelegateCommand<IssueViewModel> _addCommand;
         private DelegateCommand<IssueViewModel> _removeCommand;
 
-        public EditIssueViewModelBase(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
-            : base(parent, backNavigateCommand)
+        public EditIssueViewModelBase(INavigatePage parent, BoardService boardService)
+            : base(parent)
         {
+            _parent = parent;
             _boardService = boardService;
             Issues = new ObservableCollection<IssueViewModel>();
             ParentIssues = new ObservableCollection<IssueViewModel>();
@@ -52,7 +54,7 @@ namespace LifeBoard.ViewModels.Issues
 
         protected virtual void Submit()
         {
-            BackNavigateCommand.Execute(null);
+            _parent.BackCommand.Execute(null);
         }
 
         private bool CanSubmit()
@@ -176,10 +178,10 @@ namespace LifeBoard.ViewModels.Issues
             get { return _editIssueView ?? (_editIssueView = new EditIssueView(this)); }
         }
 
-        public override void Navigate()
+        protected override void OnNavigated()
         {
             UpdateFilter();
-            base.Navigate();
+            base.OnNavigated();
         }
 
         #endregion

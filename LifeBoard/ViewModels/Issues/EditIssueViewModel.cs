@@ -9,13 +9,13 @@ namespace LifeBoard.ViewModels.Issues
     {
         private Issue _issue;
 
-        public EditIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
-            : base(parent, backNavigateCommand, boardService)
+        public EditIssueViewModel(INavigatePage parent, BoardService boardService)
+            : base(parent, boardService)
         {
             SubmitTitle = "Edit";
         }
 
-        public void Edit(Issue issue)
+        public void SetIssue(Issue issue)
         {
             _issue = issue;
             FromIssue();
@@ -24,7 +24,6 @@ namespace LifeBoard.ViewModels.Issues
             {
                 ParentIssues.Add(new IssueViewModel(this, parent));
             }
-            Navigate();
         }
 
         protected override void Submit()

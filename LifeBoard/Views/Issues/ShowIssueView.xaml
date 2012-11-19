@@ -6,19 +6,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
 	Title="ShowIssueView">
-    <Page.Resources>
-        <DataTemplate x:Key="ChildItemDataTemplate">
-            <Grid Width="400">
-                <TextBlock HorizontalAlignment="Left" Margin="0,-4,0,0" Height="30" TextWrapping="Wrap" Text="{Binding IssueType}" VerticalAlignment="Top" Style="{DynamicResource GridGroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Left" Margin="50,4,130,0" Height="30" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextStyle}"/>
-                <TextBlock HorizontalAlignment="Right" Margin="0,-4,100,0" Height="30" TextWrapping="Wrap" Text="{Binding Priority}" VerticalAlignment="Top" Style="{DynamicResource GridGroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Right" Margin="0,-4,0,0" Height="30" TextWrapping="Wrap" Text="{Binding Status}" VerticalAlignment="Top" Style="{DynamicResource GridGroupTextStyle}"/>
-                <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" VerticalAlignment="Bottom"/>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
     <Grid>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding BackNavigateCommand}" Style="{DynamicResource BackButtonStyle}"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
         <Button Content="{Binding NextStatus}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding NextStateCommand}" Style="{DynamicResource MainButtonStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
             <Grid>
@@ -39,8 +28,33 @@
                 <TextBlock Grid.Column="1" Text="Priority:" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                 <TextBlock Grid.Column="1" Text="{Binding Priority}" HorizontalAlignment="Left" Margin="100,120,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
                 <Rectangle Grid.Column="1" Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="10,144,20,0" VerticalAlignment="Top"/>
-                <ListBox IsHitTestVisible="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="200,254,20,20" VerticalAlignment="Top" ItemTemplate="{DynamicResource ChildItemDataTemplate}" ItemsSource="{Binding Children}" BorderThickness="0"/>
                 <TextBlock Text="Children:" HorizontalAlignment="Left" Margin="100,250,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                <DataGrid x:Name="_dataGrid" Grid.ColumnSpan="2" 
+    		                IsReadOnly="True"
+    		                HorizontalAlignment="Stretch"
+    		                Margin="200,260,20,20"
+    		                VerticalAlignment="Stretch"
+    		                ItemsSource="{Binding Children}"
+    		                RowStyle="{DynamicResource IssueDataGridRowStyle}"
+    		                AlternatingRowBackground="WhiteSmoke" 
+    		                AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
+    		                GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
+                            BorderThickness="0" Background="White" MouseDoubleClick="OnDataGridMouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                        <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                        <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Grid Height="150" Background="White">
+                                <TextBlock Margin="15,2,0,0" Text="Description:" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                                <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
             </Grid>
         </ScrollViewer>
     </Grid>

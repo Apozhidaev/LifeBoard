@@ -300,6 +300,12 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderBrush" Value="#FF3C7FB1"/>
+                    <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="IssueDataGridCellStyle" TargetType="{x:Type DataGridCell}">
@@ -317,7 +323,6 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#FFF4FBFF"/>
                     <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
@@ -328,7 +333,6 @@
                         <Condition Property="IsSelected" Value="True"/>
                         <Condition Property="Selector.IsSelectionActive" Value="False"/>
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="#FFF4FBFF"/>
                     <Setter Property="Foreground" Value="Black"/>
                 </MultiTrigger>
                 <Trigger Property="IsEnabled" Value="False">

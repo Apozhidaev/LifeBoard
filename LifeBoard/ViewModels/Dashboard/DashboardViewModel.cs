@@ -11,7 +11,7 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private DashboardView _dashboardView;
 
-        public DashboardViewModel(IFrameViewModel parent, BoardService boardService) 
+        public DashboardViewModel(object parent, BoardService boardService) 
             : base(parent)
         {
             _boardService = boardService;
@@ -26,11 +26,11 @@ namespace LifeBoard.ViewModels.Dashboard
             get { return _dashboardView ?? (_dashboardView = new DashboardView(this)); }
         }
 
-        public override void Navigate()
-        {
-            UpdateIssues();
-            base.Navigate();
-        }
+        //public override void Navigate()
+        //{
+        //    UpdateIssues();
+        //    base.Navigate();
+        //}
 
         private void UpdateIssues()
         {

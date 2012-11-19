@@ -17,7 +17,7 @@ namespace LifeBoard.ViewModels.Issues
 
         public FilterViewModel Filter { get; private set; }
 
-        public IssuesViewModel(IFrameViewModel parent, BoardService boardService)
+        public IssuesViewModel(object parent, BoardService boardService)
             : base(parent)
         {
             _boardService = boardService;
@@ -49,9 +49,9 @@ namespace LifeBoard.ViewModels.Issues
             get { return _issuesView ?? (_issuesView = new IssuesView(this)); }
         }
 
-        public override void Navigate()
+        protected override void OnNavigated()
         {
-            base.Navigate();
+            base.OnNavigated();
             Search();
         }
     }

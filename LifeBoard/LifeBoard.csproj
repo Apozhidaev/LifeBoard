@@ -79,9 +79,8 @@
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\IssueLink.cs" />
-    <Compile Include="ViewModels\BackPageViewModelBase.cs" />
+    <Compile Include="ViewModels\INavigatePage.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
-    <Compile Include="ViewModels\IFrameViewModel.cs" />
     <Compile Include="ViewModels\Issues\EditIssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\EditIssueViewModelBase.cs" />
     <Compile Include="ViewModels\IssueViewModel.cs" />

@@ -1,38 +1,32 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
-using LifeBoard.Commands;
 
 namespace LifeBoard.ViewModels
 {
-    public abstract class PageViewModelBase : ViewModelBase
+    public abstract class PageViewModelBase : ParentViewModelBase
     {
-        private DelegateCommand _navigateCommand;
+        private bool _isNavigated;
 
-        protected PageViewModelBase(IFrameViewModel parent)
+        protected PageViewModelBase(object parent) 
+            : base(parent)
         {
-            Parent = parent;
         }
 
-        public IFrameViewModel Parent { get; private set; }
-
-        public ICommand NavigateCommand
+        public bool IsNavigated
         {
-            get { return _navigateCommand ?? (_navigateCommand = new DelegateCommand(Navigate)); }
+            get { return _isNavigated; }
+            set
+            {
+                if (_isNavigated != value)
+                {
+                    _isNavigated = value;
+                    OnPropertyChanged("IsNavigated");
+                    OnNavigated();
+                }
+            }
         }
 
         public abstract Page Page { get; }
 
-        public bool IsChecked 
-        {
-            get { return Equals(Parent.Current, this); }
-        }
-
-        public virtual void Navigate()
-        {
-            var old = Parent.Current;
-            Parent.Current = this;
-            old.OnPropertyChanged("IsChecked");
-            OnPropertyChanged("IsChecked");
-        }
+        protected virtual void OnNavigated(){ }
     }
 }

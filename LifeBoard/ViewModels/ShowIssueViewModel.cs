@@ -3,12 +3,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
-using LifeBoard.ViewModels.Issues;
 using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels
 {
-    public class ShowIssueViewModel : BackPageViewModelBase
+    public class ShowIssueViewModel : PageViewModelBase
     {
         private Issue _issue;
 
@@ -16,8 +15,8 @@ namespace LifeBoard.ViewModels
 
         private ShowIssueView _showIssueView;
 
-        public ShowIssueViewModel(IFrameViewModel parent, ICommand backNavigateCommand, BoardService boardService)
-            : base(parent, backNavigateCommand)
+        public ShowIssueViewModel(INavigatePage parent, BoardService boardService)
+            : base(parent)
         {
             _boardService = boardService;
             Children = new ObservableCollection<IssueViewModel>();
@@ -60,7 +59,7 @@ namespace LifeBoard.ViewModels
             get { return _showIssueView ?? (_showIssueView = new ShowIssueView(this)); }
         }
 
-        public void Show(Issue issue)
+        public void SetIssue(Issue issue)
         {
             _issue = issue;
             Children.Clear();
@@ -69,7 +68,6 @@ namespace LifeBoard.ViewModels
                 Children.Add(new IssueViewModel(this, child));
             }
             UpdateSource();
-            Navigate();
         }
 
         private void UpdateSource()

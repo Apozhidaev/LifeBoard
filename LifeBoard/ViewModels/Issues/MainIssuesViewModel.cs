@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
@@ -6,7 +7,7 @@ using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
-    public class MainIssuesViewModel : PageViewModelBase, IFrameViewModel
+    public class MainIssuesViewModel : PageViewModelBase, INavigatePage
     {
         private readonly BoardService _boardService;
 
@@ -14,14 +15,20 @@ namespace LifeBoard.ViewModels.Issues
 
         private PageViewModelBase _current;
 
-        public MainIssuesViewModel(IFrameViewModel parent, BoardService boardService)
+        private Issue _actualIssue;
+
+        private readonly Stack<Issue> _issueHistory = new Stack<Issue>();
+
+        private readonly Stack<PageViewModelBase> _navigateHistory = new Stack<PageViewModelBase>();
+
+        public MainIssuesViewModel(object parent, BoardService boardService)
             : base(parent)
         {
             _boardService = boardService;
             Issues = new IssuesViewModel(this, boardService);
-            CreateIssue = new CreateIssueViewModel(this, Issues.NavigateCommand, boardService);
-            EditIssue = new EditIssueViewModel(this, Issues.NavigateCommand, boardService);
-            ShowIssue = new ShowIssueViewModel(this, Issues.NavigateCommand, boardService);
+            CreateIssue = new CreateIssueViewModel(this, boardService);
+            EditIssue = new EditIssueViewModel(this, boardService);
+            ShowIssue = new ShowIssueViewModel(this, boardService);
             _current = Issues;
         }
 
@@ -45,7 +52,9 @@ namespace LifeBoard.ViewModels.Issues
             {
                 if (!Equals(_current, value))
                 {
+                    _current.IsNavigated = false;
                     _current = value;
+                    _current.IsNavigated = true;
                     OnPropertyChanged("Current");
                 }
             }
@@ -60,7 +69,9 @@ namespace LifeBoard.ViewModels.Issues
 
         public void Show(IssueViewModel issue)
         {
-            ShowIssue.Show(issue.Model);
+            _actualIssue = issue.Model;
+            ShowIssue.SetIssue(issue.Model);
+            Navigate(ShowIssue);
         }
 
         private DelegateCommand<IssueViewModel> _editCommand;
@@ -72,7 +83,9 @@ namespace LifeBoard.ViewModels.Issues
 
         private void Edit(IssueViewModel issue)
         {
-            EditIssue.Edit(issue.Model);
+            _actualIssue = issue.Model;
+            EditIssue.SetIssue(issue.Model);
+            Navigate(EditIssue);
         }
 
         private DelegateCommand<IssueViewModel> _deleteCommand;
@@ -92,6 +105,60 @@ namespace LifeBoard.ViewModels.Issues
             _boardService.DeleteIssue(issue);
             _boardService.Submit();
             Issues.Search();
+        }
+
+        private DelegateCommand<PageViewModelBase> _navigateCommand;
+
+        public ICommand NavigateCommand
+        {
+            get { return _navigateCommand ?? (_navigateCommand = new DelegateCommand<PageViewModelBase>(Navigate)); }
+        }
+
+        private void Navigate(PageViewModelBase pageViewModel)
+        {
+            if (Equals(pageViewModel, Issues))
+            {
+                _navigateHistory.Clear();
+                _issueHistory.Clear();
+                _actualIssue = null;
+            }
+            else
+            {
+                _navigateHistory.Push(pageViewModel);
+                _issueHistory.Push(_actualIssue);
+            }
+            Current = pageViewModel;
+        }
+
+        private DelegateCommand _backCommand;
+
+        public ICommand BackCommand
+        {
+            get { return _backCommand ?? (_backCommand = new DelegateCommand(Back)); }
+        }
+
+        private void Back()
+        {
+            if (_navigateHistory.Count > 1)
+            {
+                _navigateHistory.Pop();
+                _issueHistory.Pop();
+                var lastPage = _navigateHistory.Peek();
+                var lastIssue = _issueHistory.Peek();
+                if (lastPage is EditIssueViewModel)
+                {
+                    EditIssue.SetIssue(lastIssue);
+                }
+                if (lastPage is ShowIssueViewModel)
+                {
+                    ShowIssue.SetIssue(lastIssue);
+                }
+                Current = lastPage;
+            }
+            else
+            {
+                Navigate(Issues);
+            }
         }
     }
 }

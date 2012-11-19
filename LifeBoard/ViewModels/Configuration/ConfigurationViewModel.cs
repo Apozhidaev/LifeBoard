@@ -16,7 +16,7 @@ namespace LifeBoard.ViewModels.Configuration
 
         private ConfigurationView _configurationView;
 
-        public ConfigurationViewModel(IFrameViewModel parent, BoardService boardService)
+        public ConfigurationViewModel(object parent, BoardService boardService)
             : base(parent)
         {
             _boardService = boardService;

@@ -1,11 +1,13 @@
-﻿using LifeBoard.Models;
+﻿using System.Windows.Input;
+using LifeBoard.Commands;
+using LifeBoard.Models;
 using LifeBoard.ViewModels.Configuration;
 using LifeBoard.ViewModels.Dashboard;
 using LifeBoard.ViewModels.Issues;
 
 namespace LifeBoard.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IFrameViewModel
+    public class MainViewModel : ViewModelBase
     {
         private PageViewModelBase _current;
 
@@ -24,7 +26,9 @@ namespace LifeBoard.ViewModels
             {
                 if (!Equals(_current, value))
                 {
+                    _current.IsNavigated = false;
                     _current = value;
+                    _current.IsNavigated = true;
                     OnPropertyChanged("Current");
                 }
             }
@@ -35,5 +39,17 @@ namespace LifeBoard.ViewModels
         public MainIssuesViewModel IssuesPage { get; private set; }
 
         public ConfigurationViewModel ConfigurationPage { get; private set; }
+
+        private DelegateCommand<PageViewModelBase> _navigateCommand;
+
+        public ICommand NavigateCommand
+        {
+            get { return _navigateCommand ?? (_navigateCommand = new DelegateCommand<PageViewModelBase>(Navigate)); }
+        }
+
+        public virtual void Navigate(PageViewModelBase pageViewModel)
+        {
+            Current = pageViewModel;
+        }
     }
 }

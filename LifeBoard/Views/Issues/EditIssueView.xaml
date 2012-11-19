@@ -25,7 +25,7 @@
     </Page.Resources>
     <Grid>
         <Button Content="{Binding SubmitTitle}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding SubmitCommand}" Style="{DynamicResource MainButtonStyle}" Grid.Column="1"/>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding BackNavigateCommand}" Style="{DynamicResource BackButtonStyle}"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>

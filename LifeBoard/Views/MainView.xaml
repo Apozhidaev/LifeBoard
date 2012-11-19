@@ -7,9 +7,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" FontSize="16" Style="{DynamicResource MenuStyle}" Background="White">
-            <MenuItem Header="Dashboard" IsChecked="{Binding DashboardPage.IsChecked,Mode=OneWay}" Command="{Binding DashboardPage.NavigateCommand}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}" />
-            <MenuItem Header="Issues" IsChecked="{Binding IssuesPage.IsChecked,Mode=OneWay}"  Command="{Binding IssuesPage.NavigateCommand}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
-            <MenuItem Header="Configuration" IsChecked="{Binding ConfigurationPage.IsChecked,Mode=OneWay}"  Command="{Binding ConfigurationPage.NavigateCommand}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
+            <MenuItem Header="Dashboard" IsChecked="{Binding DashboardPage.IsNavigated, Mode=OneWay}" Command="{Binding NavigateCommand}" CommandParameter="{Binding DashboardPage}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}" />
+            <MenuItem Header="Issues" IsChecked="{Binding IssuesPage.IsNavigated, Mode=OneWay}"  Command="{Binding NavigateCommand}" CommandParameter="{Binding IssuesPage}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
+            <MenuItem Header="Configuration" IsChecked="{Binding ConfigurationPage.IsNavigated, Mode=OneWay}"  Command="{Binding NavigateCommand}" CommandParameter="{Binding ConfigurationPage}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
         </Menu>
         <Rectangle Height="3" Fill="#FF1E395B" VerticalAlignment="Stretch" Grid.Row="1" />
         <Frame NavigationUIVisibility="Hidden" Content="{Binding Current.Page}" HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" VerticalAlignment="Stretch" />
