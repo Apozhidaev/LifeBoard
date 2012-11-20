@@ -20,7 +20,10 @@ namespace LifeBoard.ViewModels
                 {
                     _isNavigated = value;
                     OnPropertyChanged("IsNavigated");
-                    OnNavigated();
+                    if (_isNavigated)
+                    {
+                        OnNavigated();
+                    }
                 }
             }
         }

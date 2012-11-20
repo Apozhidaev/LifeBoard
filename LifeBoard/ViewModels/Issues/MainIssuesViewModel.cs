@@ -114,13 +114,11 @@ namespace LifeBoard.ViewModels.Issues
             get { return _navigateCommand ?? (_navigateCommand = new DelegateCommand<PageViewModelBase>(Navigate)); }
         }
 
-        private void Navigate(PageViewModelBase pageViewModel)
+        public void Navigate(PageViewModelBase pageViewModel)
         {
             if (Equals(pageViewModel, Issues))
             {
-                _navigateHistory.Clear();
-                _issueHistory.Clear();
-                _actualIssue = null;
+                ClearHistory();
             }
             else
             {
@@ -159,6 +157,13 @@ namespace LifeBoard.ViewModels.Issues
             {
                 Navigate(Issues);
             }
+        }
+
+        public void ClearHistory()
+        {
+            _navigateHistory.Clear();
+            _issueHistory.Clear();
+            _actualIssue = null;
         }
     }
 }

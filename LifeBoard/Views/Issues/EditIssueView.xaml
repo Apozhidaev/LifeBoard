@@ -32,8 +32,8 @@
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Height="25" Margin="15,51,20,0" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top" Grid.Column="1"/>
-                <TextBox Height="150" Margin="15,144,20,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Column="1"/>
+                <TextBox Height="25" Margin="15,51,20,0" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TitleTextBoxStyle}"/>
+                <TextBox Height="150" Margin="15,144,20,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Column="1" Style="{DynamicResource SubtitleTextBoxStyle}"/>
                 <TextBlock Text="Summary:" HorizontalAlignment="Left" Margin="48,44,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>
                 <TextBlock Text="Description:" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                 <TextBlock Text="Type:" HorizontalAlignment="Left" Margin="48,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}"/>

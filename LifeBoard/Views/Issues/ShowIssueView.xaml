@@ -16,8 +16,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Height="23" Margin="200,34,20,0" TextWrapping="Wrap" Text="{Binding Summary}" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                    <TextBlock Margin="200,79,20,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextStyle}"/>
+                    <TextBox Height="23" Margin="200,34,20,0" TextWrapping="Wrap" Text="{Binding Summary,Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
+                    <TextBox Margin="200,79,20,0" TextWrapping="Wrap" Text="{Binding Description,Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
                     <TextBlock Text="Summary:" HorizontalAlignment="Left" Margin="100,27,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                     <TextBlock Text="Description:" HorizontalAlignment="Left" Margin="100,72,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                     <TextBlock Grid.Column="1" Text="Status:" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
@@ -42,7 +42,8 @@
     		                AlternatingRowBackground="WhiteSmoke" 
     		                AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
     		                GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
-                            BorderThickness="0" Background="White" MouseDoubleClick="OnDataGridMouseDoubleClick">
+                            BorderThickness="0" Background="White" MouseDoubleClick="OnDataGridMouseDoubleClick"
+                            RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
                             <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
