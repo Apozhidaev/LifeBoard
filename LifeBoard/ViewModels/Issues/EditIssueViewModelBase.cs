@@ -32,7 +32,7 @@ namespace LifeBoard.ViewModels.Issues
             ParentIssues = new ObservableCollection<IssueViewModel>();
             Filter = new FilterViewModel(this);
             Filter.SetModel(boardService.GetFullFilter(), boardService.GetFullFilter());
-            SubmitTitle = "Submit";
+            SubmitHeader = "Submit";
         }
 
         #region Commands
@@ -98,7 +98,7 @@ namespace LifeBoard.ViewModels.Issues
 
         #region Properties
 
-        public string SubmitTitle { get; set; }
+        public string SubmitHeader { get; set; }
 
         public ObservableCollection<IssueViewModel> Issues { get; private set; }
 

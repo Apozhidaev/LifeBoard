@@ -1,0 +1,44 @@
+﻿<ResourceDictionary 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="AddHeader">Добавить</system:String>
+    <system:String x:Key="ClearHeader">Очистить</system:String>
+    <system:String x:Key="CreateHeader">Создать</system:String>
+    <system:String x:Key="DeleteHeader">Удалить</system:String>
+    <system:String x:Key="EditHeader">Редактировать</system:String>
+    <system:String x:Key="RemoveHeader">Удалить</system:String>
+    <system:String x:Key="ShowHeader">Показать</system:String>
+
+    <system:String x:Key="DashboardHeader">Дашборд</system:String>
+    <system:String x:Key="IssuesHeader">Задачи</system:String>
+    <system:String x:Key="ConfigurationHeader">Конфигурация</system:String>
+
+    <system:String x:Key="InprogressHeader">В процессе</system:String>
+
+    <system:String x:Key="ConstructionMessage">Страница находиться в разработке.</system:String>
+
+    <system:String x:Key="TypesLabel">Типы:</system:String>
+    <system:String x:Key="StatusesLabel">Статусы:</system:String>
+    <system:String x:Key="PrioritiesLabel">Приоритеты:</system:String>
+
+    <system:String x:Key="TypeHeader">Тип</system:String>
+    <system:String x:Key="StatusHeader">Статус</system:String>
+    <system:String x:Key="PriorityHeader">Приоритет</system:String>
+    <system:String x:Key="SummaryHeader">Заголовок</system:String>
+    <system:String x:Key="DescriptionHeader">Описание</system:String>
+
+    <system:String x:Key="TypeLabel">Тип:</system:String>
+    <system:String x:Key="StatusLabel">Статус:</system:String>
+    <system:String x:Key="PriorityLabel">Пироритет:</system:String>
+    <system:String x:Key="SummaryLabel">Заголовок:</system:String>
+    <system:String x:Key="DescriptionLabel">Описание:</system:String>
+
+    <system:String x:Key="SubissuesLabel">Подзадачи:</system:String>
+    <system:String x:Key="ParentsLabel">Родители:</system:String>
+
+    <system:String x:Key="AddParentHeader">Add</system:String>
+    <system:String x:Key="RemoveParentHeader">Del</system:String>
+
+</ResourceDictionary>

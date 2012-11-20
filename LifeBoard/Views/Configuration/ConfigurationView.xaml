@@ -5,6 +5,6 @@
       Title="ConfigurationView">
 
     <Grid>
-        <TextBlock Text="Page is under construction." VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource HeaderTextStyle}"/>
+        <TextBlock Text="{StaticResource ConstructionMessage}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource HeaderTextStyle}"/>
     </Grid>
 </Page>

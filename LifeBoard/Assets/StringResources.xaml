@@ -1,0 +1,44 @@
+﻿<ResourceDictionary 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="AddHeader">Add</system:String>
+    <system:String x:Key="ClearHeader">Clear</system:String>
+    <system:String x:Key="CreateHeader">Create</system:String>
+    <system:String x:Key="DeleteHeader">Delete</system:String>
+    <system:String x:Key="EditHeader">Edit</system:String>
+    <system:String x:Key="RemoveHeader">Remove</system:String>
+    <system:String x:Key="ShowHeader">Show</system:String>
+
+    <system:String x:Key="DashboardHeader">Dashboard</system:String>
+    <system:String x:Key="IssuesHeader">Issues</system:String>
+    <system:String x:Key="ConfigurationHeader">Configuration</system:String>
+
+    <system:String x:Key="InprogressHeader">In progress</system:String>
+
+    <system:String x:Key="ConstructionMessage">Page is under construction.</system:String>
+
+    <system:String x:Key="TypesLabel">Types:</system:String>
+    <system:String x:Key="StatusesLabel">Statuses:</system:String>
+    <system:String x:Key="PrioritiesLabel">Priorities:</system:String>
+
+    <system:String x:Key="TypeHeader">Type</system:String>
+    <system:String x:Key="StatusHeader">Status</system:String>
+    <system:String x:Key="PriorityHeader">Priority</system:String>
+    <system:String x:Key="SummaryHeader">Summary</system:String>
+    <system:String x:Key="DescriptionHeader">Description</system:String>
+
+    <system:String x:Key="TypeLabel">Type:</system:String>
+    <system:String x:Key="StatusLabel">Status:</system:String>
+    <system:String x:Key="PriorityLabel">Priority:</system:String>
+    <system:String x:Key="SummaryLabel">Summary:</system:String>
+    <system:String x:Key="DescriptionLabel">Description:</system:String>
+
+    <system:String x:Key="SubissuesLabel">Sub-issues:</system:String>
+    <system:String x:Key="ParentsLabel">Parents:</system:String>
+
+    <system:String x:Key="AddParentHeader">Add</system:String>
+    <system:String x:Key="RemoveParentHeader">Del</system:String>
+
+</ResourceDictionary>

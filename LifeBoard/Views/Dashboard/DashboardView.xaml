@@ -21,7 +21,7 @@
     </Page.Resources>
 
     <Grid>
-        <TextBlock Text="In progress" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
+        <TextBlock Text="{StaticResource InprogressHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
         <ListBox Margin="10,70,10,10" ItemsSource="{Binding Issues}" ItemsPanel="{DynamicResource DashboardItemsPanelTemplate}" ItemTemplate="{DynamicResource DashboardDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
     </Grid>
 </Page>

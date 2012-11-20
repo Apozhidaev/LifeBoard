@@ -10,13 +10,13 @@
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Create" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
+        <Button Content="{StaticResource CreateHeader}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
                 Command="{Binding Parent.NavigateCommand}" CommandParameter="{Binding Parent.CreateIssue}" Style="{DynamicResource MainButtonStyle}" />
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
             <Grid Margin="20,0,10,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Types:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Left" Margin="0,125,0,0" TextWrapping="Wrap" Text="Statuses:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Left" Margin="0,245,0,0" TextWrapping="Wrap" Text="Priorities:" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{StaticResource TypesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,125,0,0" TextWrapping="Wrap" Text="{StaticResource StatusesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,245,0,0" TextWrapping="Wrap" Text="{StaticResource PrioritiesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
                 <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,32,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,157,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="0,277,0,0" VerticalAlignment="Top"/>
@@ -37,20 +37,20 @@
     		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
             MouseDoubleClick="OnDataGridMouseDoubleClick" BorderThickness="0" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <Grid Height="150" Background="White">
-                        <TextBlock Margin="15,2,0,0" Text="Description:" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                        <TextBlock Margin="15,2,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
                         <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
                     </Grid>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
-        <TextBlock Text="Issues" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}"/>
+        <TextBlock Text="{StaticResource IssuesHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}"/>
     </Grid>
 </Page>

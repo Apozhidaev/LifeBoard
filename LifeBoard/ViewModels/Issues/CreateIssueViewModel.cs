@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -14,7 +15,7 @@ namespace LifeBoard.ViewModels.Issues
         public CreateIssueViewModel(INavigatePage parent, BoardService boardService)
             : base(parent, boardService)
         {
-            SubmitTitle = "Create";
+            SubmitHeader = (string)Application.Current.FindResource("CreateHeader");
         }
 
         protected override void OnNavigated()

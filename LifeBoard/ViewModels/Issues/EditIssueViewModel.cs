@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using LifeBoard.Models;
 
@@ -12,7 +13,7 @@ namespace LifeBoard.ViewModels.Issues
         public EditIssueViewModel(INavigatePage parent, BoardService boardService)
             : base(parent, boardService)
         {
-            SubmitTitle = "Edit";
+            SubmitHeader = (string)Application.Current.FindResource("EditHeader");
         }
 
         public void SetIssue(Issue issue)
