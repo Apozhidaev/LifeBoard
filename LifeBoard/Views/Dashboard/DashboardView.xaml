@@ -8,13 +8,15 @@
             <WrapPanel IsItemsHost="True"/>
         </ItemsPanelTemplate>
         <DataTemplate x:Key="DashboardDataTemplate">
-            <Grid Height="200" Width="200" Background="AliceBlue">
-                <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                <TextBlock Text="{Binding Priority}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                <TextBlock Margin="10,30,0,0" Text="{Binding Summary}"  Style="{DynamicResource GridGroupTextStyle}"/>
-                <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="10,60,10,0" VerticalAlignment="Top"/>
-                <TextBlock Margin="20,70,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
-            </Grid>
+            <Button Style="{DynamicResource ButtonStyle}" Command="{Binding Parent.ShowCommand}" CommandParameter="{Binding}">
+                <Grid Height="200" Width="200" Background="AliceBlue">
+                    <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                    <TextBlock Text="{Binding Priority}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                    <TextBlock Margin="10,30,0,0" Text="{Binding Summary}"  Style="{DynamicResource GridGroupTextStyle}"/>
+                    <Rectangle Fill="#FF1E395B" HorizontalAlignment="Stretch" Height="1" Margin="10,60,10,0" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,70,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
+                </Grid>
+            </Button>
         </DataTemplate>
     </Page.Resources>
 
