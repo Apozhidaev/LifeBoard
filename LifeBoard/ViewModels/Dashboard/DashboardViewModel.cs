@@ -58,6 +58,7 @@ namespace LifeBoard.ViewModels.Dashboard
         {
             _parent.IssuesPage.Issues.Filter.SetModel(_boardService.GetFullFilter(), _boardService.GetInProgressFilter());
             _parent.Navigate(_parent.IssuesPage);
+            _parent.IssuesPage.Navigate(_parent.IssuesPage.Issues);
             _parent.IssuesPage.Show(issue);
         }
     }

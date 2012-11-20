@@ -114,7 +114,7 @@ namespace LifeBoard.ViewModels.Issues
             get { return _navigateCommand ?? (_navigateCommand = new DelegateCommand<PageViewModelBase>(Navigate)); }
         }
 
-        private void Navigate(PageViewModelBase pageViewModel)
+        public void Navigate(PageViewModelBase pageViewModel)
         {
             if (Equals(pageViewModel, Issues))
             {
@@ -160,5 +160,11 @@ namespace LifeBoard.ViewModels.Issues
                 Navigate(Issues);
             }
         }
+
+        //protected override void OnNavigated()
+        //{
+        //    base.OnNavigated();
+        //    Navigate(Issues);
+        //}
     }
 }
