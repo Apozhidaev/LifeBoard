@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -59,6 +60,11 @@ namespace LifeBoard.ViewModels
             get { return _showIssueView ?? (_showIssueView = new ShowIssueView(this)); }
         }
 
+        public Visibility ChildrenVisibility
+        {
+            get { return Children.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
         public void SetIssue(Issue issue)
         {
             _issue = issue;
@@ -78,6 +84,7 @@ namespace LifeBoard.ViewModels
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
             OnPropertyChanged("NextStatus");
+            OnPropertyChanged("ChildrenVisibility");
         }
 
         private DelegateCommand _nextStateCommand;

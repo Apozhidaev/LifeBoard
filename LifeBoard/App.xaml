@@ -303,7 +303,7 @@
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="BorderBrush" Value="#FF3C7FB1"/>
-                    <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                    <Setter Property="BorderThickness" Value="1,0,0,0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
