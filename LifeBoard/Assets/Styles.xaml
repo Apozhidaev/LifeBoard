@@ -225,14 +225,16 @@
         <Setter Property="FontSize" Value="16"/>
     </Style>
 
+    <Style x:Key="NormalGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+
     <Style x:Key="BodyGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Normal"/>
     </Style>
 
-    <Style x:Key="GridGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupTextStyle}">
-        <Setter Property="Margin" Value="10,0,10,0"/>
-    </Style>
 
     <!-- Стили TextBox -->
 
@@ -331,7 +333,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <ContentPresenter Margin="10,0,10,0" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

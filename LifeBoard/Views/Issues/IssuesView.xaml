@@ -37,10 +37,10 @@
     		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
             MouseDoubleClick="OnDataGridMouseDoubleClick" BorderThickness="0" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
-                <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GridGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource NormalGroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
