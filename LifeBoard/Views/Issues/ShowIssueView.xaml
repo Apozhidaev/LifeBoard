@@ -49,7 +49,7 @@
                             RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource NormalGroupTextStyle}"/>
+                            <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
                             <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                             <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                         </DataGrid.Columns>

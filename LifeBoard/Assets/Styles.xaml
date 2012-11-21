@@ -225,11 +225,6 @@
         <Setter Property="FontSize" Value="16"/>
     </Style>
 
-    <Style x:Key="NormalGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-    </Style>
-
     <Style x:Key="BodyGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Normal"/>
