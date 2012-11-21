@@ -12,6 +12,8 @@ namespace LifeBoard.ViewModels
     {
         private Issue _issue;
 
+        private IssueViewModel _issueModel;
+
         private readonly BoardService _boardService;
 
         private ShowIssueView _showIssueView;
@@ -21,6 +23,11 @@ namespace LifeBoard.ViewModels
         {
             _boardService = boardService;
             Children = new ObservableCollection<IssueViewModel>();
+        }
+
+        public IssueViewModel IssueModel
+        {
+            get { return _issueModel; }
         }
 
         public ObservableCollection<IssueViewModel> Children { get; private set; }
@@ -65,9 +72,10 @@ namespace LifeBoard.ViewModels
             get { return Children.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
         }
 
-        public void SetIssue(Issue issue)
+        public void SetIssue(IssueViewModel issue)
         {
-            _issue = issue;
+            _issueModel = issue;
+            _issue = issue.Model;
             Children.Clear();
             foreach (var child in _boardService.GetChildren(_issue.Id))
             {
@@ -78,6 +86,7 @@ namespace LifeBoard.ViewModels
 
         private void UpdateSource()
         {
+            OnPropertyChanged("IssueModel");
             OnPropertyChanged("Summary");
             OnPropertyChanged("Description");
             OnPropertyChanged("Priority");

@@ -41,4 +41,6 @@
     <system:String x:Key="AddParentHeader">Add</system:String>
     <system:String x:Key="RemoveParentHeader">Del</system:String>
 
+    <system:String x:Key="DeleteMessage">Are you sure?</system:String>
+
 </ResourceDictionary>

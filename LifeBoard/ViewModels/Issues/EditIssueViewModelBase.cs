@@ -191,6 +191,12 @@ namespace LifeBoard.ViewModels.Issues
             get { return _boardService; }
         }
 
+        public void AddParent(IssueViewModel issue)
+        {
+            ParentIssues.Add(issue);
+            UpdateFilter();
+        }
+
         private void UpdateFilter()
         {
             var model = BoardService.GetFilter(Type);

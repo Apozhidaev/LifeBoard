@@ -8,7 +8,10 @@
 	Title="ShowIssueView">
     <Grid>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
-        <Button Content="{Binding NextStatus}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding NextStateCommand}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{Binding NextStatus}" HorizontalAlignment="Right" Margin="0,10,400,0" VerticalAlignment="Top" Command="{Binding NextStateCommand}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{StaticResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{StaticResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{StaticResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Grid>
