@@ -4,6 +4,7 @@ using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
 using LifeBoard.Views.Issues;
+using System.Windows;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -15,9 +16,9 @@ namespace LifeBoard.ViewModels.Issues
 
         private PageViewModelBase _current;
 
-        private Issue _actualIssue;
+        private IssueViewModel _actualIssue;
 
-        private readonly Stack<Issue> _issueHistory = new Stack<Issue>();
+        private readonly Stack<IssueViewModel> _issueHistory = new Stack<IssueViewModel>();
 
         private readonly Stack<PageViewModelBase> _navigateHistory = new Stack<PageViewModelBase>();
 
@@ -69,9 +70,22 @@ namespace LifeBoard.ViewModels.Issues
 
         public void Show(IssueViewModel issue)
         {
-            _actualIssue = issue.Model;
-            ShowIssue.SetIssue(issue.Model);
+            _actualIssue = issue;
+            ShowIssue.SetIssue(issue);
             Navigate(ShowIssue);
+        }
+
+        private DelegateCommand<IssueViewModel> _createCommand;
+
+        public ICommand CreateCommand
+        {
+            get { return _createCommand ?? (_createCommand = new DelegateCommand<IssueViewModel>(Create)); }
+        }
+
+        private void Create(IssueViewModel issue)
+        {
+            Navigate(CreateIssue);
+            CreateIssue.AddParent(issue);
         }
 
         private DelegateCommand<IssueViewModel> _editCommand;
@@ -83,7 +97,7 @@ namespace LifeBoard.ViewModels.Issues
 
         private void Edit(IssueViewModel issue)
         {
-            _actualIssue = issue.Model;
+            _actualIssue = issue;
             EditIssue.SetIssue(issue.Model);
             Navigate(EditIssue);
         }
@@ -97,7 +111,15 @@ namespace LifeBoard.ViewModels.Issues
 
         private void Delete(IssueViewModel issue)
         {
-            Delete(issue.Model);
+            if (MessageBox.Show((string)Application.Current.FindResource("DeleteMessage"),
+                (string)Application.Current.FindResource("DeleteHeader"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning,
+                MessageBoxResult.Cancel) == MessageBoxResult.OK)
+            {
+                Delete(issue.Model);
+                Back();
+            }
         }
 
         public void Delete(Issue issue)
@@ -145,7 +167,7 @@ namespace LifeBoard.ViewModels.Issues
                 var lastIssue = _issueHistory.Peek();
                 if (lastPage is EditIssueViewModel)
                 {
-                    EditIssue.SetIssue(lastIssue);
+                    EditIssue.SetIssue(lastIssue.Model);
                 }
                 if (lastPage is ShowIssueViewModel)
                 {

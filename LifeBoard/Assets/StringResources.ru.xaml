@@ -41,4 +41,6 @@
     <system:String x:Key="AddParentHeader">Add</system:String>
     <system:String x:Key="RemoveParentHeader">Del</system:String>
 
+    <system:String x:Key="DeleteMessage">Вы дейтсвительно хотите удалить эту задачу?</system:String>
+
 </ResourceDictionary>
