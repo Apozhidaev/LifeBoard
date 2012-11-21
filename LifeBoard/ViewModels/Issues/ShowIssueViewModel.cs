@@ -6,7 +6,7 @@ using LifeBoard.Commands;
 using LifeBoard.Models;
 using LifeBoard.Views.Issues;
 
-namespace LifeBoard.ViewModels
+namespace LifeBoard.ViewModels.Issues
 {
     public class ShowIssueViewModel : PageViewModelBase
     {
@@ -76,12 +76,17 @@ namespace LifeBoard.ViewModels
         {
             _issueModel = issue;
             _issue = issue.Model;
+            UpdateChildren();
+            UpdateSource();
+        }
+
+        public void UpdateChildren()
+        {
             Children.Clear();
             foreach (var child in _boardService.GetChildren(_issue.Id))
             {
                 Children.Add(new IssueViewModel(this, child));
             }
-            UpdateSource();
         }
 
         private void UpdateSource()
@@ -106,6 +111,7 @@ namespace LifeBoard.ViewModels
         private void NextState()
         {
             _issue.NextState();
+            _boardService.Submit();
             OnPropertyChanged("Status");
             OnPropertyChanged("NextStatus");
         }

@@ -91,7 +91,7 @@
     <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
     <Compile Include="ViewModels\Issues\MainIssuesViewModel.cs" />
     <Compile Include="ViewModels\ScrollViewerCorrector.cs" />
-    <Compile Include="ViewModels\ShowIssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ParentViewModelBase.cs" />
     <Compile Include="Views\Issues\EditIssueView.xaml.cs">

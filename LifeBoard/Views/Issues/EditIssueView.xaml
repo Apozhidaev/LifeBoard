@@ -10,14 +10,14 @@
     <Page.Resources>
         <DataTemplate x:Key="AddItemDataTemplate">
             <Grid>
-                <TextBlock Text="{Binding IssueType}" Height="30" HorizontalAlignment="Left" Margin="40,-7,0,0" Style="{DynamicResource GridGroupTextStyle}"/>
+                <TextBlock Text="{Binding IssueType}" Height="30" HorizontalAlignment="Left" Margin="40,-7,0,0" Style="{DynamicResource GroupTextStyle}"/>
                 <TextBlock Text="{Binding Summary}" Height="30" HorizontalAlignment="Left" Margin="90,7,0,0" Style="{DynamicResource SubtitleTextStyle}"/>
                 <Button Content="{StaticResource AddParentHeader}" Command="{Binding Parent.AddCommand}" CommandParameter="{Binding}" Width="30" Height="30" HorizontalAlignment="Left" Style="{DynamicResource ButtonStyle}" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="RemoveItemDataTemplate">
             <Grid>
-                <TextBlock Text="{Binding IssueType}" Height="30" HorizontalAlignment="Left" Margin="40,-7,0,0" Style="{DynamicResource GridGroupTextStyle}"/>
+                <TextBlock Text="{Binding IssueType}" Height="30" HorizontalAlignment="Left" Margin="40,-7,0,0" Style="{DynamicResource GroupTextStyle}"/>
                 <TextBlock Text="{Binding Summary}" Height="30" HorizontalAlignment="Left" Margin="90,7,0,0" Style="{DynamicResource SubtitleTextStyle}"/>
                 <Button Content="{StaticResource RemoveParentHeader}" Command="{Binding Parent.RemoveCommand}" CommandParameter="{Binding}" Width="30" Height="30" HorizontalAlignment="Left" Style="{DynamicResource ButtonStyle}" />
             </Grid>

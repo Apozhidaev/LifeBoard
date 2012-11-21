@@ -118,6 +118,25 @@ namespace LifeBoard.ViewModels.Issues
                 MessageBoxResult.Cancel) == MessageBoxResult.OK)
             {
                 Delete(issue.Model);
+            }
+        }
+
+        private DelegateCommand<IssueViewModel> _deleteBackCommand;
+
+        public ICommand DeleteBackCommand
+        {
+            get { return _deleteBackCommand ?? (_deleteBackCommand = new DelegateCommand<IssueViewModel>(DeleteBack)); }
+        }
+
+        private void DeleteBack(IssueViewModel issue)
+        {
+            if (MessageBox.Show((string)Application.Current.FindResource("DeleteMessage"),
+                (string)Application.Current.FindResource("DeleteHeader"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning,
+                MessageBoxResult.Cancel) == MessageBoxResult.OK)
+            {
+                Delete(issue.Model);
                 Back();
             }
         }
@@ -126,7 +145,14 @@ namespace LifeBoard.ViewModels.Issues
         {
             _boardService.DeleteIssue(issue);
             _boardService.Submit();
-            Issues.Search();
+            if (Current == Issues)
+            {
+                Issues.Search();
+            }
+            if(Current == ShowIssue)
+            {
+                ShowIssue.UpdateChildren();
+            }
         }
 
         private DelegateCommand<PageViewModelBase> _navigateCommand;

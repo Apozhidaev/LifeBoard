@@ -47,8 +47,8 @@ namespace LifeBoard
                     return;
                 }
                 _repository.SetFilePath(dlg.FileName);
+                _repository.Save();
             }
-            _repository.Save();
         }
     }
 }
