@@ -35,7 +35,7 @@ namespace LifeBoard.Views.Issues
             var issue = _dataGrid.SelectedValue as IssueViewModel;
             if (issue != null)
             {
-                ((MainIssuesViewModel)_model.Parent).Show(issue);
+                ((MainViewModel)_model.Parent).Show(issue);
             }
         }
     }

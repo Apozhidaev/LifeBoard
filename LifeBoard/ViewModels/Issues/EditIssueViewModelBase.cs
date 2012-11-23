@@ -127,7 +127,6 @@ namespace LifeBoard.ViewModels.Issues
                 if (_type != value)
                 {
                     _type = value;
-                    UpdateFilter();
                     OnPropertyChanged("Type");
                 }
             }
@@ -180,7 +179,7 @@ namespace LifeBoard.ViewModels.Issues
 
         protected override void OnNavigated()
         {
-            UpdateFilter();
+            Search();
             base.OnNavigated();
         }
 
@@ -194,21 +193,6 @@ namespace LifeBoard.ViewModels.Issues
         public void AddParent(IssueViewModel issue)
         {
             ParentIssues.Add(issue);
-            UpdateFilter();
-        }
-
-        private void UpdateFilter()
-        {
-            var model = BoardService.GetFilter(Type);
-            var fiter = Filter.ToModel();
-            fiter.Types = new HashSet<IssueType>(model.Types);
-            Filter.SetModel(model, fiter);
-            var parents = ParentIssues.Where(pi => !model.Types.Contains(pi.IssueType)).ToList();
-            foreach (var parent in parents)
-            {
-                ParentIssues.Remove(parent);
-            }
-            Search();
         }
 
         protected virtual IEnumerable<Issue> GetFilterIssues()

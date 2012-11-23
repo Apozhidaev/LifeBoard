@@ -23,7 +23,7 @@ namespace LifeBoard.Views.Dashboard
             var issue = _list.SelectedValue as IssueViewModel;
             if (issue != null)
             {
-                _model.Show(issue);
+                ((MainViewModel)_model.Parent).Show(issue);
             }
         }
     }

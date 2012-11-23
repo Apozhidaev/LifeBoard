@@ -88,6 +88,11 @@ namespace LifeBoard.Models
                     filter.Priorities.Contains(i.Priority));
         }
 
+        public IEnumerable<Issue> GetRootIssues()
+        {
+            return _document.Issues.Values.Where(i => !_childParents.ContainsKey(i.Id));
+        }
+
         public IEnumerable<Issue> GetIssuesExeptChildren(int id, IssueFilter filter)
         {
             var allChildren = new HashSet<int>();

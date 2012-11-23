@@ -6,6 +6,24 @@
         <Setter Property="my:ScrollViewerCorrector.FixScrolling" Value="True" />
     </Style>
 
+    <!-- Brushes -->
+
+    <SolidColorBrush x:Key="SelectedBrush1">#FFF4FBFF</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush2">AliceBlue</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush3">#FFBEE6FD</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush4">#FFC4E5F6</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush5">#FF3C7FB1</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush6">#FF2C628B</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush7">#FF1E395B</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BaseBrush1">White</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush2">WhiteSmoke</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush3">#FFEEEEEE</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush4">#FF999999</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush5">#FF777777</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush6">#FF555555</SolidColorBrush>
+    <SolidColorBrush x:Key="BaseBrush7">#FF000000</SolidColorBrush>
+
     <!-- Стили Button -->
 
     <Style x:Key="BackButtonStyle" TargetType="{x:Type Button}">
@@ -32,7 +50,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="#FFF4FBFF"/>
+                            <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="{StaticResource SelectedBrush2}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="#FF1E395B"/>
@@ -58,9 +76,8 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="#FFDDDDDD"/>
-        <Setter Property="BorderBrush" Value="#FF707070"/>
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="{StaticResource BaseBrush3}"/>
+        <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -74,7 +91,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsDefaulted" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="DimGray"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BaseBrush3}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
@@ -111,19 +128,19 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="#FFF4FBFF"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFF4FBFF"/>
-                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF1E395B"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush1}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush1}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="#FFF4FBFF"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFF4FBFF"/>
-                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="Black"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush1}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush1}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource BaseBrush7}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="AliceBlue"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="AliceBlue"/>
-                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF1E395B"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush2}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush2}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF9A9A9A"/>
@@ -137,7 +154,7 @@
         <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
         <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
         <Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MenuFontWeightKey}}"/>
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -314,7 +331,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="BorderBrush" Value="#FF3C7FB1"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SelectedBrush3}"/>
                 <Setter Property="BorderThickness" Value="1,0,0,0"/>
             </Trigger>
         </Style.Triggers>
@@ -335,7 +352,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=FocusBorderBrushKey, TypeInTargetAssembly={x:Type DataGrid}}}"/>
@@ -345,7 +362,7 @@
                     <Condition Property="IsSelected" Value="True"/>
                     <Condition Property="Selector.IsSelectionActive" Value="False"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -413,6 +430,65 @@
                             </Thumb.Style>
                         </Thumb>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CheckRadioFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="EmptyCheckBoxFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="1" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource CheckRadioFocusVisual}"/>
+        <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
+        <Setter Property="Background" Value="{StaticResource BaseBrush1}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BaseBrush3}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="5,0,0,0"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource EmptyCheckBoxFocusVisual}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
+                        <BulletDecorator.Bullet>
+                            <Border x:Name="CheckMark" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <Path x:Name="CheckMarkPath" Data="M 0 2.0 L 0 4.8 L 2.5 10 L 7.1 3.8 L 10 0 L 2.5 5.6 Z" Fill="{StaticResource SelectedBrush7}" FlowDirection="LeftToRight" Height="10" Margin="1,1,1,1" Width="10"/>
+                            </Border>
+                        </BulletDecorator.Bullet>
+                        <TextBlock Text="{TemplateBinding Content}" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter Property="Visibility" TargetName="CheckMarkPath" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Background" TargetName="CheckMark"  Value="{StaticResource BaseBrush1}"/>
+                            <Setter Property="Fill" TargetName="CheckMarkPath" Value="{StaticResource SelectedBrush5}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="CheckMark" Value="{StaticResource SelectedBrush3}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="CheckMark" Value="{StaticResource BaseBrush1}"/>
+                            <Setter Property="Fill" TargetName="CheckMarkPath" Value="{StaticResource BaseBrush4}"/>
+                            <Setter Property="Foreground" Value="{StaticResource BaseBrush4}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -13,12 +13,9 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private DashboardView _dashboardView;
 
-        private readonly MainViewModel _parent;
-
-        public DashboardViewModel(MainViewModel parent, BoardService boardService) 
+        public DashboardViewModel(object parent, BoardService boardService) 
             : base(parent)
         {
-            _parent = parent;
             _boardService = boardService;
             Issues = new ObservableCollection<IssueViewModel>();
             UpdateIssues();
@@ -39,26 +36,12 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private void UpdateIssues()
         {
-            var issues = _boardService.GetIssues(_boardService.GetInProgressFilter());
+            var issues = _boardService.GetRootIssues();
             Issues.Clear();
             foreach (var issue in issues)
             {
                 Issues.Add(new IssueViewModel(this, issue));
             }
-        }
-
-        private DelegateCommand<IssueViewModel> _showCommand;
-
-        public ICommand ShowCommand
-        {
-            get { return _showCommand ?? (_showCommand = new DelegateCommand<IssueViewModel>(Show)); }
-        }
-
-        public void Show(IssueViewModel issue)
-        {
-            _parent.Navigate(_parent.IssuesPage);
-            _parent.IssuesPage.ClearHistory();
-            _parent.IssuesPage.Show(issue);
         }
     }
 }

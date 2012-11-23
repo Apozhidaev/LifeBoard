@@ -89,7 +89,6 @@
     <Compile Include="ViewModels\Issues\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Issues\StatusViewModel.cs" />
     <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
-    <Compile Include="ViewModels\Issues\MainIssuesViewModel.cs" />
     <Compile Include="ViewModels\ScrollViewerCorrector.cs" />
     <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -124,10 +123,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Issues\MainIssuesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Issues\ShowIssueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,9 +148,6 @@
     </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Issues\MainIssuesView.xaml.cs">
-      <DependentUpon>MainIssuesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Issues\ShowIssueView.xaml.cs">
       <DependentUpon>ShowIssueView.xaml</DependentUpon>
