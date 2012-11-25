@@ -21,10 +21,19 @@ namespace LifeBoard.Views.Issues
     /// </summary>
     public partial class EditIssueView : Page
     {
+        private readonly EditIssueViewModelBase _model;
+
         public EditIssueView(EditIssueViewModelBase model)
         {
             InitializeComponent();
             DataContext = model;
+            _model = model;
+        }
+
+        private void OnDescSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            //_model.SelectionStart = _desc.SelectionStart;
+            _model.SelectionLength = _desc.SelectionLength;
         }
     }
 }

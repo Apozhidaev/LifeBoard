@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
 
-namespace LifeBoard.ViewModels
+namespace LifeBoard.Views
 {
     public class ScrollViewerCorrector
     {

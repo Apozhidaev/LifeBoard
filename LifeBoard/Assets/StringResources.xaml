@@ -43,4 +43,7 @@
 
     <system:String x:Key="DeleteMessage">Are you sure?</system:String>
 
+    <system:String x:Key="RootHeader">Is root</system:String>
+    <system:String x:Key="ActiveHeader">Is active</system:String>
+
 </ResourceDictionary>

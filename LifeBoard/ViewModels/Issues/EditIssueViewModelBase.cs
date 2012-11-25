@@ -22,6 +22,7 @@ namespace LifeBoard.ViewModels.Issues
         private DelegateCommand _submitCommand;
         private DelegateCommand<IssueViewModel> _addCommand;
         private DelegateCommand<IssueViewModel> _removeCommand;
+        private DelegateCommand<string> _insertCommand;
 
         public EditIssueViewModelBase(INavigatePage parent, BoardService boardService)
             : base(parent)
@@ -40,6 +41,18 @@ namespace LifeBoard.ViewModels.Issues
         public ICommand SubmitCommand
         {
             get { return _submitCommand ?? (_submitCommand = new DelegateCommand(Submit, CanSubmit)); }
+        }
+
+        public ICommand InsertCommand
+        {
+            get { return _insertCommand ?? (_insertCommand = new DelegateCommand<string>(Insert)); }
+        }
+
+        private void Insert(string obj)
+        {
+            int index = SelectionStart + 1;
+            Description = Description.Remove(SelectionStart, SelectionLength).Insert(SelectionStart, obj);
+            SelectionStart = index;
         }
 
         public ICommand AddCommand
@@ -78,6 +91,8 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         private DelegateCommand _searchCommand;
+
+        private int _selectionStart;
 
         public ICommand SearchCommand
         {
@@ -202,12 +217,27 @@ namespace LifeBoard.ViewModels.Issues
 
         protected virtual void ClearForm()
         {
-            Type = IssueType.Task;
+            Type = IssueType.Note;
             Priority = 3;
             Summary = String.Empty;
             Description = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
+        }
+
+        public int SelectionLength { get; set; }
+
+        public int SelectionStart
+        {
+            get { return _selectionStart; }
+            set
+            {
+                if (_selectionStart != value)
+                {
+                    _selectionStart = value;
+                    OnPropertyChanged("SelectionStart");
+                }
+            }
         }
     }
 }

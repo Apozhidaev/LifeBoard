@@ -56,6 +56,13 @@ namespace LifeBoard.Models
             return _document.Issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
         }
 
+        public IEnumerable<Issue> GetRootChildren(int id)
+        {
+            var children = GetChildren(id).ToList();
+            var allChildren = GetAllChildren(id).ToList();
+            return children.Where(child => allChildren.All(c => !_childParents[child.Id].Contains(c.Id))).ToList();
+        }
+
         public IEnumerable<Issue> GetAllChildren(int id)
         {
             var allChildren = new HashSet<int>();

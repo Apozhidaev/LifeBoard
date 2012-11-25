@@ -34,6 +34,7 @@ namespace LifeBoard.ViewModels
             ShowIssue = new ShowIssueViewModel(this, boardService);
             _current = Dashboard;
             _backPage = Dashboard;
+            _current.IsNavigated = true;
         }
 
         public PageViewModelBase Current

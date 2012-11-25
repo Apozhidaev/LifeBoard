@@ -36,7 +36,8 @@
     		AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
     		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
             MouseDoubleClick="OnDataGridMouseDoubleClick" BorderThickness="0"
-            Background="{StaticResource BaseBrush3}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
+            Background="{StaticResource BaseBrush3}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}"
+            ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}" HeadersVisibility="Column">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                 <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>

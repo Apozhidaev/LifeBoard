@@ -1,17 +1,110 @@
-<Page x:Class="LifeBoard.Views.Issues.ShowIssueView"
+<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      x:Class="LifeBoard.Views.Issues.ShowIssueView" 
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
 	Title="ShowIssueView">
+    <Page.Resources>
+        <Style x:Key="ComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <TextBlock x:Name="contentPresenter" Text="{StaticResource StatusHeader}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource CaptionGroupTextStyle}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BaseBrush3}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{StaticResource BaseBrush4}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="StatusComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
+            <Setter Property="Background" Value="{StaticResource BaseBrush3}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Border x:Name="Border" BorderBrush="Transparent" BorderThickness="0" Background="{TemplateBinding Background}">
+                                    <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                                        <Border x:Name="DropDownBorder" BorderBrush="{StaticResource BaseBrush3}" BorderThickness="0" Background="{StaticResource BaseBrush2}">
+                                            <ScrollViewer>
+                                                <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Popup>
+                                </Border>
+                                <ToggleButton ClickMode="Press" Focusable="false" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0" MinWidth="0" MinHeight="0" Style="{StaticResource ComboBoxTransparentButtonStyle}" Width="Auto"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDropDownOpen" Value="false">
+                                <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter Property="MinHeight" TargetName="DropDownBorder" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="true">
+                                <Setter Property="MinWidth" TargetName="DropDownBorder" Value="105"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
-        <Button Content="{Binding NextStatus}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding NextStateCommand}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{StaticResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,350,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{StaticResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,130,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{StaticResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,240,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <ComboBox ItemsSource="{Binding Statuses}" SelectedValue="{Binding Status}" Height="30" Width="100"  HorizontalAlignment="Right" Margin="0,10,350,0" VerticalAlignment="Top" Style="{DynamicResource StatusComboBoxStyle}" FontSize="14" />
+        <Button Content="{StaticResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{StaticResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{StaticResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Grid>
@@ -19,10 +112,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Height="23" Margin="200,34,20,0" TextWrapping="Wrap" Text="{Binding Summary,Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
-                    <TextBox MaxWidth="800" Margin="200,79,0,0" TextWrapping="Wrap" Text="{Binding Description,Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{StaticResource SummaryLabel}" HorizontalAlignment="Left" Margin="100,27,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <TextBlock Text="{StaticResource DescriptionLabel}" HorizontalAlignment="Left" Margin="100,72,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                    <TextBox Height="23" Margin="200,34,20,0" TextWrapping="Wrap" Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
+                    <TextBox MaxWidth="800" Margin="200,79,0,0" TextWrapping="Wrap" Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{StaticResource SummaryLabel}" HorizontalAlignment="Left" Margin="70,27,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                    <TextBlock Text="{StaticResource DescriptionLabel}" HorizontalAlignment="Left" Margin="70,72,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                     <TextBlock Grid.Column="1" Text="{StaticResource StatusLabel}" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                     <TextBlock Grid.Column="1" Text="{StaticResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                     <TextBlock Grid.Column="1" Text="{Binding Status}" HorizontalAlignment="Left" Margin="100,35,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
@@ -31,22 +124,24 @@
                     <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,103,20,0" VerticalAlignment="Top"/>
                     <TextBlock Grid.Column="1" Text="{StaticResource TypeLabel}" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                     <TextBlock Grid.Column="1" Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="100,120,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                    <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,144,20,0" VerticalAlignment="Top"/>                    
+                    <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,144,20,0" VerticalAlignment="Top"/>
                 </Grid>
-                <Grid Visibility="{Binding ChildrenVisibility}" Margin="0,10,0,0">
-                    <TextBlock Text="{StaticResource SubissuesLabel}" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <DataGrid x:Name="_dataGrid" Grid.ColumnSpan="2" 
-    		                IsReadOnly="True"
-    		                HorizontalAlignment="Stretch"
-    		                Margin="200,10,20,20"
-    		                VerticalAlignment="Stretch"
-    		                ItemsSource="{Binding Children}"
-    		                RowStyle="{DynamicResource IssueDataGridRowStyle}"
-    		                AlternatingRowBackground="WhiteSmoke" 
-    		                AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
-    		                GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
-                            BorderThickness="0" Background="{StaticResource BaseBrush1}" MouseDoubleClick="OnDataGridMouseDoubleClick"
-                            RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}">
+                <Grid Visibility="{Binding ChildrenVisibility}" Margin="0,30,0,0">
+                    <CheckBox Height="25" Content="{StaticResource RootHeader}" IsChecked="{Binding IsRootChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
+                    <CheckBox Height="25" Content="{StaticResource ActiveHeader}" IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,65,0,0"/>
+                    <TextBlock Text="{StaticResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                    <DataGrid x:Name="_dataGrid" 
+						IsReadOnly="True"
+						HorizontalAlignment="Stretch"
+						Margin="200,10,20,20"
+						ItemsSource="{Binding Children}"
+						RowStyle="{DynamicResource IssueDataGridRowStyle}"
+						AlternatingRowBackground="WhiteSmoke" 
+						AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
+						GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
+						BorderThickness="0" Background="{StaticResource BaseBrush1}" MouseDoubleClick="OnDataGridMouseDoubleClick"
+						RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}" HeadersVisibility="Column"
+						ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                             <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>

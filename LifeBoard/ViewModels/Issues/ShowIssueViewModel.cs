@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,6 +34,15 @@ namespace LifeBoard.ViewModels.Issues
 
         public ObservableCollection<IssueViewModel> Children { get; private set; }
 
+        public IEnumerable<IssueStatus> Statuses
+        {
+            get { return _boardService.GetStatuses(); }
+        }
+
+        public bool IsRootChildren { get; set; }
+
+        public bool IsActiveChildren { get; set; }
+
         public string Summary
         {
             get { return _issue.Summary; }
@@ -55,11 +66,15 @@ namespace LifeBoard.ViewModels.Issues
         public IssueStatus Status
         {
             get { return _issue.Status; }
-        }
-
-        public IssueStatus NextStatus
-        {
-            get { return _issue.NextStatus; }
+            set
+            {
+                if (_issue.Status != value)
+                {
+                    _issue.Status = value;
+                    _boardService.Submit();
+                    OnPropertyChanged("Status");
+                }
+            }
         }
 
         public override Page Page
@@ -80,10 +95,22 @@ namespace LifeBoard.ViewModels.Issues
             UpdateSource();
         }
 
+        private DelegateCommand _updateChildrenCommand;
+
+        public ICommand UpdateChildrenCommand
+        {
+            get { return _updateChildrenCommand ?? (_updateChildrenCommand = new DelegateCommand(UpdateChildren)); }
+        }
+
         public void UpdateChildren()
         {
             Children.Clear();
-            foreach (var child in _boardService.GetChildren(_issue.Id))
+            IEnumerable<Issue> children = IsRootChildren ? _boardService.GetRootChildren(_issue.Id) : _boardService.GetChildren(_issue.Id);
+            if (IsActiveChildren)
+            {
+                children = children.Where(c => c.Status != IssueStatus.Closed);
+            }
+            foreach (var child in children)
             {
                 Children.Add(new IssueViewModel(this, child));
             }
@@ -97,23 +124,7 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("Priority");
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
-            OnPropertyChanged("NextStatus");
             OnPropertyChanged("ChildrenVisibility");
-        }
-
-        private DelegateCommand _nextStateCommand;
-
-        public ICommand NextStateCommand
-        {
-            get { return _nextStateCommand ?? (_nextStateCommand = new DelegateCommand(NextState)); }
-        }
-
-        private void NextState()
-        {
-            _issue.NextState();
-            _boardService.Submit();
-            OnPropertyChanged("Status");
-            OnPropertyChanged("NextStatus");
         }
     }
 }

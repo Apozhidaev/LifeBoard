@@ -11,7 +11,7 @@
     <system:String x:Key="RemoveHeader">Удалить</system:String>
     <system:String x:Key="ShowHeader">Показать</system:String>
 
-    <system:String x:Key="DashboardHeader">Дашборд</system:String>
+    <system:String x:Key="DashboardHeader">Дошборд</system:String>
     <system:String x:Key="IssuesHeader">Задачи</system:String>
     <system:String x:Key="ConfigurationHeader">Конфигурация</system:String>
 
@@ -42,5 +42,8 @@
     <system:String x:Key="RemoveParentHeader">Del</system:String>
 
     <system:String x:Key="DeleteMessage">Вы дейтсвительно хотите удалить эту задачу?</system:String>
+
+    <system:String x:Key="RootHeader">Корневые</system:String>
+    <system:String x:Key="ActiveHeader">Активные</system:String>
 
 </ResourceDictionary>

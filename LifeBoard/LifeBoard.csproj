@@ -45,6 +45,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -80,6 +81,7 @@
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\IssueLink.cs" />
+    <Compile Include="Views\TextBoxCorrector.cs" />
     <Compile Include="ViewModels\INavigatePage.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\EditIssueViewModel.cs" />
@@ -89,7 +91,7 @@
     <Compile Include="ViewModels\Issues\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Issues\StatusViewModel.cs" />
     <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
-    <Compile Include="ViewModels\ScrollViewerCorrector.cs" />
+    <Compile Include="Views\ScrollViewerCorrector.cs" />
     <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ParentViewModelBase.cs" />

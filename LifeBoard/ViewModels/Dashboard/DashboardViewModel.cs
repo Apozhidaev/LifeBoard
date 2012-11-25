@@ -18,7 +18,6 @@ namespace LifeBoard.ViewModels.Dashboard
         {
             _boardService = boardService;
             Issues = new ObservableCollection<IssueViewModel>();
-            UpdateIssues();
         }
 
         public ObservableCollection<IssueViewModel> Issues { get; private set; }
