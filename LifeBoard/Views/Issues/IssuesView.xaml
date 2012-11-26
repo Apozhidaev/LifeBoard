@@ -14,9 +14,9 @@
                 Command="{Binding Parent.NavigateCommand}" CommandParameter="{Binding Parent.CreateIssue}" Style="{DynamicResource MainButtonStyle}" />
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
             <Grid Margin="20,0,10,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{StaticResource TypesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Left" Margin="0,145,0,0" TextWrapping="Wrap" Text="{StaticResource StatusesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
-                <TextBlock HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap" Text="{StaticResource PrioritiesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,7,0,0" TextWrapping="Wrap" Text="{StaticResource TypesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,152,0,0" TextWrapping="Wrap" Text="{StaticResource StatusesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,292,0,0" TextWrapping="Wrap" Text="{StaticResource PrioritiesLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"/>
                 <Rectangle Fill="{StaticResource SelectedBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="0,32,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="{StaticResource SelectedBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="0,177,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="{StaticResource SelectedBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="0,317,0,0" VerticalAlignment="Top"/>
@@ -43,6 +43,7 @@
                 <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
                 <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                 <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                <DataGridTextColumn Header="{StaticResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource GroupTextStyle}"/>
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>

@@ -28,6 +28,7 @@
     <system:String x:Key="PriorityHeader">Priority</system:String>
     <system:String x:Key="SummaryHeader">Summary</system:String>
     <system:String x:Key="DescriptionHeader">Description</system:String>
+    <system:String x:Key="CreationDateHeader">Creation date</system:String>
 
     <system:String x:Key="TypeLabel">Type:</system:String>
     <system:String x:Key="StatusLabel">Status:</system:String>
@@ -43,7 +44,14 @@
 
     <system:String x:Key="DeleteMessage">Are you sure?</system:String>
 
-    <system:String x:Key="RootHeader">Is root</system:String>
-    <system:String x:Key="ActiveHeader">Is active</system:String>
+    <system:String x:Key="IsRootHeader">Is root</system:String>
+    <system:String x:Key="IsActiveHeader">Is active</system:String>
+
+    <system:String x:Key="RootHeader">Root</system:String>
+    <system:String x:Key="CustomHeader">Custom</system:String>
+
+    <system:String x:Key="WebLinkLabel">Web link:</system:String>
+    <system:String x:Key="DashboardLabel">Dashboard:</system:String>
+    <system:String x:Key="IsCustomRootMessage">Show on dashboard</system:String>
 
 </ResourceDictionary>

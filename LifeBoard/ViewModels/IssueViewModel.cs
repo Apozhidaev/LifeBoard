@@ -1,4 +1,5 @@
 ﻿using LifeBoard.Models;
+using System;
 
 namespace LifeBoard.ViewModels
 {
@@ -17,31 +18,31 @@ namespace LifeBoard.ViewModels
         public int Priority
         {
             get { return _issue.Priority; }
-            //set { _issue.Priority = value; }
         }
 
         public string Summary
         {
             get { return _issue.Summary; }
-            //set { _issue.Summary = value; }
         }
 
         public string Description
         {
             get { return _issue.Description; }
-            //set { _issue.Description = value; }
         }
 
         public IssueType IssueType
         {
             get { return _issue.Type; }
-            //set { _issue.Type = value; }
         }
 
         public IssueStatus Status
         {
             get { return _issue.Status; }
-            //set { _issue.Status = value; }
+        }
+
+        public string CreationDate
+        {
+            get { return _issue.CreationDate.ToShortDateString(); }
         }
 
         public Issue Model

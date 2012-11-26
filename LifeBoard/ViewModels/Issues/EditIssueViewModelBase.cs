@@ -16,6 +16,9 @@ namespace LifeBoard.ViewModels.Issues
         private IssueType _type;
         private string _summary;
         private string _description;
+        private int _selectionStart;
+        private string _webLink;
+        private bool _isCustomRoot;
         private EditIssueView _editIssueView;  
         private readonly INavigatePage _parent;
         private readonly BoardService _boardService;    
@@ -91,8 +94,6 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         private DelegateCommand _searchCommand;
-
-        private int _selectionStart;
 
         public ICommand SearchCommand
         {
@@ -183,6 +184,32 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
+        public string WebLink
+        {
+            get { return _webLink; }
+            set
+            {
+                if (_webLink != value)
+                {
+                    _webLink = value;
+                    OnPropertyChanged("WebLink");
+                }
+            }
+        }
+
+        public bool IsCustomRoot
+        {
+            get { return _isCustomRoot; }
+            set
+            {
+                if (_isCustomRoot != value)
+                {
+                    _isCustomRoot = value;
+                    OnPropertyChanged("IsCustomRoot");
+                }
+            }
+        }
+
         #endregion
 
         #region Overrides
@@ -221,6 +248,8 @@ namespace LifeBoard.ViewModels.Issues
             Priority = 3;
             Summary = String.Empty;
             Description = String.Empty;
+            IsCustomRoot = false;
+            WebLink = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
         }

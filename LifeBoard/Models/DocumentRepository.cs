@@ -33,7 +33,7 @@ namespace LifeBoard.Models
             get { return Path.IsPathRooted(_path); }
         }
 
-        public int CreateIssue(IssueType type, int priority, string summary, string description)
+        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string httpLink)
         {
             int id = NewIssueId();
             _document.Issues.Add(id, new Issue
@@ -43,7 +43,10 @@ namespace LifeBoard.Models
                 Status = IssueStatus.Open,
                 Priority = priority,
                 Summary = summary,
-                Description = description
+                Description = description,
+                IsCustomRoot = isCustomRoot,
+                WebLink = httpLink,
+                CreationDate = DateTime.Now
             });
             return id;
         }
@@ -110,7 +113,10 @@ namespace LifeBoard.Models
                 Summary = i.Summary,
                 Description = i.Description,
                 Type = i.Type,
-                Status = i.Status
+                Status = i.Status,
+                CreationDate = i.CreationDate,
+                WebLink = i.WebLink,
+                IsCustomRoot = i.IsCustomRoot
             }).ToDictionary(i => i.Id);
             _document.IssuesLinks = document.IssuesLinks.Select(pi => new IssueLink
             {
@@ -131,7 +137,10 @@ namespace LifeBoard.Models
                     Summary = i.Summary,
                     Description = i.Description,
                     Type = i.Type,
-                    Status = i.Status
+                    Status = i.Status,
+                    CreationDate = i.CreationDate,
+                    WebLink = i.WebLink,
+                    IsCustomRoot = i.IsCustomRoot
                 }).ToArray(),
                 IssuesLinks = _document.IssuesLinks.Select(pi => new XMLDocuments.V1.IssueLinks
                 {

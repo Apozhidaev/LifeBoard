@@ -100,6 +100,11 @@ namespace LifeBoard.Models
             return _document.Issues.Values.Where(i => !_childParents.ContainsKey(i.Id));
         }
 
+        public IEnumerable<Issue> GetCustomRootIssues()
+        {
+            return _document.Issues.Values.Where(i => i.IsCustomRoot);
+        }
+
         public IEnumerable<Issue> GetIssuesExeptChildren(int id, IssueFilter filter)
         {
             var allChildren = new HashSet<int>();
@@ -137,9 +142,9 @@ namespace LifeBoard.Models
             }
         }
 
-        public int CreateIssue(IssueType type, int priority, string summary, string description)
+        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string httpLink)
         {
-            return _repository.CreateIssue(type, priority, summary, description);
+            return _repository.CreateIssue(type, priority, summary, description, isCustomRoot, httpLink);
         }
 
         public IEnumerable<int> GetPriorities()

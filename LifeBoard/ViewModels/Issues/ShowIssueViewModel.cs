@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,6 +55,11 @@ namespace LifeBoard.ViewModels.Issues
             get { return _issue.Description; }
         }
 
+        public string WebLink
+        {
+            get { return _issue.WebLink; }
+        }
+
         public int Priority
         {
             get { return _issue.Priority; }
@@ -102,6 +109,25 @@ namespace LifeBoard.ViewModels.Issues
             get { return _updateChildrenCommand ?? (_updateChildrenCommand = new DelegateCommand(UpdateChildren)); }
         }
 
+        private DelegateCommand _goHttpCommand;
+
+        public ICommand GoHttpCommand
+        {
+            get { return _goHttpCommand ?? (_goHttpCommand = new DelegateCommand(GoHttp)); }
+        }
+
+        public void GoHttp()
+        {
+            try
+            {
+                Process.Start(WebLink);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to link", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public void UpdateChildren()
         {
             Children.Clear();
@@ -124,6 +150,7 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("Priority");
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
+            OnPropertyChanged("WebLink");
             OnPropertyChanged("ChildrenVisibility");
         }
     }

@@ -1,13 +1,8 @@
-﻿namespace LifeBoard.Models.XMLDocuments.V1
+﻿using System;
+namespace LifeBoard.Models.XMLDocuments.V1
 {
     public class Issue
     {
-        public Issue()
-        {
-            Type = IssueType.Task;
-            Status = IssueStatus.Open;
-        }
-
         public int Id { get; set; }
 
         public int Priority { get; set; }
@@ -19,5 +14,11 @@
         public IssueType Type { get; set; }
 
         public IssueStatus Status { get; set; }
+
+        public bool IsCustomRoot { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public string WebLink { get; set; }
     }
 }

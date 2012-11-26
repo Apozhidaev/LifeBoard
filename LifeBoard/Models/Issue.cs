@@ -25,6 +25,12 @@ namespace LifeBoard.Models
 
         public IssueStatus Status { get; set; }
 
+        public bool IsCustomRoot { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public string WebLink { get; set; }
+
         public IssueStatus NextStatus
         { 
             get

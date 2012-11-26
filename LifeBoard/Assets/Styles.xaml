@@ -11,8 +11,10 @@
 
     <SolidColorBrush x:Key="SelectedBrush1">#FFF4FBFF</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush2">AliceBlue</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush25">#FFD7EFFE</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush3">#FFBEE6FD</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush4">#FFC4E5F6</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush45">#FF80B2D3</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush5">#FF3C7FB1</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush6">#FF2C628B</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush7">#FF1E395B</SolidColorBrush>
@@ -56,6 +58,37 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="#FF1E395B"/>
                             <Setter Property="Opacity" TargetName="ArrowGlyph" Value="1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource SelectedBrush5}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <TextBlock TextDecorations="Underline" Style="{DynamicResource BodyGroupTextStyle}" x:Name="contentPresenter" Text="{TemplateBinding Content}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="TextElement.Foreground" TargetName="border" Value="{StaticResource SelectedBrush45}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="TextElement.Foreground" TargetName="border" Value="{StaticResource SelectedBrush4}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource BaseBrush4}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -121,6 +154,34 @@
 
     <!-- Стили Menu -->
 
+    <ControlTemplate x:Key="DashdoardMenuItemControlTemplate" TargetType="{x:Type MenuItem}">
+        <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+            <Grid>
+                <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource BodyGroupTextStyle}" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush25}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush25}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush3}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush3}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource BaseBrush7}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush4}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush4}"/>
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF9A9A9A"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <ControlTemplate x:Key="MenuItemControlTemplate" TargetType="{x:Type MenuItem}">
         <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
             <Grid>
@@ -180,20 +241,20 @@
     </Style>
 
     <Style x:Key="BaselineTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BasicTextStyle}">
-        <Setter Property="LineHeight" Value="20"/>
+        <!--<Setter Property="LineHeight" Value="20"/>-->
         <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
     </Style>
 
     <Style x:Key="HeaderTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaselineTextStyle}">
         <Setter Property="FontSize" Value="26"/>
         <Setter Property="FontWeight" Value="Light"/>
-        <Setter Property="LineHeight" Value="40"/>
+        <!--<Setter Property="LineHeight" Value="40"/>-->
     </Style>
 
     <Style x:Key="SubheaderTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaselineTextStyle}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontWeight" Value="Light"/>
-        <Setter Property="LineHeight" Value="30"/>
+        <!--<Setter Property="LineHeight" Value="30"/>-->
     </Style>
 
     <Style x:Key="BoldTitleTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaselineTextStyle}">
@@ -232,28 +293,28 @@
 
     <Style x:Key="GroupHeaderTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="26.667"/>
-        <Setter Property="LineHeight" Value="30"/>
+        <!--<Setter Property="LineHeight" Value="30"/>-->
     </Style>
 
     <Style x:Key="SubGroupHeaderTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="LineHeight" Value="30"/>
+        <!--<Setter Property="LineHeight" Value="30"/>-->
     </Style>
 
     <Style x:Key="GroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="LineHeight" Value="30"/>
+        <!--<Setter Property="LineHeight" Value="30"/>-->
     </Style>
 
     <Style x:Key="BodyGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="LineHeight" Value="30"/>
+        <!--<Setter Property="LineHeight" Value="20"/>-->
     </Style>
 
     <Style x:Key="CaptionGroupTextStyle" TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource GroupHeaderTextStyleBase}">
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="LineHeight" Value="20"/>
+        <!--<Setter Property="LineHeight" Value="20"/>-->
     </Style>
 
 
@@ -354,7 +415,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ContentPresenter Margin="10,0,10,0" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <ContentPresenter Margin="10,0,10,0" VerticalAlignment="Center" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

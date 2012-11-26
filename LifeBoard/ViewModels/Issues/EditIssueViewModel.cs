@@ -43,6 +43,8 @@ namespace LifeBoard.ViewModels.Issues
             Priority = _issue.Priority;
             Summary = _issue.Summary;
             Description = _issue.Description;
+            IsCustomRoot = _issue.IsCustomRoot;
+            WebLink = _issue.WebLink;
         }
 
         private void ToIssue()
@@ -51,6 +53,8 @@ namespace LifeBoard.ViewModels.Issues
             _issue.Priority = Priority;
             _issue.Summary = Summary;
             _issue.Description = Description;
+            _issue.IsCustomRoot = IsCustomRoot;
+            _issue.WebLink = WebLink;
         }
 
         protected override IEnumerable<Issue> GetFilterIssues()

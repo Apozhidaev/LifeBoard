@@ -28,6 +28,7 @@
     <system:String x:Key="PriorityHeader">Приоритет</system:String>
     <system:String x:Key="SummaryHeader">Заголовок</system:String>
     <system:String x:Key="DescriptionHeader">Описание</system:String>
+    <system:String x:Key="CreationDateHeader">Дата создания</system:String>
 
     <system:String x:Key="TypeLabel">Тип:</system:String>
     <system:String x:Key="StatusLabel">Статус:</system:String>
@@ -45,5 +46,9 @@
 
     <system:String x:Key="RootHeader">Корневые</system:String>
     <system:String x:Key="ActiveHeader">Активные</system:String>
+
+    <system:String x:Key="WebLinkLabel">Веб ссылка:</system:String>
+    <system:String x:Key="DashboardLabel">Дашборд:</system:String>
+    <system:String x:Key="IsCustomRootMessage">Показывать на дашборде</system:String>
 
 </ResourceDictionary>
