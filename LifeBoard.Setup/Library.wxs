@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <?define ProductName="Life Board" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="3FDDCFB3-98B5-431A-B914-0A252A33A8C1"?>
+  <?define UpgradeCode="ED05BDD0-BFB7-4C50-BD73-2E3A26FD84DF"?>
+  <?define Manufacturer="umamba.com"?>
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
+          <Component Id="ProductComponent" Guid="D2D6DFCC-3F44-4A9C-9AFA-49D87581371E">
+            <File Id='Calc' DiskId='1' Source='..\LifeBoard\bin\Release\LifeBoard.exe'/>
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)">
+          <Component Id="ApplicationShortcutLifeBoard" Guid="895A7223-E1BB-43FD-938B-579EF1FAC040">
+            <Shortcut Id="ShortcutLifeBoard"
+                 Name="Life Board"
+                 Description="$(var.ProductName)"
+                 Target="[INSTALLLOCATION]LifeBoard.exe"
+                 WorkingDirectory="INSTALLLOCATION"/>
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="LifeBoard" Level="1">
+      <ComponentRef Id="ProductComponent" />
+      <ComponentRef Id="ApplicationShortcutLifeBoard" />
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+    <UIRef Id="WixUI_InstallDir"/>
+
+  </Product>
+</Wix>
