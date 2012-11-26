@@ -19,6 +19,6 @@ namespace LifeBoard.Models.XMLDocuments.V1
 
         public DateTime CreationDate { get; set; }
 
-        public string WebLink { get; set; }
+        public string WebSite { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace LifeBoard.ViewModels.Issues
         private string _summary;
         private string _description;
         private int _selectionStart;
-        private string _webLink;
+        private string _webSite;
         private bool _isCustomRoot;
         private EditIssueView _editIssueView;  
         private readonly INavigatePage _parent;
@@ -184,15 +184,15 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
-        public string WebLink
+        public string WebSite
         {
-            get { return _webLink; }
+            get { return _webSite; }
             set
             {
-                if (_webLink != value)
+                if (_webSite != value)
                 {
-                    _webLink = value;
-                    OnPropertyChanged("WebLink");
+                    _webSite = value;
+                    OnPropertyChanged("WebSite");
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace LifeBoard.ViewModels.Issues
             Summary = String.Empty;
             Description = String.Empty;
             IsCustomRoot = false;
-            WebLink = String.Empty;
+            WebSite = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
         }

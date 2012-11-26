@@ -7,12 +7,6 @@ namespace LifeBoard.Models
 {
     public class Issue
     {
-        public Issue()
-        {
-            Type = IssueType.Task;
-            Status = IssueStatus.Open;
-        }
-
         public int Id { get; set; }
 
         public int Priority { get; set; }
@@ -29,7 +23,7 @@ namespace LifeBoard.Models
 
         public DateTime CreationDate { get; set; }
 
-        public string WebLink { get; set; }
+        public string WebSite { get; set; }
 
         public IssueStatus NextStatus
         { 

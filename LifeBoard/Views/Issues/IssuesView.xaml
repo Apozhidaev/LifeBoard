@@ -48,7 +48,7 @@
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <Grid Height="150" Background="White">
-                        <TextBlock Margin="15,2,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                        <TextBlock Margin="15,10,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
                         <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
                     </Grid>
                 </DataTemplate>

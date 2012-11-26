@@ -35,6 +35,7 @@
     <system:String x:Key="PriorityLabel">Priority:</system:String>
     <system:String x:Key="SummaryLabel">Summary:</system:String>
     <system:String x:Key="DescriptionLabel">Description:</system:String>
+    <system:String x:Key="CreationDateLabel">Creation date:</system:String>
 
     <system:String x:Key="SubissuesLabel">Sub-issues:</system:String>
     <system:String x:Key="ParentsLabel">Parents:</system:String>
@@ -50,7 +51,7 @@
     <system:String x:Key="RootHeader">Root</system:String>
     <system:String x:Key="CustomHeader">Custom</system:String>
 
-    <system:String x:Key="WebLinkLabel">Web link:</system:String>
+    <system:String x:Key="WebLinkLabel">Web site:</system:String>
     <system:String x:Key="DashboardLabel">Dashboard:</system:String>
     <system:String x:Key="IsCustomRootMessage">Show on dashboard</system:String>
 

@@ -51,7 +51,7 @@
                 <Button Content="§" Command="{Binding InsertCommand}" CommandParameter="§" Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="140,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="23"/>
                 <Button Content="☺" Command="{Binding InsertCommand}" CommandParameter="☺" Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="165,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="23"/>
                 <TextBlock Text="{StaticResource WebLinkLabel}" HorizontalAlignment="Left" Margin="48,340,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                <TextBox Height="25" Margin="15,340,20,0" TextWrapping="Wrap" Text="{Binding WebLink}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TitleTextBoxStyle}"/>
+                <TextBox Height="25" Margin="15,340,20,0" TextWrapping="Wrap" Text="{Binding WebSite}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TitleTextBoxStyle}"/>
                 <TextBlock Text="{StaticResource DashboardLabel}" HorizontalAlignment="Left" Margin="48,387,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                 <CheckBox Grid.Column="1" Content="{StaticResource IsCustomRootMessage}" IsChecked="{Binding IsCustomRoot}" Margin="15,390,20,0" />
                 <Grid Grid.Column="1" Margin="15,440,20,13">

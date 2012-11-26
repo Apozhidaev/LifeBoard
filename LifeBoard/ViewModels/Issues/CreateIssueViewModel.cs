@@ -26,7 +26,7 @@ namespace LifeBoard.ViewModels.Issues
 
         protected override void Submit()
         {
-            int id = BoardService.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, WebLink);
+            int id = BoardService.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, WebSite);
             var parents = ParentIssues.Select(pi => pi.Model.Id);
             BoardService.SetParents(id, parents);
             BoardService.Submit();

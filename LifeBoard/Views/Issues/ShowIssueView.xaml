@@ -110,25 +110,38 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="225"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Height="23" Margin="200,35,20,0" TextWrapping="Wrap" Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
-                    <TextBox MaxWidth="800" Margin="200,80,0,40" TextWrapping="Wrap" Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Top" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{StaticResource SummaryLabel}" HorizontalAlignment="Left" Margin="70,35,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <TextBlock Text="{StaticResource DescriptionLabel}" HorizontalAlignment="Left" Margin="70,80,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <TextBlock Text="{StaticResource WebLinkLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Bottom" Style="{DynamicResource SubheaderTextStyle}" />
-                    <Button Margin="200,0,0,3" Style="{StaticResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebLink, Mode=OneWay}" VerticalAlignment="Bottom" />
-                    <TextBlock Grid.Column="1" Text="{StaticResource StatusLabel}" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Grid.Column="1" Text="{StaticResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Grid.Column="1" Text="{Binding Status}" HorizontalAlignment="Left" Margin="100,35,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                    <TextBlock Grid.Column="1" Text="{Binding Priority}" HorizontalAlignment="Left" Margin="100,80,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                    <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,62,20,0" VerticalAlignment="Top"/>
-                    <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,103,20,0" VerticalAlignment="Top"/>
-                    <TextBlock Grid.Column="1" Text="{StaticResource TypeLabel}" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Grid.Column="1" Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="100,120,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                    <Rectangle Grid.Column="1" Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,144,20,0" VerticalAlignment="Top"/>
+                    <Grid Grid.Column="1" Margin="0,30,0,30">
+                        <TextBlock Text="{StaticResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />                       
+                        <TextBlock Text="{StaticResource StatusLabel}" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                        <TextBlock Text="{StaticResource TypeLabel}" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                        <TextBlock Text="{StaticResource CreationDateLabel}" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                        <TextBlock Text="{Binding Priority}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                        <TextBlock Text="{Binding Status}" HorizontalAlignment="Left" Margin="120,40,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                        <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                        <TextBlock Text="{Binding CreationDate}" HorizontalAlignment="Left" Margin="120,120,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,70,20,0" VerticalAlignment="Top"/>                       
+                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,110,20,0" VerticalAlignment="Top"/>
+                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,150,20,0" VerticalAlignment="Top"/>
+                    </Grid>
+                    <StackPanel Orientation="Vertical" Margin="70,30,0,0">
+                        <Grid Margin="0,0,0,30">
+                            <TextBlock Text="{StaticResource SummaryLabel}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource SubheaderTextStyle}" />
+                            <TextBox Height="23" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
+                        </Grid>
+                        <Grid Visibility="{Binding DescriptionVisibility}" Margin="0,0,0,30">
+                            <TextBlock Text="{StaticResource DescriptionLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                            <TextBox MaxWidth="800" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <Grid Visibility="{Binding WebLinkVisibility}" Margin="0,0,0,30">
+                            <TextBlock Text="{StaticResource WebLinkLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                            <Button Margin="130,0,0,0" Style="{StaticResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}" VerticalAlignment="Center" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
-                <Grid Visibility="{Binding ChildrenVisibility}" Margin="0,30,0,0">
+                <Grid Visibility="{Binding ChildrenVisibility}">
                     <CheckBox Height="25" Content="{StaticResource IsRootHeader}" IsChecked="{Binding IsRootChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
                     <CheckBox Height="25" Content="{StaticResource IsActiveHeader}" IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,65,0,0"/>
                     <TextBlock Text="{StaticResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
@@ -149,12 +162,12 @@
                             <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
                             <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
                             <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <!--<DataGridTextColumn Header="{StaticResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource CaptionGroupTextStyle}"/>-->
+                            <DataGridTextColumn Header="{StaticResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource CaptionGroupTextStyle}"/>
                         </DataGrid.Columns>
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Grid Height="150" Background="White">
-                                    <TextBlock Margin="15,2,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                                    <TextBlock Margin="15,10,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
                                     <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
                                 </Grid>
                             </DataTemplate>

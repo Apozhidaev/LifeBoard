@@ -45,7 +45,7 @@ namespace LifeBoard.Models
                 Summary = summary,
                 Description = description,
                 IsCustomRoot = isCustomRoot,
-                WebLink = httpLink,
+                WebSite = httpLink,
                 CreationDate = DateTime.Now
             });
             return id;
@@ -115,7 +115,7 @@ namespace LifeBoard.Models
                 Type = i.Type,
                 Status = i.Status,
                 CreationDate = i.CreationDate,
-                WebLink = i.WebLink,
+                WebSite = i.WebSite,
                 IsCustomRoot = i.IsCustomRoot
             }).ToDictionary(i => i.Id);
             _document.IssuesLinks = document.IssuesLinks.Select(pi => new IssueLink
@@ -139,7 +139,7 @@ namespace LifeBoard.Models
                     Type = i.Type,
                     Status = i.Status,
                     CreationDate = i.CreationDate,
-                    WebLink = i.WebLink,
+                    WebSite = i.WebSite,
                     IsCustomRoot = i.IsCustomRoot
                 }).ToArray(),
                 IssuesLinks = _document.IssuesLinks.Select(pi => new XMLDocuments.V1.IssueLinks

@@ -55,9 +55,9 @@ namespace LifeBoard.ViewModels.Issues
             get { return _issue.Description; }
         }
 
-        public string WebLink
+        public string WebSite
         {
-            get { return _issue.WebLink; }
+            get { return _issue.WebSite; }
         }
 
         public int Priority
@@ -68,6 +68,11 @@ namespace LifeBoard.ViewModels.Issues
         public IssueType IssueType
         {
             get { return _issue.Type; }
+        }
+
+        public string CreationDate
+        {
+            get { return _issue.CreationDate.ToShortDateString(); }
         }
 
         public IssueStatus Status
@@ -87,6 +92,16 @@ namespace LifeBoard.ViewModels.Issues
         public override Page Page
         {
             get { return _showIssueView ?? (_showIssueView = new ShowIssueView(this)); }
+        }
+
+        public Visibility DescriptionVisibility
+        {
+            get { return String.IsNullOrEmpty(Description) ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
+        public Visibility WebLinkVisibility
+        {
+            get { return String.IsNullOrEmpty(WebSite) ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public Visibility ChildrenVisibility
@@ -120,7 +135,7 @@ namespace LifeBoard.ViewModels.Issues
         {
             try
             {
-                Process.Start(WebLink);
+                Process.Start(WebSite);
             }
             catch (Exception)
             {
@@ -150,7 +165,9 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("Priority");
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
-            OnPropertyChanged("WebLink");
+            OnPropertyChanged("WebSite");
+            OnPropertyChanged("DescriptionVisibility");
+            OnPropertyChanged("WebLinkVisibility");
             OnPropertyChanged("ChildrenVisibility");
         }
     }

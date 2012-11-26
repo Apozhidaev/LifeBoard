@@ -35,6 +35,7 @@
     <system:String x:Key="PriorityLabel">Пироритет:</system:String>
     <system:String x:Key="SummaryLabel">Заголовок:</system:String>
     <system:String x:Key="DescriptionLabel">Описание:</system:String>
+    <system:String x:Key="CreationDateLabel">Дата создания:</system:String>
 
     <system:String x:Key="SubissuesLabel">Подзадачи:</system:String>
     <system:String x:Key="ParentsLabel">Родители:</system:String>
@@ -44,10 +45,13 @@
 
     <system:String x:Key="DeleteMessage">Вы дейтсвительно хотите удалить эту задачу?</system:String>
 
-    <system:String x:Key="RootHeader">Корневые</system:String>
-    <system:String x:Key="ActiveHeader">Активные</system:String>
+    <system:String x:Key="IsRootHeader">Корневые</system:String>
+    <system:String x:Key="IsActiveHeader">Активные</system:String>
 
-    <system:String x:Key="WebLinkLabel">Веб ссылка:</system:String>
+    <system:String x:Key="RootHeader">Корень</system:String>
+    <system:String x:Key="CustomHeader">Мой</system:String>
+
+    <system:String x:Key="WebLinkLabel">Веб сайт:</system:String>
     <system:String x:Key="DashboardLabel">Дашборд:</system:String>
     <system:String x:Key="IsCustomRootMessage">Показывать на дашборде</system:String>
 
