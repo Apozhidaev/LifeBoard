@@ -7,6 +7,13 @@ namespace LifeBoard.Models
 {
     public class IssueFilter
     {
+        public IssueFilter()
+        {
+            Query = String.Empty;
+        }
+
+        public String Query { get; set; }
+
         public HashSet<int> Priorities { get; set; }
 
         public HashSet<IssueType> Types { get; set; }

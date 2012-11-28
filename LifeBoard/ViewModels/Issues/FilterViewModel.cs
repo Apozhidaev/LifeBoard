@@ -1,18 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using LifeBoard.Commands;
 using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
 {
     public class FilterViewModel : ParentViewModelBase
     {
+        private string _query = String.Empty;
+
+        private readonly IssuesViewModel _issuesViewModel;
+
         public FilterViewModel(object parent)
             : base(parent)
         {
             Types = new ObservableCollection<TypeViewModel>();
             Statuses = new ObservableCollection<StatusViewModel>();
             Priorities = new ObservableCollection<PriorityViewModel>();
+            _issuesViewModel = parent as IssuesViewModel;
+        }
+
+        public string Query
+        {
+            get { return _query; }
+            set
+            {
+                if (_query != value)
+                {
+                    _query = value;
+                    _issuesViewModel.Search();
+                    OnPropertyChanged("Query");
+                }
+            }
+        }
+
+         private DelegateCommand _clearCommand;
+
+        public ICommand ClearCommand
+        {
+            get { return _clearCommand ?? (_clearCommand = new DelegateCommand(Clear)); }
+        }
+
+        public void Clear()
+        {
+            Query = String.Empty;
         }
 
         public ObservableCollection<TypeViewModel> Types { get; set; }
@@ -43,6 +77,7 @@ namespace LifeBoard.ViewModels.Issues
         public IssueFilter ToModel()
         {
             var model = new IssueFilter();
+            model.Query = Query;
             model.Types = new HashSet<IssueType>(Types.Where(t => t.IsChecked).Select(t => t.IssueType));
             model.Statuses = new HashSet<IssueStatus>(Statuses.Where(t => t.IsChecked).Select(t => t.IssueStatus));
             model.Priorities = new HashSet<int>(Priorities.Where(t => t.IsChecked).Select(t => t.Priority));

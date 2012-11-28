@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using LifeBoard.Commands;
 using LifeBoard.Models;
-using LifeBoard.Views.Issues;
 
 namespace LifeBoard.ViewModels.Issues
 {
     public class CreateIssueViewModel : EditIssueViewModelBase
     {
-        public CreateIssueViewModel(INavigatePage parent, BoardService boardService)
-            : base(parent, boardService)
+        public CreateIssueViewModel(INavigatePage parent, Board board)
+            : base(parent, board)
         {
             SubmitHeader = (string)Application.Current.FindResource("CreateHeader");
         }
@@ -26,10 +20,14 @@ namespace LifeBoard.ViewModels.Issues
 
         protected override void Submit()
         {
-            int id = BoardService.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, WebSite);
+            int id = Board.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, WebSite);
             var parents = ParentIssues.Select(pi => pi.Model.Id);
-            BoardService.SetParents(id, parents);
-            BoardService.Submit();
+            Board.SetParents(id, parents);
+            if (!Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths))
+            {
+                MessageBox.Show("Неудалось добавить выбранные файла.");
+            }
+            Board.Submit();
             base.Submit();
         }
     }

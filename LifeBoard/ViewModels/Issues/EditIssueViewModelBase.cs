@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
 using LifeBoard.Views.Issues;
+using Microsoft.Win32;
+using System.Windows;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -21,25 +25,37 @@ namespace LifeBoard.ViewModels.Issues
         private bool _isCustomRoot;
         private EditIssueView _editIssueView;  
         private readonly INavigatePage _parent;
-        private readonly BoardService _boardService;    
+        private readonly Board _board;    
         private DelegateCommand _submitCommand;
+        private DelegateCommand _addAttachmentCommand;
+        private DelegateCommand<AttachmentViewModel> _removeAttachmentCommand;
         private DelegateCommand<IssueViewModel> _addCommand;
         private DelegateCommand<IssueViewModel> _removeCommand;
         private DelegateCommand<string> _insertCommand;
 
-        public EditIssueViewModelBase(INavigatePage parent, BoardService boardService)
+        public EditIssueViewModelBase(INavigatePage parent, Board board)
             : base(parent)
         {
             _parent = parent;
-            _boardService = boardService;
+            _board = board;
             Issues = new ObservableCollection<IssueViewModel>();
             ParentIssues = new ObservableCollection<IssueViewModel>();
-            Filter = new FilterViewModel(this);
-            Filter.SetModel(boardService.GetFullFilter(), boardService.GetFullFilter());
+            Attachments = new ObservableCollection<AttachmentViewModel>();
+            FilePaths = new Dictionary<string, string>();
             SubmitHeader = "Submit";
         }
 
         #region Commands
+
+        public ICommand AddAttachmentCommand
+        {
+            get { return _addAttachmentCommand ?? (_addAttachmentCommand = new DelegateCommand(AddAttachment)); }
+        }
+
+        public ICommand RemoveAttachmentCommand
+        {
+            get { return _removeAttachmentCommand ?? (_removeAttachmentCommand = new DelegateCommand<AttachmentViewModel>(RemoveAttachment)); }
+        }
 
         public ICommand SubmitCommand
         {
@@ -73,6 +89,32 @@ namespace LifeBoard.ViewModels.Issues
             _parent.BackCommand.Execute(null);
         }
 
+        private void AddAttachment()
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == true)
+            {
+                string fileName = Path.GetFileName(dlg.FileName);
+                if (fileName != null && Attachments.All(f => f.FileName != fileName))
+                {
+                    FilePaths.Add(fileName, dlg.FileName);
+                    Attachments.Add( new AttachmentViewModel(this){ FileName = fileName });
+                }
+                else
+                {
+                    MessageBox.Show("Файл с таким именем уже существует");
+                    AddAttachment();
+                }
+            }
+            
+        }
+
+        private void RemoveAttachment(AttachmentViewModel file)
+        {
+            Attachments.Remove(file);
+            FilePaths.Remove(file.FileName);
+        }
+
         private bool CanSubmit()
         {
             return !String.IsNullOrEmpty(Summary);
@@ -100,11 +142,10 @@ namespace LifeBoard.ViewModels.Issues
             get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
         }
 
-        private void Search()
+        private async void Search()
         {
-            var issues = GetFilterIssues();
             Issues.Clear();
-            foreach (var issue in issues)
+            foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(GetFilterIssues))
             {
                 Issues.Add(new IssueViewModel(this, issue));
             }
@@ -114,13 +155,15 @@ namespace LifeBoard.ViewModels.Issues
 
         #region Properties
 
+        public Dictionary<string,string> FilePaths { get; private set; }
+
         public string SubmitHeader { get; set; }
 
         public ObservableCollection<IssueViewModel> Issues { get; private set; }
 
         public ObservableCollection<IssueViewModel> ParentIssues { get; private set; }
 
-        public FilterViewModel Filter { get; private set; }
+        public ObservableCollection<AttachmentViewModel> Attachments { get; private set; }
 
         public int Priority
         {
@@ -150,12 +193,12 @@ namespace LifeBoard.ViewModels.Issues
 
         public IEnumerable<int> Priorities
         {
-            get { return _boardService.GetPriorities(); }
+            get { return _board.GetPriorities(); }
         }
 
         public IEnumerable<IssueType> Types
         {
-            get { return _boardService.GetTypes(); }
+            get { return _board.GetTypes(); }
         }
 
         public string Summary
@@ -227,9 +270,37 @@ namespace LifeBoard.ViewModels.Issues
 
         #endregion
 
-        protected BoardService BoardService
+        protected Board Board
         {
-            get { return _boardService; }
+            get { return _board; }
+        }
+
+        private string _query = String.Empty;
+
+        public string Query
+        {
+            get { return _query; }
+            set
+            {
+                if (_query != value)
+                {
+                    _query = value;
+                    Search();
+                    OnPropertyChanged("Query");
+                }
+            }
+        }
+
+        private DelegateCommand _clearCommand;
+
+        public ICommand ClearCommand
+        {
+            get { return _clearCommand ?? (_clearCommand = new DelegateCommand(Clear)); }
+        }
+
+        public void Clear()
+        {
+            Query = String.Empty;
         }
 
         public void AddParent(IssueViewModel issue)
@@ -239,7 +310,7 @@ namespace LifeBoard.ViewModels.Issues
 
         protected virtual IEnumerable<Issue> GetFilterIssues()
         {
-            return _boardService.GetIssues(Filter.ToModel());
+            return _board.GetIssues(Query);
         }
 
         protected virtual void ClearForm()

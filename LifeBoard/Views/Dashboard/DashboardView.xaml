@@ -8,25 +8,25 @@
             <WrapPanel IsItemsHost="True"/>
         </ItemsPanelTemplate>
         <DataTemplate x:Key="DashboardDataTemplate">
-            <Border BorderBrush="{StaticResource BaseBrush3}" BorderThickness="1">
-                <Grid Height="200" Width="200" Background="{StaticResource BaseBrush15}" ToolTip="{Binding Summary}">
+            <Border BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1">
+                <Grid Height="200" Width="200" Background="{DynamicResource BaseBrush1}" ToolTip="{Binding Summary}">
                     <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                     <TextBlock Text="{Binding Priority}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Text="{Binding Status}" Foreground="{StaticResource SelectedBrush7}" HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Style="{DynamicResource CaptionTextStyle}" />
+                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource MarkBrush7}" HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Style="{DynamicResource CaptionTextStyle}" />
                     <TextBlock Margin="10,42,0,0" Text="{Binding Summary}" Style="{DynamicResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                    <Rectangle Fill="{StaticResource SelectedBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,65,10,0" VerticalAlignment="Top"/>
+                    <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,65,10,0" VerticalAlignment="Top"/>
                     <TextBlock Margin="20,70,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
                 </Grid>
             </Border>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{StaticResource BaseBrush1}">
-        <TextBlock Text="{StaticResource DashboardHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
-        <ListBox Background="{StaticResource BaseBrush1}" MouseDoubleClick="OnIssueDoubleClick" x:Name="_list" Margin="10,70,10,10" ItemsSource="{Binding Issues}" ItemsPanel="{DynamicResource DashboardItemsPanelTemplate}" ItemTemplate="{DynamicResource DashboardDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
-        <Menu Background="{StaticResource BaseBrush2}" HorizontalAlignment="Right" Height="30" Margin="0,38,10,0" VerticalAlignment="Top" Width="200">
-            <MenuItem Header="{StaticResource CustomHeader}" Height="30" Width="100" Command="{Binding CustomRootCommand}" IsChecked="{Binding IsCustomRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
-            <MenuItem Header="{StaticResource RootHeader}" Height="30" Width="100" Command="{Binding RootCommand}" IsChecked="{Binding IsRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
+    <Grid Background="{DynamicResource BaseBrush1}">
+        <TextBlock Text="{DynamicResource DashboardHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
+        <ListBox Background="{DynamicResource MarkBrush4}" MouseDoubleClick="OnIssueDoubleClick" x:Name="_list" Margin="10,70,10,10" ItemsSource="{Binding Issues}" ItemsPanel="{DynamicResource DashboardItemsPanelTemplate}" ItemTemplate="{DynamicResource DashboardDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <Menu Background="{DynamicResource BaseBrush2}" HorizontalAlignment="Right" Height="30" Margin="0,40,10,0" VerticalAlignment="Top" Width="200">
+            <MenuItem Header="{DynamicResource CustomHeader}" Height="30" Width="100" Command="{Binding CustomRootCommand}" IsChecked="{Binding IsCustomRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
+            <MenuItem Header="{DynamicResource RootHeader}" Height="30" Width="100" Command="{Binding RootCommand}" IsChecked="{Binding IsRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
         </Menu>
     </Grid>
 </Page>

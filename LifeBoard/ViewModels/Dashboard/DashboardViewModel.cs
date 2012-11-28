@@ -13,14 +13,14 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private bool _isCustomRoot;
 
-        private readonly BoardService _boardService;
+        private readonly Board _board;
 
         private DashboardView _dashboardView;
 
-        public DashboardViewModel(object parent, BoardService boardService) 
+        public DashboardViewModel(object parent, Board board) 
             : base(parent)
         {
-            _boardService = boardService;
+            _board = board;
             Issues = new ObservableCollection<IssueViewModel>();
             _isCustomRoot = true;
         }
@@ -40,7 +40,7 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private void UpdateIssues()
         {
-            var issues = IsCustomRoot ? _boardService.GetCustomRootIssues() : _boardService.GetRootIssues();
+            var issues = IsCustomRoot ? _board.GetCustomRootIssues() : _board.GetRootIssues();
             Issues.Clear();
             foreach (var issue in issues)
             {

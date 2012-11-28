@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,22 @@ namespace LifeBoard.Models
 {
     public class DocumentRepository
     {
-        private string _path = "";
-
         private readonly Document _document = new Document();
 
-        public void SetFilePath(string path)
+        public string DocumentPath
         {
-            _path = path;
+            get { return _documentPath; }
+            private set
+            {
+                if(_documentPath!=value)
+                {
+                    _documentPath = value;
+                    if (Path.IsPathRooted(value))
+                    {
+                        DocumentFolder = Path.GetDirectoryName(value);
+                    }
+                }
+            }
         }
 
         public Document Document
@@ -25,12 +35,33 @@ namespace LifeBoard.Models
 
         public bool IsFileExists
         {
-            get { return File.Exists(_path); }
+            get { return File.Exists(DocumentPath); }
         }
 
         public bool IsPathRooted
         {
-            get { return Path.IsPathRooted(_path); }
+            get { return Path.IsPathRooted(DocumentPath); }
+        }
+
+        public void DeleteIssue(Issue issue)
+        {
+            Document.Issues.Remove(issue.Id);
+            foreach (var projectIssue in Document.IssuesLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
+            {
+                Document.IssuesLinks.Remove(projectIssue);
+            }
+        }
+
+        public void SetParents(int id, IEnumerable<int> parents)
+        {
+            foreach (var issueLink in Document.IssuesLinks.Where(l => l.ChildId == id).ToList())
+            {
+                Document.IssuesLinks.Remove(issueLink);
+            }
+            foreach (var parent in parents)
+            {
+                Document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
+            }
         }
 
         public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string httpLink)
@@ -51,19 +82,23 @@ namespace LifeBoard.Models
             return id;
         }
 
-        public void Open()
+        public bool Open(string path)
         {
+            if (!Path.IsPathRooted(path))
+            {
+                return false;
+            }
+            //bool isOpen = false;
             FileStream fs = null;
             try
             {
                 var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
-                fs = new FileStream(_path, FileMode.Open);
+                fs = new FileStream(path, FileMode.Open);
                 SetDocument((XMLDocuments.V1.Document)serializer.Deserialize(fs));
+                DocumentPath = path;
+                return true;
             }
-            catch
-            {
-                SetDocument(CreateDocoment());
-            }
+            catch {}
             finally
             {
                 if (fs != null)
@@ -71,21 +106,32 @@ namespace LifeBoard.Models
                     fs.Close();
                 }
             }
+            return false;
         }
 
-        public void Save()
+        public void New()
         {
-            if (!IsPathRooted)
+            SetDocument(CreateDocoment());
+            DocumentPath = String.Empty;
+        }
+
+        public bool Save(string path)
+        {
+            if(!Path.IsPathRooted(path))
             {
-                return;
+                return false;
             }
+            bool isSave = false;
             TextWriter writer = null;
             try
             {
                 var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
-                writer = new StreamWriter(_path);
+                writer = new StreamWriter(path);
                 serializer.Serialize(writer, GetDocoment());
+                DocumentPath = path;
+                isSave = true;
             }
+            catch { }
             finally
             {
                 if (writer != null)
@@ -93,6 +139,7 @@ namespace LifeBoard.Models
                     writer.Close();
                 }
             }
+            return isSave;
         }
 
         public void Submit()
@@ -101,7 +148,7 @@ namespace LifeBoard.Models
             {
                 return;
             }
-            Save();
+            Save(DocumentPath);
         }
 
         private void SetDocument(XMLDocuments.V1.Document document)
@@ -171,6 +218,101 @@ namespace LifeBoard.Models
                 ++id;
             }
             return id;
+        }
+
+
+        public static readonly string AttachmentsFolder = "Attachments";
+
+        private string _documentFolder;
+        private string _documentPath;
+
+        public string DocumentFolder
+        {
+            get { return _documentFolder; }
+            set
+            {
+                if (_documentFolder != value)
+                {
+                    _documentFolder = value;
+                    AttachmentsPath = String.Format("{0}\\{1}", DocumentFolder, AttachmentsFolder);
+                }
+            }
+        }
+
+        public string AttachmentsPath { get; private set; }
+
+        public void ClearDirectory()
+        {
+            foreach (var directory in Directory.GetDirectories(AttachmentsPath))
+            {
+                if (Directory.GetFiles(directory).Length == 0)
+                {
+                    try
+                    {
+                        Directory.Delete(directory);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        public IEnumerable<string> GetAttachments(int documentId)
+        {
+            string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
+            if (Directory.Exists(dir))
+            {
+                return Directory.GetFiles(dir);
+            }
+            return new string[0];
+        }
+
+        public bool UpdateAttachments(int documentId, List<string> attachments, Dictionary<string, string> filePaths)
+        {
+            try
+            {
+                string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                foreach (var filePath in Directory.GetFiles(dir))
+                {
+                    string file = Path.GetFileName(filePath);
+                    if (!attachments.Contains(file))
+                    {
+                        File.Delete(filePath);
+                    }
+                }
+                foreach (var kvp in filePaths)
+                {
+                    string filePath = String.Format("{0}\\{1}", dir, kvp.Key);
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    File.Copy(kvp.Value, filePath);
+                }
+                ClearDirectory();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool OpenAttachment(int documentId, string fileName)
+        {
+            try
+            {
+                string filePath = String.Format("{0}\\{1}\\{2}", AttachmentsPath, documentId, fileName);
+                Process.Start(filePath);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

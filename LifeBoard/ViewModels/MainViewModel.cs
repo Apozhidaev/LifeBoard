@@ -3,9 +3,11 @@ using System.Windows;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
+using LifeBoard.Models.Configs;
 using LifeBoard.ViewModels.Configuration;
 using LifeBoard.ViewModels.Dashboard;
 using LifeBoard.ViewModels.Issues;
+using Issue = LifeBoard.Models.Issue;
 
 namespace LifeBoard.ViewModels
 {
@@ -13,7 +15,7 @@ namespace LifeBoard.ViewModels
     {
         private PageViewModelBase _current;
 
-        private readonly BoardService _boardService;
+        private readonly Board _board;
 
         private IssueViewModel _actualIssue;
 
@@ -23,15 +25,15 @@ namespace LifeBoard.ViewModels
 
         private readonly Stack<PageViewModelBase> _navigateHistory = new Stack<PageViewModelBase>();
 
-        public MainViewModel(BoardService boardService)
+        public MainViewModel(Board board)
         {
-            _boardService = boardService;
-            Dashboard = new DashboardViewModel(this, boardService);
-            Issues = new IssuesViewModel(this, boardService);
-            Configuration = new ConfigurationViewModel(this, boardService);
-            CreateIssue = new CreateIssueViewModel(this, boardService);
-            EditIssue = new EditIssueViewModel(this, boardService);
-            ShowIssue = new ShowIssueViewModel(this, boardService);
+            _board = board;
+            Dashboard = new DashboardViewModel(this, board);
+            Issues = new IssuesViewModel(this, board);
+            Configuration = new ConfigurationViewModel(this, board);
+            CreateIssue = new CreateIssueViewModel(this, board);
+            EditIssue = new EditIssueViewModel(this, board);
+            ShowIssue = new ShowIssueViewModel(this, board);
             _current = Dashboard;
             _backPage = Dashboard;
             _current.IsNavigated = true;
@@ -172,8 +174,8 @@ namespace LifeBoard.ViewModels
 
         public void Delete(Issue issue)
         {
-            _boardService.DeleteIssue(issue);
-            _boardService.Submit();
+            _board.DeleteIssue(issue);
+            _board.Submit();
             if (Current == Issues)
             {
                 Issues.Search();

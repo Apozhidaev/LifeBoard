@@ -5,10 +5,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
+using LifeBoard.Models.Configs;
 using LifeBoard.Views.Issues;
+using Issue = LifeBoard.Models.Issue;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -18,15 +21,16 @@ namespace LifeBoard.ViewModels.Issues
 
         private IssueViewModel _issueModel;
 
-        private readonly BoardService _boardService;
+        private readonly Board _board;
 
         private ShowIssueView _showIssueView;
 
-        public ShowIssueViewModel(INavigatePage parent, BoardService boardService)
+        public ShowIssueViewModel(INavigatePage parent, Board board)
             : base(parent)
         {
-            _boardService = boardService;
+            _board = board;
             Children = new ObservableCollection<IssueViewModel>();
+            Attachments = new ObservableCollection<AttachmentViewModel>();
         }
 
         public IssueViewModel IssueModel
@@ -36,9 +40,11 @@ namespace LifeBoard.ViewModels.Issues
 
         public ObservableCollection<IssueViewModel> Children { get; private set; }
 
+        public ObservableCollection<AttachmentViewModel> Attachments { get; private set; }
+
         public IEnumerable<IssueStatus> Statuses
         {
-            get { return _boardService.GetStatuses(); }
+            get { return _board.GetStatuses(); }
         }
 
         public bool IsRootChildren { get; set; }
@@ -83,7 +89,7 @@ namespace LifeBoard.ViewModels.Issues
                 if (_issue.Status != value)
                 {
                     _issue.Status = value;
-                    _boardService.Submit();
+                    _board.Submit();
                     OnPropertyChanged("Status");
                 }
             }
@@ -104,6 +110,11 @@ namespace LifeBoard.ViewModels.Issues
             get { return String.IsNullOrEmpty(WebSite) ? Visibility.Collapsed : Visibility.Visible; }
         }
 
+        public Visibility AttachmentsVisibility
+        {
+            get { return Attachments.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
         public Visibility ChildrenVisibility
         {
             get { return Children.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
@@ -113,6 +124,11 @@ namespace LifeBoard.ViewModels.Issues
         {
             _issueModel = issue;
             _issue = issue.Model;
+            Attachments.Clear();
+            foreach (var attachment in _board.GetAttachments(_issue.Id))
+            {
+                Attachments.Add(new AttachmentViewModel(this) { FileName = attachment });
+            }
             UpdateChildren();
             UpdateSource();
         }
@@ -146,7 +162,7 @@ namespace LifeBoard.ViewModels.Issues
         public void UpdateChildren()
         {
             Children.Clear();
-            IEnumerable<Issue> children = IsRootChildren ? _boardService.GetRootChildren(_issue.Id) : _boardService.GetChildren(_issue.Id);
+            IEnumerable<Issue> children = IsRootChildren ? _board.GetRootChildren(_issue.Id) : _board.GetChildren(_issue.Id);
             if (IsActiveChildren)
             {
                 children = children.Where(c => c.Status != IssueStatus.Closed);
@@ -168,7 +184,29 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("WebSite");
             OnPropertyChanged("DescriptionVisibility");
             OnPropertyChanged("WebLinkVisibility");
+            OnPropertyChanged("AttachmentsVisibility");
             OnPropertyChanged("ChildrenVisibility");
+
+            var config = Page.Resources["Config"] as ConfigShowIssueViewModel;
+            if (config != null)
+            {
+                config.Update();
+            }
+        }
+
+        private DelegateCommand<AttachmentViewModel> _openAttachmentCommand;
+
+        public ICommand OpenAttachmentCommand
+        {
+            get { return _openAttachmentCommand ?? (_openAttachmentCommand = new DelegateCommand<AttachmentViewModel>(OpenAttachment)); }
+        }
+
+        private void OpenAttachment(AttachmentViewModel file)
+        {
+            if (!_board.OpenAttachment(_issue.Id, file.FileName))
+            {
+                MessageBox.Show("Can not open file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

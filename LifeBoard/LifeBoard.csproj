@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LifeBoard</RootNamespace>
     <AssemblyName>LifeBoard</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -102,9 +102,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Configs\Config.cs" />
+    <Compile Include="Models\Configs\ConfigRepository.cs" />
+    <Compile Include="Models\Configs\Display.cs" />
+    <Compile Include="Models\Configs\ShowIssue.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentRepository.cs" />
     <Compile Include="Models\IssueFilter.cs" />
+    <Compile Include="Models\Configs\Issue.cs" />
+    <Compile Include="Models\Language.cs" />
     <Compile Include="Models\XMLDocuments\V1\Document.cs" />
     <Compile Include="Models\XMLDocuments\V1\Issue.cs" />
     <Compile Include="Models\XMLDocuments\V1\IssueLinks.cs" />
@@ -112,6 +118,12 @@
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\IssueLink.cs" />
+    <Compile Include="ViewModels\Configuration\ConfigDisplayViewModel.cs" />
+    <Compile Include="ViewModels\Configuration\ConfigIssueViewModel.cs" />
+    <Compile Include="ViewModels\Configuration\ConfigShowIssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\AttachmentViewModel.cs" />
+    <Compile Include="ViewModels\Issues\ConfigIssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\ConfigShowIssueViewModel.cs" />
     <Compile Include="Views\TextBoxCorrector.cs" />
     <Compile Include="ViewModels\INavigatePage.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
@@ -171,7 +183,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="Models\BoardService.cs" />
+    <Compile Include="Models\Board.cs" />
     <Compile Include="ViewModels\Configuration\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Dashboard\DashboardViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
@@ -10,8 +9,8 @@ namespace LifeBoard.ViewModels.Issues
     {
         private Issue _issue;
 
-        public EditIssueViewModel(INavigatePage parent, BoardService boardService)
-            : base(parent, boardService)
+        public EditIssueViewModel(INavigatePage parent, Board board)
+            : base(parent, board)
         {
             SubmitHeader = (string)Application.Current.FindResource("EditHeader");
         }
@@ -20,8 +19,9 @@ namespace LifeBoard.ViewModels.Issues
         {
             _issue = issue;
             FromIssue();
+            FromAttachments();
             ParentIssues.Clear();
-            foreach (var parent in BoardService.GetParents(issue.Id))
+            foreach (var parent in Board.GetParents(issue.Id))
             {
                 ParentIssues.Add(new IssueViewModel(this, parent));
             }
@@ -29,12 +29,21 @@ namespace LifeBoard.ViewModels.Issues
 
         protected override void Submit()
         {
-            ToIssue();
+            
             int id = _issue.Id;
-            var parents = ParentIssues.Select(pi => pi.Model.Id);
-            BoardService.SetParents(id, parents);
-            BoardService.Submit();
-            base.Submit();
+            if (Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths)) 
+            {
+                ToIssue();
+                var parents = ParentIssues.Select(pi => pi.Model.Id);
+                Board.SetParents(id, parents);
+                Board.Submit();
+                base.Submit();
+            }
+            else
+            {
+                MessageBox.Show("Неудалось добавить выбранные файла.");
+                FromAttachments();
+            }
         }
 
         private void FromIssue()
@@ -45,6 +54,16 @@ namespace LifeBoard.ViewModels.Issues
             Description = _issue.Description;
             IsCustomRoot = _issue.IsCustomRoot;
             WebSite = _issue.WebSite;
+        }
+
+        private void FromAttachments()
+        {
+            Attachments.Clear();
+            FilePaths.Clear();
+            foreach (var attachment in Board.GetAttachments(_issue.Id))
+            {
+                Attachments.Add(new AttachmentViewModel(this) { FileName = attachment });
+            }
         }
 
         private void ToIssue()
@@ -59,7 +78,7 @@ namespace LifeBoard.ViewModels.Issues
 
         protected override IEnumerable<Issue> GetFilterIssues()
         {
-            return BoardService.GetIssuesExeptChildren(_issue.Id, Filter.ToModel());
+            return Board.GetIssuesExeptChildren(_issue.Id, Query);
         }
     }
 }

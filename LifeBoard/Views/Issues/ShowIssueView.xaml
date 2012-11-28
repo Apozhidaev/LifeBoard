@@ -3,11 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Issues="clr-namespace:LifeBoard.ViewModels.Issues"
       x:Class="LifeBoard.Views.Issues.ShowIssueView" 
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
 	Title="ShowIssueView">
     <Page.Resources>
+        <Issues:ConfigShowIssueViewModel x:Key="Config" />
         <Style x:Key="ComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
             <Setter Property="MinWidth" Value="0"/>
             <Setter Property="MinHeight" Value="0"/>
@@ -20,14 +22,14 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Border x:Name="border" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <TextBlock x:Name="contentPresenter" Text="{StaticResource StatusHeader}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource CaptionGroupTextStyle}"/>
+                            <TextBlock x:Name="contentPresenter" Text="{DynamicResource StatusHeader}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource CaptionGroupTextStyle}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BaseBrush3}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource BaseBrush3}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="Background" TargetName="border" Value="{DynamicResource SelectedBrush3}"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
@@ -45,13 +47,13 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Foreground" Value="{StaticResource BaseBrush4}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource BaseBrush4}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="StatusComboBoxStyle" TargetType="{x:Type ComboBox}">
-            <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
-            <Setter Property="Background" Value="{StaticResource BaseBrush3}"/>
+            <Setter Property="Foreground" Value="{DynamicResource BaseBrush7}"/>
+            <Setter Property="Background" Value="{DynamicResource MarkBrush4}"/>
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -66,19 +68,19 @@
                             <Grid>
                                 <Border x:Name="Border" BorderBrush="Transparent" BorderThickness="0" Background="{TemplateBinding Background}">
                                     <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
-                                        <Border x:Name="DropDownBorder" BorderBrush="{StaticResource BaseBrush3}" BorderThickness="0" Background="{StaticResource BaseBrush2}">
+                                        <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="0" Background="{DynamicResource BaseBrush2}">
                                             <ScrollViewer>
                                                 <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </ScrollViewer>
                                         </Border>
                                     </Popup>
                                 </Border>
-                                <ToggleButton ClickMode="Press" Focusable="false" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0" MinWidth="0" MinHeight="0" Style="{StaticResource ComboBoxTransparentButtonStyle}" Width="Auto"/>
+                                <ToggleButton ClickMode="Press" Focusable="false" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0" MinWidth="0" MinHeight="0" Style="{DynamicResource ComboBoxTransparentButtonStyle}" Width="Auto"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsDropDownOpen" Value="false">
-                                <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource BaseBrush7}"/>
                             </Trigger>
                             <Trigger Property="HasItems" Value="false">
                                 <Setter Property="MinHeight" TargetName="DropDownBorder" Value="95"/>
@@ -98,13 +100,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <DataTemplate x:Key="FileItemDataTemplate">
+            <Grid>
+                <Button Style="{DynamicResource LinkButtonStyle}" Content="{Binding FileName}" Command="{Binding Parent.OpenAttachmentCommand}" CommandParameter="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
     <Grid>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
         <ComboBox ItemsSource="{Binding Statuses}" SelectedValue="{Binding Status}" Height="30" Width="100"  HorizontalAlignment="Right" Margin="0,10,350,0" VerticalAlignment="Top" Style="{DynamicResource StatusComboBoxStyle}" FontSize="14" />
-        <Button Content="{StaticResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{StaticResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{StaticResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{DynamicResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{DynamicResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button Content="{DynamicResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Grid>
@@ -112,62 +119,74 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="225"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="1" Margin="0,30,0,30">
-                        <TextBlock Text="{StaticResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />                       
-                        <TextBlock Text="{StaticResource StatusLabel}" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                        <TextBlock Text="{StaticResource TypeLabel}" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                        <TextBlock Text="{StaticResource CreationDateLabel}" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                        <TextBlock Text="{Binding Priority}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                        <TextBlock Text="{Binding Status}" HorizontalAlignment="Left" Margin="120,40,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                        <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                        <TextBlock Text="{Binding CreationDate}" HorizontalAlignment="Left" Margin="120,120,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
-                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,70,20,0" VerticalAlignment="Top"/>                       
-                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,110,20,0" VerticalAlignment="Top"/>
-                        <Rectangle Fill="{StaticResource SelectedBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,150,20,0" VerticalAlignment="Top"/>
-                    </Grid>
+                    <StackPanel Grid.Column="1" Margin="0,30,0,30">
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsPriority}">
+                            <TextBlock Text="{DynamicResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding Priority}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueStatus}">
+                            <TextBlock Text="{DynamicResource StatusLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding Status}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueType}">
+                            <TextBlock Text="{DynamicResource TypeLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsCreationDate}">
+                            <TextBlock Text="{DynamicResource CreationDateLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding CreationDate}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="70,30,0,0">
                         <Grid Margin="0,0,0,30">
-                            <TextBlock Text="{StaticResource SummaryLabel}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource SubheaderTextStyle}" />
+                            <TextBlock Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource SubheaderTextStyle}" />
                             <TextBox Height="23" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
                         </Grid>
                         <Grid Visibility="{Binding DescriptionVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="{StaticResource DescriptionLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                            <TextBlock Text="{DynamicResource DescriptionLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                             <TextBox MaxWidth="800" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
                         </Grid>
                         <Grid Visibility="{Binding WebLinkVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="{StaticResource WebLinkLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                            <Button Margin="130,0,0,0" Style="{StaticResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                            <Button Margin="130,0,0,0" Style="{DynamicResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}" VerticalAlignment="Center" />
+                        </Grid>
+                        <Grid Visibility="{Binding AttachmentsVisibility}" Margin="0,0,0,30">
+                            <TextBlock Text="Attachments:" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}"/>
                         </Grid>
                     </StackPanel>
                 </Grid>
                 <Grid Visibility="{Binding ChildrenVisibility}">
-                    <CheckBox Height="25" Content="{StaticResource IsRootHeader}" IsChecked="{Binding IsRootChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
-                    <CheckBox Height="25" Content="{StaticResource IsActiveHeader}" IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,65,0,0"/>
-                    <TextBlock Text="{StaticResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                    <CheckBox Height="25" Content="{DynamicResource IsRootHeader}" IsChecked="{Binding IsRootChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
+                    <CheckBox Height="25" Content="{DynamicResource IsActiveHeader}" IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,65,0,0"/>
+                    <TextBlock Text="{DynamicResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                     <DataGrid x:Name="_dataGrid" 
 						IsReadOnly="True"
 						HorizontalAlignment="Stretch"
 						Margin="200,0,20,20"
 						ItemsSource="{Binding Children}"
 						RowStyle="{DynamicResource IssueDataGridRowStyle}"
-						AlternatingRowBackground="WhiteSmoke" 
+						AlternatingRowBackground="#FFf2f7f9" 
 						AlternationCount="2" CellStyle="{DynamicResource IssueDataGridCellStyle}"
 						GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
-						BorderThickness="0" Background="{StaticResource BaseBrush1}" MouseDoubleClick="OnDataGridMouseDoubleClick"
+						BorderThickness="0" Background="{DynamicResource BaseBrush1}" MouseDoubleClick="OnDataGridMouseDoubleClick"
 						RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}" HeadersVisibility="Column"
 						ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{StaticResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Header="{StaticResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
-                            <DataGridTextColumn Header="{StaticResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Header="{StaticResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Header="{StaticResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource CaptionGroupTextStyle}"/>
+                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueType}" Header="{DynamicResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                            <DataGridTextColumn Header="{DynamicResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
+                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsPriority}" Header="{DynamicResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueStatus}" Header="{DynamicResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsCreationDate}" Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource CaptionGroupTextStyle}"/>
                         </DataGrid.Columns>
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Grid Height="150" Background="White">
-                                    <TextBlock Margin="15,10,0,0" Text="{StaticResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                                    <TextBlock Margin="15,10,0,0" Text="{DynamicResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
                                     <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
                                 </Grid>
                             </DataTemplate>

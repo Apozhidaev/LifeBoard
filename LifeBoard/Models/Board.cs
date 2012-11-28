@@ -1,59 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
+using System.Text.RegularExpressions;
+using LifeBoard.Models.Configs;
 
 namespace LifeBoard.Models
 {
-    public class BoardService
+    public class Board
     {
-        private readonly Document _document;
-
-        private readonly DocumentRepository _repository;
+        private readonly DocumentRepository _documentRepository = new DocumentRepository();
 
         private readonly Dictionary<int, HashSet<int>> _parentChildren = new Dictionary<int, HashSet<int>>();
 
         private readonly Dictionary<int, HashSet<int>> _childParents = new Dictionary<int, HashSet<int>>();
 
-        public BoardService(DocumentRepository repository)
+        public string DocumentPath
         {
-            _document = repository.Document;
-            _repository = repository;
-            UpdateLinks();
+            get { return _documentRepository.DocumentPath; }
+        }
+
+        public Document Document
+        {
+            get { return _documentRepository.Document; }
+        }
+
+        public bool IsFileExists
+        {
+            get { return _documentRepository.IsFileExists; }
         }
 
         public void Submit()
         {
-            _repository.Submit();
+            _documentRepository.Submit();
         }
 
-        /// <summary>
-        /// Refactoring
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="parents"></param>
+        public bool OpenDocument(string documentPath)
+        {
+            bool isOpen = _documentRepository.Open(documentPath);
+            if(!isOpen)
+            {
+                _documentRepository.New();
+            }
+            UpdateLinks();
+            return isOpen;
+        }
+
+        public bool SaveDocument(string documentPath)
+        {
+            return _documentRepository.Save(documentPath);
+        }
+
         public void SetParents(int id, IEnumerable<int> parents)
         {
-            foreach (var issueLink in _document.IssuesLinks.Where(l => l.ChildId == id).ToList())
-            {
-                _document.IssuesLinks.Remove(issueLink);
-            }
-            foreach (var parent in parents)
-            {
-                _document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
-            }
+            _documentRepository.SetParents(id, parents);
             UpdateLinks();
         }
 
         public IEnumerable<Issue> GetParents(int id)
         {
-            return _document.Issues.Values.Where(i => _parentChildren.ContainsKey(i.Id) && _parentChildren[i.Id].Contains(id));
+            return Document.Issues.Values.Where(i => _parentChildren.ContainsKey(i.Id) && _parentChildren[i.Id].Contains(id));
         }
 
         public IEnumerable<Issue> GetChildren(int id)
         {
-            return _document.Issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
+            return Document.Issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
         }
 
         public IEnumerable<Issue> GetRootChildren(int id)
@@ -66,59 +76,56 @@ namespace LifeBoard.Models
         public IEnumerable<Issue> GetAllChildren(int id)
         {
             var allChildren = new HashSet<int>();
-            SetChildren(id, allChildren);
-            return allChildren.Select(child => _document.Issues[child]);
+            AddChildrenTo(id, allChildren);
+            return allChildren.Select(child => Document.Issues[child]);
         }
 
-        private void SetChildren(int id, HashSet<int> allChildren)
+        private void AddChildrenTo(int id, HashSet<int> allChildren)
         {
             if (_parentChildren.ContainsKey(id))
             {
                 foreach (var child in _parentChildren[id])
                 {
                     allChildren.Add(child);
-                    SetChildren(child, allChildren);
+                    AddChildrenTo(child, allChildren);
                 }
             }
         }
 
         public IEnumerable<Issue> GetIssues()
         {
-            return _document.Issues.Values;
+            return Document.Issues.Values;
         }
 
         public IEnumerable<Issue> GetIssues(IssueFilter filter)
         {
-            return _document.Issues.Values.Where(
+            return Document.Issues.Values.Where(
                 i => filter.Types.Contains(i.Type) &&
                     filter.Statuses.Contains(i.Status) &&
-                    filter.Priorities.Contains(i.Priority));
+                    filter.Priorities.Contains(i.Priority) &&
+                    Regex.IsMatch(i.Summary.ToLower(), filter.Query.ToLower()));
         }
 
         public IEnumerable<Issue> GetRootIssues()
         {
-            return _document.Issues.Values.Where(i => !_childParents.ContainsKey(i.Id));
+            return Document.Issues.Values.Where(i => !_childParents.ContainsKey(i.Id));
         }
 
         public IEnumerable<Issue> GetCustomRootIssues()
         {
-            return _document.Issues.Values.Where(i => i.IsCustomRoot);
+            return Document.Issues.Values.Where(i => i.IsCustomRoot);
         }
 
-        public IEnumerable<Issue> GetIssuesExeptChildren(int id, IssueFilter filter)
+        public IEnumerable<Issue> GetIssuesExeptChildren(int id, string query)
         {
             var allChildren = new HashSet<int>();
-            SetChildren(id, allChildren);
-            return GetIssues(filter).Where(i => i.Id != id && !allChildren.Contains(i.Id));
+            AddChildrenTo(id, allChildren);
+            return GetIssues(query).Where(i => i.Id != id && !allChildren.Contains(i.Id));
         }
 
         public void DeleteIssue(Issue issue)
         {
-            _document.Issues.Remove(issue.Id);
-            foreach (var projectIssue in _document.IssuesLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
-            {
-                _document.IssuesLinks.Remove(projectIssue);
-            }
+            _documentRepository.DeleteIssue(issue);
             UpdateLinks();
         }
 
@@ -126,7 +133,7 @@ namespace LifeBoard.Models
         {
             _parentChildren.Clear();
             _childParents.Clear();
-            foreach (var projectIssue in _document.IssuesLinks)
+            foreach (var projectIssue in Document.IssuesLinks)
             {
                 if (!_parentChildren.ContainsKey(projectIssue.ParentId))
                 {
@@ -144,7 +151,7 @@ namespace LifeBoard.Models
 
         public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string httpLink)
         {
-            return _repository.CreateIssue(type, priority, summary, description, isCustomRoot, httpLink);
+            return _documentRepository.CreateIssue(type, priority, summary, description, isCustomRoot, httpLink);
         }
 
         public IEnumerable<int> GetPriorities()
@@ -162,21 +169,12 @@ namespace LifeBoard.Models
             return new[] {IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved, IssueStatus.Closed};
         }
 
-        public IssueFilter GetInProgressFilter()
-        {
-            var filter = new IssueFilter();
-            filter.Priorities = new HashSet<int>(GetPriorities());
-            filter.Statuses = new HashSet<IssueStatus>(new[] {IssueStatus.InProgress});
-            filter.Types = new HashSet<IssueType>(GetTypes());
-            return filter;
-        }
-
         public IssueFilter GetDefaultFilter()
         {
             var filter = new IssueFilter();
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses = new HashSet<IssueStatus>(new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved });
-            filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
+            filter.Types = new HashSet<IssueType>(GetTypes());
             return filter;
         }
 
@@ -189,24 +187,24 @@ namespace LifeBoard.Models
             return filter;
         }
 
-        public IssueFilter GetFilter(IssueType type)
+        public bool UpdateAttachments(int id, List<string> attachments, Dictionary<string, string> filePaths)
         {
-            var filter = new IssueFilter();
-            if (type == IssueType.Epic)
-            {
-                filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
-            }
-            else if (type == IssueType.Story)
-            {
-                filter.Types = new HashSet<IssueType>(new[] { IssueType.Story, IssueType.Epic });
-            }
-            else 
-            {
-                filter.Types = new HashSet<IssueType>(new[] { IssueType.Task, IssueType.Story, IssueType.Epic });
-            }
-            filter.Priorities = new HashSet<int>(GetPriorities());
-            filter.Statuses = new HashSet<IssueStatus>(GetStatuses());
-            return filter;
+            return _documentRepository.UpdateAttachments(id, attachments, filePaths);
+        }
+
+        public bool OpenAttachment(int id, string fileName)
+        {
+            return _documentRepository.OpenAttachment(id, fileName);
+        }
+
+        public IEnumerable<string> GetAttachments(int id)
+        {
+            return _documentRepository.GetAttachments(id).Select(Path.GetFileName);
+        }
+
+        public IEnumerable<Issue> GetIssues(string query)
+        {
+            return Document.Issues.Values.Where(i => Regex.IsMatch(i.Summary.ToLower(), query.ToLower()));
         }
     }
 }

@@ -9,18 +9,27 @@
 
     <!-- Brushes -->
 
-    <SolidColorBrush x:Key="MarkBrush1">#FFf4f2ff</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush1">#FFf3fdff</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush2">#FFe3f2f5</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush3">#FFb9dfe6</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush35">#FFe3edf1</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush4">#FFdbe3e6</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush45">#FFc8dce4</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush5">#FFb9e1e8</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush6">#FF008299</SolidColorBrush>
+    <SolidColorBrush x:Key="MarkBrush7">#FF005a6a</SolidColorBrush>
 
     <SolidColorBrush x:Key="SelectedBrush1">#FFF4FBFF</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush2">AliceBlue</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush225">#FFE3F3FE</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush25">#FFD7EFFE</SolidColorBrush>
-    <SolidColorBrush x:Key="SelectedBrush3">#FFBEE6FD</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="SelectedBrush3">#FFBEE6FD</SolidColorBrush>-->
+    <SolidColorBrush x:Key="SelectedBrush3">#FFb9dfe6</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush4">#FFC4E5F6</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush45">#FF80B2D3</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush5">#FF3C7FB1</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedBrush6">#FF2C628B</SolidColorBrush>
-    <SolidColorBrush x:Key="SelectedBrush7">#FF1E395B</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedBrush7">#FF013a65</SolidColorBrush>
 
     <SolidColorBrush x:Key="BaseBrush1">White</SolidColorBrush>
     <SolidColorBrush x:Key="BaseBrush15">#FFFAFAFA</SolidColorBrush>
@@ -51,7 +60,7 @@
                     <Grid>
                         <Grid Margin="-1,-16,0,0">
                             <TextBlock x:Name="BackgroundGlyph" Text="&#xE0A8;" Foreground="White"/>
-                            <TextBlock x:Name="NormalGlyph" Text="&#xE071;" Foreground="#FF1E395B"/>
+                            <TextBlock x:Name="NormalGlyph" Text="&#xE071;" Foreground="{StaticResource MarkBrush6}"/>
                             <TextBlock x:Name="ArrowGlyph" Text="&#xE0A6;" Foreground="White" Opacity="0"/>
                         </Grid>
                     </Grid>
@@ -60,7 +69,7 @@
                             <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="{StaticResource MarkBrush1}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="#FF1E395B"/>
+                            <Setter Property="Foreground" TargetName="BackgroundGlyph" Value="{StaticResource MarkBrush6}"/>
                             <Setter Property="Opacity" TargetName="ArrowGlyph" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -114,7 +123,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="{StaticResource BaseBrush3}"/>
+        <Setter Property="Background" Value="{StaticResource MarkBrush4}"/>
         <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="13"/>
@@ -132,7 +141,7 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BaseBrush3}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource SelectedBrush3}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
@@ -166,18 +175,18 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush225}"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush225}"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush4}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush4}"/>
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush25}"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush25}"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush35}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush35}"/>
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource BaseBrush7}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource SelectedBrush3}"/>
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource SelectedBrush3}"/>
+                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush45}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush45}"/>
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource SelectedBrush7}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -397,7 +406,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource SelectedBrush3}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource MarkBrush4}"/>
                 <Setter Property="BorderThickness" Value="1,0,0,0"/>
             </Trigger>
         </Style.Triggers>
@@ -503,9 +512,10 @@
 
     <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{StaticResource BaseBrush1}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BaseBrush3}"/>
-        <Setter Property="BorderThickness" Value="1,1,0,1"/>
+        <Setter Property="Foreground" Value="{StaticResource MarkBrush7}"/>
+        <Setter Property="Background" Value="{StaticResource MarkBrush4}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BaseBrush1}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
         <Setter Property="Padding" Value="5"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -588,7 +598,7 @@
                     <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
                         <BulletDecorator.Bullet>
                             <Border x:Name="CheckMark" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                                <Path x:Name="CheckMarkPath" Data="M 0 2.0 L 0 4.8 L 2.5 10 L 7.1 3.8 L 10 0 L 2.5 5.6 Z" Fill="{StaticResource SelectedBrush7}" FlowDirection="LeftToRight" Height="10" Margin="1,1,1,1" Width="10"/>
+                                <Path x:Name="CheckMarkPath" Data="M 0 2.0 L 0 4.8 L 2.5 10 L 7.1 3.8 L 10 0 L 2.5 5.6 Z" Fill="{StaticResource MarkBrush7}" FlowDirection="LeftToRight" Height="10" Margin="1,1,1,1" Width="10"/>
                             </Border>
                         </BulletDecorator.Bullet>
                         <TextBlock Text="{TemplateBinding Content}" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

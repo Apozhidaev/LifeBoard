@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using LifeBoard.Models;
+using LifeBoard.Models.Configs;
 using LifeBoard.ViewModels;
+using LifeBoard.ViewModels.Configuration;
 using LifeBoard.Views;
 using Microsoft.Win32;
 
@@ -12,32 +17,63 @@ namespace LifeBoard
     /// </summary>
     public partial class App : Application
     {
-        private readonly DocumentRepository _repository = new DocumentRepository();
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern int ShowWindow(int hwnd, int nCmdShow);
+
+        private Mutex _mutex;
+
+        private readonly Board _board = new Board();
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            if (Environment.GetCommandLineArgs().Length > 1)
+            bool createdNew;
+            _mutex = new Mutex(true, "LifeBoard", out createdNew);
+
+            if (createdNew)
             {
-                _repository.SetFilePath(Environment.GetCommandLineArgs()[1]);
-            }
-            if (!_repository.IsFileExists)
-            {
-                var dlg = new OpenFileDialog();
-                dlg.DefaultExt = ".life";
-                dlg.Filter = "Life Board documents (.life)|*.life";
-                if (dlg.ShowDialog() == true)
+                ConfigRepository.Open();
+
+                string documentPath = ConfigRepository.Config.DocumentPath;
+
+                if (Environment.GetCommandLineArgs().Length > 1)
                 {
-                    _repository.SetFilePath(dlg.FileName);
+                    documentPath = Environment.GetCommandLineArgs()[1];
                 }
+
+                _board.OpenDocument(documentPath);
+
+                ConfigRepository.SetDocumentPath(_board.DocumentPath);
+
+                ConfigurationViewModel.UpdateResources(ConfigRepository.Config.Language);
+
+                var viewModel = new MainViewModel(_board);
+                var view = new MainView(viewModel);
+                view.Show();
             }
-            _repository.Open();
-            var view = new MainView(new MainViewModel(new BoardService(_repository)));
-            view.Show();
+            else
+            {
+                Process current = Process.GetCurrentProcess();
+
+                foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+                {
+                    if (process.Id != current.Id)
+                    {
+                        ShowWindow((int)process.MainWindowHandle, 3);
+                        SetForegroundWindow(process.MainWindowHandle);
+                        break;
+                    }
+                }
+                Current.Shutdown();
+            }
         }
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            if (!_repository.IsFileExists)
+            if (!_board.IsFileExists && !_board.Document.IsEmpty)
             {
                 var dlg = new SaveFileDialog();
                 dlg.DefaultExt = ".life";
@@ -46,9 +82,12 @@ namespace LifeBoard
                 {
                     return;
                 }
-                _repository.SetFilePath(dlg.FileName);
-                _repository.Save();
+                if (_board.SaveDocument(dlg.FileName))
+                {
+                    ConfigRepository.SetDocumentPath(_board.DocumentPath);
+                }
             }
+            _mutex.Dispose();
         }
     }
 }

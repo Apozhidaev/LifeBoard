@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -9,7 +11,7 @@ namespace LifeBoard.ViewModels.Issues
 {
     public class IssuesViewModel : PageViewModelBase
     {
-        private readonly BoardService _boardService;
+        private readonly Board _board;
 
         private IssuesView _issuesView;
 
@@ -17,13 +19,13 @@ namespace LifeBoard.ViewModels.Issues
 
         public FilterViewModel Filter { get; private set; }
 
-        public IssuesViewModel(object parent, BoardService boardService)
+        public IssuesViewModel(object parent, Board board)
             : base(parent)
         {
-            _boardService = boardService;
+            _board = board;
             Filter = new FilterViewModel(this);
             Issues = new ObservableCollection<IssueViewModel>();
-            Filter.SetModel(boardService.GetFullFilter(), boardService.GetDefaultFilter());
+            Filter.SetModel(board.GetFullFilter(), board.GetDefaultFilter());
             Search();
         }
 
@@ -34,13 +36,21 @@ namespace LifeBoard.ViewModels.Issues
             get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
         }
 
-        public void Search()
+        public async void Search()
         {
-            var issues = _boardService.GetIssues(Filter.ToModel());
-            Issues.Clear();
-            foreach (var issue in issues)
+            bool isClear = false;
+            foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetIssues(Filter.ToModel())))
             {
+                if(!isClear)
+                {
+                    Issues.Clear();
+                    isClear = true;
+                }
                 Issues.Add(new IssueViewModel(this, issue));
+            }
+            if (!isClear)
+            {
+                Issues.Clear();
             }
         }
 
