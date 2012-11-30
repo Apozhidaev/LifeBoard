@@ -1,6 +1,6 @@
 ﻿<Window x:Class="LifeBoard.Views.MainView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Life Board"
-        WindowState="Maximized" MinHeight="380" MinWidth="600" >
+        WindowState="Maximized" MinHeight="380" MinWidth="600" Icon="/LifeBoard;component/Icon.ico" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,6 +30,7 @@ namespace LifeBoard.ViewModels.Issues
             : base(parent)
         {
             _board = board;
+            Parents = new ObservableCollection<IssueViewModel>();
             Children = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
         }
@@ -39,6 +41,8 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         public ObservableCollection<IssueViewModel> Children { get; private set; }
+
+        public ObservableCollection<IssueViewModel> Parents { get; private set; }
 
         public ObservableCollection<AttachmentViewModel> Attachments { get; private set; }
 
@@ -120,6 +124,24 @@ namespace LifeBoard.ViewModels.Issues
             get { return Children.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
         }
 
+        public bool IsParentsEnabled
+        {
+            get { return Parents.Count != 0; }
+        }
+
+        public bool IsParentsChecked
+        {
+            get { return _isParentsChecked; }
+            set
+            {
+                if (_isParentsChecked != value)
+                {
+                    _isParentsChecked = value;
+                    OnPropertyChanged("IsParentsChecked");
+                }
+            }
+        }
+
         public void SetIssue(IssueViewModel issue)
         {
             _issueModel = issue;
@@ -129,6 +151,7 @@ namespace LifeBoard.ViewModels.Issues
             {
                 Attachments.Add(new AttachmentViewModel(this) { FileName = attachment });
             }
+            UpdateParents();
             UpdateChildren();
             UpdateSource();
         }
@@ -159,18 +182,53 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
-        public void UpdateChildren()
+        public async void UpdateChildren()
         {
-            Children.Clear();
-            IEnumerable<Issue> children = IsRootChildren ? _board.GetRootChildren(_issue.Id) : _board.GetChildren(_issue.Id);
+            bool isClear = false;
+            var issues = IsRootChildren
+                ? await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetRootChildren(_issue.Id))
+                : await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetChildren(_issue.Id));           
             if (IsActiveChildren)
             {
-                children = children.Where(c => c.Status != IssueStatus.Closed);
+                issues = issues.Where(c => c.Status != IssueStatus.Closed);
             }
-            foreach (var child in children)
+            foreach (var child in issues)
             {
+                if(!isClear)
+                {
+                    Children.Clear();
+                    isClear = true;
+                }
                 Children.Add(new IssueViewModel(this, child));
             }
+            if (!isClear)
+            {
+                Children.Clear();
+            }
+            OnPropertyChanged("ChildrenVisibility");
+        }
+
+        public async void UpdateParents()
+        {
+            bool isClear = false;
+            foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetParents(_issue.Id)))
+            {
+                if (!isClear)
+                {
+                    Parents.Clear();
+                    isClear = true;
+                }
+                Parents.Add(new IssueViewModel(this, issue));
+            }
+            if (!isClear)
+            {
+                Parents.Clear();
+            }
+            if (!IsParentsEnabled && IsParentsChecked)
+            {
+                IsParentsChecked = false;
+            }
+            OnPropertyChanged("IsParentsEnabled");
         }
 
         private void UpdateSource()
@@ -185,7 +243,6 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("DescriptionVisibility");
             OnPropertyChanged("WebLinkVisibility");
             OnPropertyChanged("AttachmentsVisibility");
-            OnPropertyChanged("ChildrenVisibility");
 
             var config = Page.Resources["Config"] as ConfigShowIssueViewModel;
             if (config != null)
@@ -195,6 +252,7 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         private DelegateCommand<AttachmentViewModel> _openAttachmentCommand;
+        private bool _isParentsChecked;
 
         public ICommand OpenAttachmentCommand
         {

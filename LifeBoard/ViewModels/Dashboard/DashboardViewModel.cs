@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -38,13 +40,24 @@ namespace LifeBoard.ViewModels.Dashboard
             base.OnNavigated();
         }
 
-        private void UpdateIssues()
+        private async void UpdateIssues()
         {
-            var issues = IsCustomRoot ? _board.GetCustomRootIssues() : _board.GetRootIssues();
-            Issues.Clear();
+            bool isClear = false;           
+            var issues = IsCustomRoot 
+                ? await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetCustomRootIssues) 
+                : await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetRootIssues);
             foreach (var issue in issues)
             {
+                if(!isClear)
+                {
+                    Issues.Clear();
+                    isClear = true;
+                }
                 Issues.Add(new IssueViewModel(this, issue));
+            }
+            if (!isClear)
+            {
+                Issues.Clear();
             }
         }
 

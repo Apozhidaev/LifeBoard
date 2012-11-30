@@ -17,7 +17,7 @@ namespace LifeBoard.Models
             get { return _documentPath; }
             private set
             {
-                if(_documentPath!=value)
+                if (_documentPath != value)
                 {
                     _documentPath = value;
                     if (Path.IsPathRooted(value))
@@ -50,6 +50,7 @@ namespace LifeBoard.Models
             {
                 Document.IssuesLinks.Remove(projectIssue);
             }
+            DeleteAttachments(issue.Id);
         }
 
         public void SetParents(int id, IEnumerable<int> parents)
@@ -88,7 +89,6 @@ namespace LifeBoard.Models
             {
                 return false;
             }
-            //bool isOpen = false;
             FileStream fs = null;
             try
             {
@@ -98,7 +98,7 @@ namespace LifeBoard.Models
                 DocumentPath = path;
                 return true;
             }
-            catch {}
+            catch { }
             finally
             {
                 if (fs != null)
@@ -115,11 +115,31 @@ namespace LifeBoard.Models
             DocumentPath = String.Empty;
         }
 
+        private void ClearBackups()
+        {
+            int backupMax = Global.BackupMaxCount;
+            var files = new List<string>(Directory.GetFiles(Global.BackupFolder));
+            files.Sort();
+            for (int i = 0; i < files.Count - backupMax; i++)
+            {
+                File.Delete(files[i]);
+            }
+        }
+
         public bool Save(string path)
         {
-            if(!Path.IsPathRooted(path))
+            if (!Path.IsPathRooted(path))
             {
                 return false;
+            }
+            if (File.Exists(path))
+            {
+                try
+                {
+                    ClearBackups();
+                    File.Move(path, Global.NewBackupFile);
+                }
+                catch { }
             }
             bool isSave = false;
             TextWriter writer = null;
@@ -313,6 +333,23 @@ namespace LifeBoard.Models
                 return false;
             }
             return true;
+        }
+
+        public void DeleteAttachments(int documentId)
+        {
+            string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
+            if (Directory.Exists(dir))
+            {
+                try
+                {
+                    Directory.Delete(dir, true);
+
+                }
+                catch (Exception)
+                {
+                }
+            }
+
         }
     }
 }

@@ -102,6 +102,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Global.cs" />
     <Compile Include="Models\Configs\Config.cs" />
     <Compile Include="Models\Configs\ConfigRepository.cs" />
     <Compile Include="Models\Configs\Display.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="ViewModels\Issues\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Issues\StatusViewModel.cs" />
     <Compile Include="ViewModels\Issues\TypeViewModel.cs" />
-    <Compile Include="Views\ScrollViewerCorrector.cs" />
+    <Compile Include="Views\UIElementCorrector.cs" />
     <Compile Include="ViewModels\Issues\ShowIssueViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ParentViewModelBase.cs" />

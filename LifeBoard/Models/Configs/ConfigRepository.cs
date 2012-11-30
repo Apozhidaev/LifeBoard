@@ -6,19 +6,6 @@ namespace LifeBoard.Models.Configs
 {
     public static class ConfigRepository
     {
-        public static readonly string ConfigPath;
-
-        public static readonly string ConfigFile;
-
-        public static readonly string ConfigDirectory;
-
-        static ConfigRepository()
-        {
-            ConfigFile = "Config.xml";
-            ConfigDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Life Board";
-            ConfigPath = ConfigDirectory + "\\" + ConfigFile;
-        }
-
         public static Config Config { get; private set; }
 
         public static void SetDocumentPath(string path)
@@ -36,7 +23,7 @@ namespace LifeBoard.Models.Configs
             try
             {
                 var serializer = new XmlSerializer(typeof(Config));
-                fs = new FileStream(ConfigPath, FileMode.Open);
+                fs = new FileStream(Global.ConfigFile, FileMode.Open);
                 Config = (Config)serializer.Deserialize(fs);
             }
             catch (Exception)
@@ -75,11 +62,7 @@ namespace LifeBoard.Models.Configs
             try
             {
                 var serializer = new XmlSerializer(typeof(Config));
-                if (!Directory.Exists(ConfigDirectory))
-                {
-                    Directory.CreateDirectory(ConfigDirectory);
-                }
-                writer = new StreamWriter(ConfigPath);
+                writer = new StreamWriter(Global.ConfigFile);
                 serializer.Serialize(writer, Config);
             }
             finally

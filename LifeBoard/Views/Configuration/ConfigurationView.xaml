@@ -1,33 +1,53 @@
 ﻿<Page x:Class="LifeBoard.Views.Configuration.ConfigurationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800"
       Title="ConfigurationView">
     <Grid>
         <TextBlock Text="{DynamicResource ConfigurationHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}"/>
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Orientation="Vertical">
                 <Grid Margin="0,30,0,0">
-                    <TextBlock HorizontalAlignment="Left" Margin="50,0,0,0" TextWrapping="Wrap" Text="Document:" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
-                    <Button Content="Open" Command="{Binding OpenDocumentCommand}" HorizontalAlignment="Left" Margin="240,0,0,0" VerticalAlignment="Top" Style="{DynamicResource MainButtonStyle}" Grid.ColumnSpan="2"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="375,0,0,0" TextWrapping="Wrap" Text="{Binding DocumentPath}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{DynamicResource CommonHeader}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
+                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1" Margin="20,30,200,0" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap" Text="{DynamicResource LanguageLabel}" VerticalAlignment="Top"  Style="{DynamicResource SubGroupHeaderTextStyle}"/>
+                    <ComboBox Width="100" Height="28" HorizontalAlignment="Left" Margin="240,70,0,0" VerticalAlignment="Top" ItemsSource="{Binding Languages}" SelectedValue="{Binding Language}" Style="{DynamicResource ComboBoxStyle}"/>
                 </Grid>
                 <Grid Margin="0,30,0,0">
-                    <TextBlock HorizontalAlignment="Left" Margin="50,0,0,0" TextWrapping="Wrap" Text="Language:" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
-                    <ComboBox Width="100" HorizontalAlignment="Left" Margin="240,0,0,0" VerticalAlignment="Top" ItemsSource="{Binding Languages}" SelectedValue="{Binding Language}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{DynamicResource FilesHeader}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
+                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1" Margin="20,30,200,0" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap" Text="{DynamicResource DocumentLabel}" VerticalAlignment="Top"  Style="{DynamicResource SubGroupHeaderTextStyle}"/>
+                    <StackPanel Margin="250,70,0,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <TextBlock TextWrapping="NoWrap" Text="{Binding DocumentPath}"  Style="{DynamicResource SubheaderTextStyle}"/>
+                        <Button Content="{DynamicResource ChangeHeader}" Command="{Binding OpenDocumentCommand}" Margin="30,0,30,0" Style="{DynamicResource MainButtonStyle}"/>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Left" Margin="100,120,0,0" TextWrapping="Wrap" Text="{DynamicResource ConfigLabel}" VerticalAlignment="Top"  Style="{DynamicResource SubGroupHeaderTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="250,120,0,0" TextWrapping="NoWrap" Text="{Binding ConfigFile}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="100,170,0,0" TextWrapping="Wrap" Text="{DynamicResource BackupsLabel}" VerticalAlignment="Top"  Style="{DynamicResource SubGroupHeaderTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="250,170,0,0" TextWrapping="NoWrap" Text="{Binding BackupFolder}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
                 </Grid>
-                <Grid Margin="0,50,0,0">
-                    <TextBlock HorizontalAlignment="Left" Margin="50,0,0,0" TextWrapping="Wrap" Text="Show issue:" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="240,0,0,0" TextWrapping="Wrap" Text="Колонки таблицы:" VerticalAlignment="Top"  Style="{DynamicResource GroupTextStyle}"/>
-                    <CheckBox Content="{DynamicResource TypeHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueType}" Margin="250,30,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <CheckBox Content="{DynamicResource PriorityHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsPriority}" Margin="250,60,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Content="{DynamicResource StatusHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueStatus}" Margin="250,90,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Content="{DynamicResource CreationDateHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsCreationDate}" Margin="250,120,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="500,0,0,0" TextWrapping="Wrap" Text="Боковая панель:" VerticalAlignment="Top"  Style="{DynamicResource GroupTextStyle}"/>
-                    <CheckBox Content="{DynamicResource TypeHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueType}" Margin="510,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Content="{DynamicResource PriorityHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsPriority}" Margin="510,60,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Content="{DynamicResource StatusHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueStatus}" Margin="510,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Content="{DynamicResource CreationDateHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsCreationDate}" Margin="510,120,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Grid Margin="0,50,0,30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{DynamicResource DisplayHeader}" VerticalAlignment="Top"  Style="{DynamicResource SubheaderTextStyle}"/>
+                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1" Margin="20,30,200,0" VerticalAlignment="Top" Grid.ColumnSpan="6"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap" Text="{DynamicResource IssuePageLabel}" VerticalAlignment="Top"  Style="{DynamicResource SubGroupHeaderTextStyle}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap" Text="{DynamicResource TableColumnsHeader}" VerticalAlignment="Top"  Style="{DynamicResource GroupTextStyle}" Grid.Column="2"/>
+                    <CheckBox Content="{DynamicResource TypeHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueType}" Margin="35,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" />
+                    <CheckBox Content="{DynamicResource PriorityHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsPriority}" Margin="35,130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2"/>
+                    <CheckBox Content="{DynamicResource StatusHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueStatus}" Margin="35,160,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2"/>
+                    <CheckBox Content="{DynamicResource CreationDateHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsCreationDate}" Margin="35,190,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap" Text="{DynamicResource SitebarRowsHeader}" VerticalAlignment="Top"  Style="{DynamicResource GroupTextStyle}" Grid.Column="4"/>
+                    <CheckBox Content="{DynamicResource TypeHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueType}" Margin="35,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4"/>
+                    <CheckBox Content="{DynamicResource PriorityHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsPriority}" Margin="35,130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4"/>
+                    <CheckBox Content="{DynamicResource StatusHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueStatus}" Margin="35,160,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4"/>
+                    <CheckBox Content="{DynamicResource CreationDateHeader}" IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsCreationDate}" Margin="35,190,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

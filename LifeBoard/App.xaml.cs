@@ -48,7 +48,7 @@ namespace LifeBoard
 
                 ConfigRepository.SetDocumentPath(_board.DocumentPath);
 
-                ConfigurationViewModel.UpdateResources(ConfigRepository.Config.Language);
+                Global.UpdateResources(ConfigRepository.Config.Language);
 
                 var viewModel = new MainViewModel(_board);
                 var view = new MainView(viewModel);

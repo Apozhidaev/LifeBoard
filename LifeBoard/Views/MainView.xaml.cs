@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 using LifeBoard.ViewModels;
 
 namespace LifeBoard.Views

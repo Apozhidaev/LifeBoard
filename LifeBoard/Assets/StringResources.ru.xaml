@@ -3,6 +3,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <system:String x:Key="Lang">ru</system:String>
+
     <system:String x:Key="AddHeader">Добавить</system:String>
     <system:String x:Key="ClearHeader">Очистить</system:String>
     <system:String x:Key="CreateHeader">Создать</system:String>
@@ -10,6 +12,7 @@
     <system:String x:Key="EditHeader">Редактировать</system:String>
     <system:String x:Key="RemoveHeader">Удалить</system:String>
     <system:String x:Key="ShowHeader">Показать</system:String>
+    <system:String x:Key="ChangeHeader">Изменит</system:String>
 
     <system:String x:Key="DashboardHeader">Дошборд</system:String>
     <system:String x:Key="IssuesHeader">Задачи</system:String>
@@ -19,9 +22,9 @@
 
     <system:String x:Key="ConstructionMessage">Страница находиться в разработке.</system:String>
 
-    <system:String x:Key="TypesLabel">Типы:</system:String>
-    <system:String x:Key="StatusesLabel">Статусы:</system:String>
-    <system:String x:Key="PrioritiesLabel">Приоритеты:</system:String>
+    <system:String x:Key="TypesHeader">Типы</system:String>
+    <system:String x:Key="StatusesHeader">Статусы</system:String>
+    <system:String x:Key="PrioritiesHeader">Приоритеты</system:String>
 
     <system:String x:Key="TypeHeader">Тип</system:String>
     <system:String x:Key="StatusHeader">Статус</system:String>
@@ -52,7 +55,23 @@
     <system:String x:Key="CustomHeader">Мой</system:String>
 
     <system:String x:Key="WebLinkLabel">Веб сайт:</system:String>
+    <system:String x:Key="AttachmentsLabel">Вложения:</system:String>
     <system:String x:Key="DashboardLabel">Дашборд:</system:String>
     <system:String x:Key="IsCustomRootMessage">Показывать на дашборде</system:String>
+
+    <system:String x:Key="FoundLabel">Найдено:</system:String>
+
+    <system:String x:Key="CommonHeader">Общая</system:String>
+    <system:String x:Key="FilesHeader">Файлы</system:String>
+    <system:String x:Key="DisplayHeader">Отображение</system:String>
+
+    <system:String x:Key="LanguageLabel">Язык:</system:String>
+    <system:String x:Key="DocumentLabel">Докимент:</system:String>
+    <system:String x:Key="ConfigLabel">Конфиг:</system:String>
+    <system:String x:Key="BackupsLabel">Бекапы:</system:String>
+    <system:String x:Key="IssuePageLabel">Страница задачи:</system:String>
+
+    <system:String x:Key="TableColumnsHeader">Колонки таблицы</system:String>
+    <system:String x:Key="SitebarRowsHeader">Строки боковой панели</system:String>
 
 </ResourceDictionary>

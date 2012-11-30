@@ -3,6 +3,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <system:String x:Key="Lang">en</system:String>
+
     <system:String x:Key="AddHeader">Add</system:String>
     <system:String x:Key="ClearHeader">Clear</system:String>
     <system:String x:Key="CreateHeader">Create</system:String>
@@ -10,6 +12,7 @@
     <system:String x:Key="EditHeader">Edit</system:String>
     <system:String x:Key="RemoveHeader">Remove</system:String>
     <system:String x:Key="ShowHeader">Show</system:String>
+    <system:String x:Key="ChangeHeader">Change</system:String>
 
     <system:String x:Key="DashboardHeader">Dashboard</system:String>
     <system:String x:Key="IssuesHeader">Issues</system:String>
@@ -19,9 +22,9 @@
 
     <system:String x:Key="ConstructionMessage">Page is under construction.</system:String>
 
-    <system:String x:Key="TypesLabel">Types:</system:String>
-    <system:String x:Key="StatusesLabel">Statuses:</system:String>
-    <system:String x:Key="PrioritiesLabel">Priorities:</system:String>
+    <system:String x:Key="TypesHeader">Types</system:String>
+    <system:String x:Key="StatusesHeader">Statuses</system:String>
+    <system:String x:Key="PrioritiesHeader">Priorities</system:String>
 
     <system:String x:Key="TypeHeader">Type</system:String>
     <system:String x:Key="StatusHeader">Status</system:String>
@@ -52,7 +55,23 @@
     <system:String x:Key="CustomHeader">Custom</system:String>
 
     <system:String x:Key="WebLinkLabel">Web site:</system:String>
+    <system:String x:Key="AttachmentsLabel">Attachments:</system:String>
     <system:String x:Key="DashboardLabel">Dashboard:</system:String>
     <system:String x:Key="IsCustomRootMessage">Show on dashboard</system:String>
+
+    <system:String x:Key="FoundLabel">Found:</system:String>
+
+    <system:String x:Key="CommonHeader">Common</system:String>
+    <system:String x:Key="FilesHeader">Files</system:String>
+    <system:String x:Key="DisplayHeader">Display</system:String>
+
+    <system:String x:Key="LanguageLabel">Language:</system:String>
+    <system:String x:Key="DocumentLabel">Document:</system:String>
+    <system:String x:Key="ConfigLabel">Config:</system:String>
+    <system:String x:Key="BackupsLabel">Backups:</system:String>
+    <system:String x:Key="IssuePageLabel">Issue page:</system:String>
+
+    <system:String x:Key="TableColumnsHeader">Table columns</system:String>
+    <system:String x:Key="SitebarRowsHeader">Sitebar rows</system:String>
 
 </ResourceDictionary>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,6 +26,16 @@ namespace LifeBoard.ViewModels.Configuration
         {
             _board = board;
             ConfigDisplay = new ConfigDisplayViewModel();
+        }
+
+        public string ConfigFile
+        {
+            get { return Global.ConfigFile; }
+        }
+
+        public string BackupFolder
+        {
+            get { return Global.BackupFolder; }
         }
 
         public ConfigDisplayViewModel ConfigDisplay { get; private set; }
@@ -78,7 +90,7 @@ namespace LifeBoard.ViewModels.Configuration
                 {
                     ConfigRepository.Config.Language = value;
                     ConfigRepository.Save();
-                    UpdateResources(value);                
+                    Global.UpdateResources(value);                
                     OnPropertyChanged("Language");
                 }
             }
@@ -88,23 +100,5 @@ namespace LifeBoard.ViewModels.Configuration
         {
             get { return Enum.GetValues(typeof(Language)).Cast<Language>(); }
         }
-
-        public static void UpdateResources(Language language)
-        {
-            Application.Current.Resources.MergedDictionaries.Clear();
-            string resourse = "Assets/StringResources.xaml";
-            if (language == Language.Russian)
-            {
-                resourse = "Assets/StringResources.ru.xaml";
-            }
-            Application.Current.Resources.MergedDictionaries.Add(
-                (ResourceDictionary)Application.LoadComponent(
-                new Uri(resourse, UriKind.Relative)));
-            Application.Current.Resources.MergedDictionaries.Add(
-                (ResourceDictionary)Application.LoadComponent(
-                new Uri("Assets/Styles.xaml", UriKind.Relative)));
-        }
-
-       
     }
 }
