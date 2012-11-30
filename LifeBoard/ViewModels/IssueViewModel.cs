@@ -5,6 +5,16 @@ namespace LifeBoard.ViewModels
 {
     public class IssueViewModel : ViewModelBase
     {
+        protected bool Equals(IssueViewModel other)
+        {
+            return Equals(_issue, other._issue);
+        }
+
+        public override int GetHashCode()
+        {
+            return (_issue != null ? _issue.GetHashCode() : 0);
+        }
+
         private readonly Issue _issue;
 
         private readonly object _parent;
@@ -53,6 +63,14 @@ namespace LifeBoard.ViewModels
         public object Parent
         {
             get { return _parent; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((IssueViewModel) obj);
         }
     }
 }

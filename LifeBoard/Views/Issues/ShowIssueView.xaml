@@ -60,7 +60,7 @@
                             <Button Margin="130,0,0,0" Style="{DynamicResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}" VerticalAlignment="Center" />
                         </Grid>
                         <Grid Visibility="{Binding AttachmentsVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="Attachments:" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
                             <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}"/>
                         </Grid>
                     </StackPanel>

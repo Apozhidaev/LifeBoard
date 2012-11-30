@@ -33,6 +33,8 @@ namespace LifeBoard.ViewModels.Issues
             Parents = new ObservableCollection<IssueViewModel>();
             Children = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
+            IsActiveChildren = true;
+            IsRootChildren = false;
         }
 
         public IssueViewModel IssueModel

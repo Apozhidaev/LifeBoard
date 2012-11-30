@@ -49,7 +49,7 @@ namespace LifeBoard.Models.Configs
                                          {
                                              ShowIssue = new ShowIssue
                                                              {
-                                                                 Table = new Issue(),
+                                                                 Table = new Issue{ IsIssueType = true },
                                                                  Sitebar = new Issue()
                                                              }
                                          }

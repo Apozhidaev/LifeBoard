@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -38,19 +39,22 @@ namespace LifeBoard.ViewModels.Issues
 
         public async void AsyncSearch()
         {
-            bool isClear = false;
-            foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetIssues(Filter.ToModel())))
+            var issues = await Task<List<Issue>>.Factory.StartNew(() => _board.GetIssues(Filter.ToModel()).ToList());
+
+            var removeList = Issues.Where(i => !issues.Contains(i.Model)).ToList();
+
+            foreach (var issueViewModel in removeList)
             {
-                if (!isClear)
-                {
-                    Issues.Clear();
-                    isClear = true;
-                }
-                Issues.Add(new IssueViewModel(this, issue));
+                Issues.Remove(issueViewModel);
             }
-            if (!isClear)
+
+            foreach (var issue in issues)
             {
-                Issues.Clear();
+                var model = new IssueViewModel(this, issue);
+                if (!Issues.Contains(model))
+                {
+                    Issues.Add(new IssueViewModel(this, issue));
+                }
             }
         }
 
