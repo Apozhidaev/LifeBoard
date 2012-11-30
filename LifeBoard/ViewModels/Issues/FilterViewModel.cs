@@ -31,7 +31,7 @@ namespace LifeBoard.ViewModels.Issues
                 if (_query != value)
                 {
                     _query = value;
-                    _issuesViewModel.Search();
+                    _issuesViewModel.AsyncSearch();
                     OnPropertyChanged("Query");
                 }
             }

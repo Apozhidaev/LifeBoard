@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using LifeBoard.Models.Configs;
 
 namespace LifeBoard.Models
 {
@@ -99,11 +99,18 @@ namespace LifeBoard.Models
 
         public IEnumerable<Issue> GetIssues(IssueFilter filter)
         {
+            if (filter.HasQuery)
+            {
+                return Document.Issues.Values.Where(
+                    i => filter.Types.Contains(i.Type) &&
+                         filter.Statuses.Contains(i.Status) &&
+                         filter.Priorities.Contains(i.Priority) &&
+                         Regex.IsMatch(i.Summary.ToLower(), filter.Query.ToLower()));
+            }
             return Document.Issues.Values.Where(
-                i => filter.Types.Contains(i.Type) &&
-                    filter.Statuses.Contains(i.Status) &&
-                    filter.Priorities.Contains(i.Priority) &&
-                    Regex.IsMatch(i.Summary.ToLower(), filter.Query.ToLower()));
+                    i => filter.Types.Contains(i.Type) &&
+                         filter.Statuses.Contains(i.Status) &&
+                         filter.Priorities.Contains(i.Priority));
         }
 
         public IEnumerable<Issue> GetRootIssues()
@@ -174,7 +181,7 @@ namespace LifeBoard.Models
             var filter = new IssueFilter();
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses = new HashSet<IssueStatus>(new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved });
-            filter.Types = new HashSet<IssueType>(GetTypes());
+            filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
             return filter;
         }
 
@@ -204,6 +211,10 @@ namespace LifeBoard.Models
 
         public IEnumerable<Issue> GetIssues(string query)
         {
+            if(String.IsNullOrEmpty(query))
+            {
+                return Document.Issues.Values;
+            }
             return Document.Issues.Values.Where(i => Regex.IsMatch(i.Summary.ToLower(), query.ToLower()));
         }
     }

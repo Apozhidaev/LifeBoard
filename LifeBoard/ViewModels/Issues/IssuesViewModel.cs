@@ -26,22 +26,22 @@ namespace LifeBoard.ViewModels.Issues
             Filter = new FilterViewModel(this);
             Issues = new ObservableCollection<IssueViewModel>();
             Filter.SetModel(board.GetFullFilter(), board.GetDefaultFilter());
-            Search();
+            AsyncSearch();
         }
 
         private DelegateCommand _searchCommand;
 
         public ICommand SearchCommand
         {
-            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
+            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(AsyncSearch)); }
         }
 
-        public async void Search()
+        public async void AsyncSearch()
         {
             bool isClear = false;
             foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetIssues(Filter.ToModel())))
             {
-                if(!isClear)
+                if (!isClear)
                 {
                     Issues.Clear();
                     isClear = true;
@@ -54,6 +54,16 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
+        private void Search()
+        {
+            var issues = _board.GetIssues(Filter.ToModel());
+            Issues.Clear();
+            foreach (var issue in issues)
+            {
+                Issues.Add(new IssueViewModel(this, issue));
+            }
+        }
+
         public override Page Page
         {
             get { return _issuesView ?? (_issuesView = new IssuesView(this)); }
@@ -62,7 +72,7 @@ namespace LifeBoard.ViewModels.Issues
         protected override void OnNavigated()
         {
             base.OnNavigated();
-            Search();
+            AsyncSearch();
         }
     }
 }

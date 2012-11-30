@@ -36,19 +36,19 @@ namespace LifeBoard.ViewModels.Dashboard
 
         protected override void OnNavigated()
         {
-            UpdateIssues();
             base.OnNavigated();
+            AsyncUpdateIssues();
         }
 
-        private async void UpdateIssues()
+        private async void AsyncUpdateIssues()
         {
-            bool isClear = false;           
-            var issues = IsCustomRoot 
-                ? await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetCustomRootIssues) 
+            bool isClear = false;
+            var issues = IsCustomRoot
+                ? await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetCustomRootIssues)
                 : await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetRootIssues);
             foreach (var issue in issues)
             {
-                if(!isClear)
+                if (!isClear)
                 {
                     Issues.Clear();
                     isClear = true;
@@ -58,6 +58,16 @@ namespace LifeBoard.ViewModels.Dashboard
             if (!isClear)
             {
                 Issues.Clear();
+            }
+        }
+
+        private void UpdateIssues()
+        {
+            var issues = IsCustomRoot ? _board.GetCustomRootIssues() : _board.GetRootIssues();
+            Issues.Clear();
+            foreach (var issue in issues)
+            {
+                Issues.Add(new IssueViewModel(this, issue));
             }
         }
 
@@ -89,7 +99,7 @@ namespace LifeBoard.ViewModels.Dashboard
         {
             IsRoot = !isCustom;
             IsCustomRoot = isCustom;
-            UpdateIssues();
+            AsyncUpdateIssues();
         }
 
         public bool IsRoot

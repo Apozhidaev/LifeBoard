@@ -19,5 +19,10 @@ namespace LifeBoard.Models
         public HashSet<IssueType> Types { get; set; }
 
         public HashSet<IssueStatus> Statuses { get; set; }
+
+        public bool HasQuery
+        {
+            get { return !String.IsNullOrEmpty(Query); }
+        }
     }
 }

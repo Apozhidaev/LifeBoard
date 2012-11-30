@@ -50,26 +50,8 @@ namespace LifeBoard.ViewModels
                     _current = value;
                     _current.IsNavigated = true;
                     OnPropertyChanged("Current");
-                    OnPropertyChanged("IsDashboardNavigated");
-                    OnPropertyChanged("IsIssuesNavigated");
-                    OnPropertyChanged("IsConfigurationNavigated");
                 }
             }
-        }
-
-        public bool IsDashboardNavigated
-        {
-            get { return _backPage == Dashboard; }
-        }
-
-        public bool IsIssuesNavigated
-        {
-            get { return _backPage == Issues; }
-        }
-
-        public bool IsConfigurationNavigated
-        {
-            get { return _backPage == Configuration; }
         }
 
         public DashboardViewModel Dashboard { get; private set; }
@@ -178,7 +160,7 @@ namespace LifeBoard.ViewModels
             _board.Submit();
             if (Current == Issues)
             {
-                Issues.Search();
+                Issues.AsyncSearch();
             }
             if (Current == ShowIssue)
             {
