@@ -42,18 +42,6 @@ namespace LifeBoard.ViewModels
             _current.IsNavigated = true;
         }
 
-        //private DelegateCommand<IssueViewModel> _historyBackCommand;
-
-        //public ICommand HistoryBackCommand
-        //{
-        //    get { return _historyBackCommand ?? (_historyBackCommand = new DelegateCommand<IssueViewModel>(DeleteBack)); }
-        //}
-
-        //private void HistoryBack(IssueViewModel issue)
-        //{
-            
-        //}
-
         public ObservableCollection<IssueViewModel> ShowHistory
         {
             get { return _showHistory; }
