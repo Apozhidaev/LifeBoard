@@ -120,7 +120,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="{StaticResource MarkBrush45}"/>
-        <Setter Property="Foreground" Value="{StaticResource BaseBrush7}"/>
+        <Setter Property="Foreground" Value="{StaticResource MarkBrush7}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -823,10 +823,17 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <DataTemplate x:Key="FileItemDataTemplate">
         <Grid>
             <Button Style="{DynamicResource LinkButtonStyle}" Content="{Binding FileName}" Command="{Binding Parent.OpenAttachmentCommand}" CommandParameter="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" />
         </Grid>
     </DataTemplate>
 
+    <ItemsPanelTemplate x:Key="PageItemsPanelTemplate">
+        <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
+    </ItemsPanelTemplate>
+    <DataTemplate x:Key="PagenatorItemDataTemplate">
+        <Button Content="{Binding Header}" FontSize="10" Height="22" Width="23" Command="{Binding Parent.GoPageCommand}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle}"  />
+    </DataTemplate>
 </ResourceDictionary>

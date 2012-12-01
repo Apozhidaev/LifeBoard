@@ -29,40 +29,42 @@
             </StackPanel>
         </ScrollViewer>
         <TextBlock HorizontalAlignment="Right" Margin="0,0,50,10" TextWrapping="Wrap" Text="{DynamicResource FoundLabel}" VerticalAlignment="Bottom" Style="{DynamicResource CaptionTextStyle}" Foreground="{StaticResource MarkBrush7}"/>
-        <TextBlock HorizontalAlignment="Right" Margin="0,0,10,10" TextWrapping="Wrap" Text="{Binding Issues.Count}" VerticalAlignment="Bottom" Style="{DynamicResource CaptionTextStyle}" Foreground="{StaticResource MarkBrush7}"/>
-        <ScrollViewer Grid.Column="1" Margin="0,70,0,0">
-        <DataGrid x:Name="_dataGrid"
-    		IsReadOnly="True"
-    		HorizontalAlignment="Stretch"
-    		Views:UIElementCorrector.FixScrolling="Fix"
-    		VerticalAlignment="Stretch"
-    		ItemsSource="{Binding Issues}"
-    		RowStyle="{DynamicResource IssueDataGridRowStyle}"
-    		
-                  CellStyle="{DynamicResource IssueDataGridCellStyle}"
-    		GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
-             BorderThickness="0" Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
-                  Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}"
-            Background="{StaticResource MarkBrush2}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}"
-            ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}" HeadersVisibility="Column">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="{DynamicResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                <DataGridTextColumn Header="{DynamicResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
-                <DataGridTextColumn Header="{DynamicResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                <DataGridTextColumn Header="{DynamicResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                <DataGridTextColumn Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-            </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="0,0,0,0" BorderBrush="{DynamicResource MarkBrush6}">
-                        <Grid Height="150" Background="{DynamicResource MarkBrush5}">
-                            <TextBlock Margin="15,10,0,0"  Foreground="White" Text="{DynamicResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
-                            <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
-        </DataGrid>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,10,10" TextWrapping="Wrap" Text="{Binding AllIssues.Count}" VerticalAlignment="Bottom" Style="{DynamicResource CaptionTextStyle}" Foreground="{StaticResource MarkBrush7}"/>
+        <ScrollViewer Grid.Column="1" Margin="0,70,0,0" Background="{StaticResource MarkBrush2}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                <DataGrid x:Name="_dataGrid"
+    		                IsReadOnly="True"
+    		                HorizontalAlignment="Stretch"
+    		                Views:UIElementCorrector.FixScrolling="Fix"
+    		                VerticalAlignment="Stretch"
+    		                ItemsSource="{Binding Issues}"
+    		                RowStyle="{DynamicResource IssueDataGridRowStyle}"
+                            CellStyle="{DynamicResource IssueDataGridCellStyle}"
+    		                GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
+                            BorderThickness="0" Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
+                            Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}"
+                            Background="{StaticResource BaseBrush1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}"
+                            ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}" HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{DynamicResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                        <DataGridTextColumn Header="{DynamicResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
+                        <DataGridTextColumn Header="{DynamicResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                        <DataGridTextColumn Header="{DynamicResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                        <DataGridTextColumn Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource GroupTextStyle}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,0" BorderBrush="{DynamicResource MarkBrush6}">
+                                <Grid Height="150" Background="{DynamicResource MarkBrush5}">
+                                    <TextBlock Margin="15,10,0,0"  Foreground="White" Text="{DynamicResource DescriptionLabel}" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
+                                    <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{StaticResource BaseBrush1}" Visibility="{Binding PagenatorVisibility}" Height="70" Padding="20" BorderThickness="0" ItemsSource="{Binding PageNumbers}" SelectedValue="{Binding PageNumberCorrent,Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsPanel="{DynamicResource PageItemsPanelTemplate}" ItemTemplate="{DynamicResource PagenatorItemDataTemplate}"/>
+            </StackPanel>
         </ScrollViewer>
         <TextBlock Text="{DynamicResource IssuesHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}"/>
     </Grid>

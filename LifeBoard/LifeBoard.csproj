@@ -125,6 +125,7 @@
     <Compile Include="ViewModels\Issues\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Issues\ConfigIssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\ConfigShowIssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\PageNumberViewModel.cs" />
     <Compile Include="Views\TextBoxCorrector.cs" />
     <Compile Include="ViewModels\INavigatePage.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />

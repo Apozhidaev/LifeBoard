@@ -181,7 +181,7 @@ namespace LifeBoard.Models
             var filter = new IssueFilter();
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses = new HashSet<IssueStatus>(new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved });
-            filter.Types = new HashSet<IssueType>(new[] { IssueType.Epic });
+            filter.Types = new HashSet<IssueType>(GetTypes());
             return filter;
         }
 

@@ -42,22 +42,13 @@ namespace LifeBoard.ViewModels.Dashboard
 
         private async void AsyncUpdateIssues()
         {
-            bool isClear = false;
             var issues = IsCustomRoot
                 ? await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetCustomRootIssues)
                 : await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetRootIssues);
+            Issues.Clear();
             foreach (var issue in issues)
             {
-                if (!isClear)
-                {
-                    Issues.Clear();
-                    isClear = true;
-                }
                 Issues.Add(new IssueViewModel(this, issue));
-            }
-            if (!isClear)
-            {
-                Issues.Clear();
             }
         }
 

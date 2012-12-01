@@ -186,7 +186,6 @@ namespace LifeBoard.ViewModels.Issues
 
         public async void UpdateChildren()
         {
-            bool isClear = false;
             var issues = IsRootChildren
                 ? await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetRootChildren(_issue.Id))
                 : await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetChildren(_issue.Id));           
@@ -194,37 +193,21 @@ namespace LifeBoard.ViewModels.Issues
             {
                 issues = issues.Where(c => c.Status != IssueStatus.Closed);
             }
+            Children.Clear();
             foreach (var child in issues)
             {
-                if(!isClear)
-                {
-                    Children.Clear();
-                    isClear = true;
-                }
                 Children.Add(new IssueViewModel(this, child));
-            }
-            if (!isClear)
-            {
-                Children.Clear();
             }
             OnPropertyChanged("ChildrenVisibility");
         }
 
         public async void UpdateParents()
         {
-            bool isClear = false;
-            foreach (var issue in await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetParents(_issue.Id)))
+            var parents = await Task<IEnumerable<Issue>>.Factory.StartNew(() => _board.GetParents(_issue.Id));
+            Parents.Clear();
+            foreach (var issue in parents)
             {
-                if (!isClear)
-                {
-                    Parents.Clear();
-                    isClear = true;
-                }
                 Parents.Add(new IssueViewModel(this, issue));
-            }
-            if (!isClear)
-            {
-                Parents.Clear();
             }
             if (!IsParentsEnabled && IsParentsChecked)
             {
