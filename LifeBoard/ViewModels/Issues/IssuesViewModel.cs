@@ -105,6 +105,8 @@ namespace LifeBoard.ViewModels.Issues
                 }
             }
 
+            SortIssues(AllIssues);
+
             int skip = PageNumberCorrent != null ? (PageNumberCorrent.Number - 1)*PageCount : 0;
 
             var pageIssues = AllIssues.Skip(skip).Take(PageCount).ToList();
@@ -126,16 +128,24 @@ namespace LifeBoard.ViewModels.Issues
 
             if (hasChanged)
             {
+                SortIssues(Issues);
                 PageNumbers.Clear();
-                for (int i = 0; i < (AllIssues.Count - 1)/PageCount; i++)
+                if (AllIssues.Count > PageCount)
                 {
-                    PageNumbers.Add(new PageNumberViewModel(this, i + 1));
-                }
-                if (PageNumbers.Count > 0)
-                {
+                    for (int i = 0; i <= (AllIssues.Count - 1)/PageCount; i++)
+                    {
+                        PageNumbers.Add(new PageNumberViewModel(this, i + 1));
+                    }
                     PageNumberCorrent = new PageNumberViewModel(this, 1);
                 }
                 OnPropertyChanged("PagenatorVisibility");
+            }
+            else
+            {
+                foreach (var issueViewModel in Issues)
+                {
+                    issueViewModel.UpdateSource();
+                }
             }
         }
 
@@ -148,6 +158,15 @@ namespace LifeBoard.ViewModels.Issues
         {
             base.OnNavigated();
             AsyncSearch();
+        }
+
+        private void SortIssues(ObservableCollection<IssueViewModel> issues)
+        {
+            var list = issues.OrderBy(i => i.Model.Id).ToList();
+            for (int i = 0; i < issues.Count; i++)
+            {
+                issues[i] = list[i];
+            }
         }
     }
 }

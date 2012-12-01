@@ -30,7 +30,7 @@
         </ScrollViewer>
         <TextBlock HorizontalAlignment="Right" Margin="0,0,50,10" TextWrapping="Wrap" Text="{DynamicResource FoundLabel}" VerticalAlignment="Bottom" Style="{DynamicResource CaptionTextStyle}" Foreground="{StaticResource MarkBrush7}"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,0,10,10" TextWrapping="Wrap" Text="{Binding AllIssues.Count}" VerticalAlignment="Bottom" Style="{DynamicResource CaptionTextStyle}" Foreground="{StaticResource MarkBrush7}"/>
-        <ScrollViewer Grid.Column="1" Margin="0,70,0,0" Background="{StaticResource MarkBrush2}">
+        <ScrollViewer Grid.Column="1" Margin="0,70,0,0" Background="{StaticResource MarkBrush2}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
                 <DataGrid x:Name="_dataGrid"
     		                IsReadOnly="True"

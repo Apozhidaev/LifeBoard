@@ -82,6 +82,10 @@ namespace LifeBoard.ViewModels
 
         public void Show(IssueViewModel issue)
         {
+            if(issue == null)
+            {
+                return;
+            }
             _actualIssue = issue;
             ShowIssue.SetIssue(issue);
             Navigate(ShowIssue);
@@ -109,6 +113,10 @@ namespace LifeBoard.ViewModels
 
         private void Edit(IssueViewModel issue)
         {
+            if(issue == null)
+            {
+                return;
+            }
             _actualIssue = issue;
             EditIssue.SetIssue(issue.Model);
             Navigate(EditIssue);
@@ -123,6 +131,10 @@ namespace LifeBoard.ViewModels
 
         private void Delete(IssueViewModel issue)
         {
+            if(issue == null)
+            {
+                return;
+            }
             Delete(issue, false);
         }
 
@@ -135,6 +147,10 @@ namespace LifeBoard.ViewModels
 
         private void DeleteBack(IssueViewModel issue)
         {
+            if (issue == null)
+            {
+                return;
+            }
             Delete(issue, true);
         }
 

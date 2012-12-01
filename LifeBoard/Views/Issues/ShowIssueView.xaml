@@ -10,6 +10,42 @@
 	Title="ShowIssueView" Background="{DynamicResource BaseBrush1}">
     <Page.Resources>
         <Issues:ConfigShowIssueViewModel x:Key="Config" />
+        <Style x:Key="AttachListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
@@ -61,7 +97,7 @@
                         </Grid>
                         <Grid Visibility="{Binding AttachmentsVisibility}" Margin="0,0,0,30">
                             <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}"/>
+                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}" ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}"/>
                         </Grid>
                     </StackPanel>
                 </Grid>

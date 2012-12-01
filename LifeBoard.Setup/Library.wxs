@@ -33,11 +33,17 @@
           </Component>
         </Directory>
       </Directory>
+      <Directory Id="FontsFolder">
+        <Component Id="InstallFonts" Guid="C2A374DD-A419-41E1-BA15-B784E5DA8096">
+          <File DiskId='1' Id="seguisym.TTF" Source="Fonts\seguisym.ttf" TrueType="yes" />
+        </Component>
+      </Directory>
     </Directory>
-
+    
     <Feature Id="ProductFeature" Title="LifeBoard" Level="1">
       <ComponentRef Id="ProductComponent" />
       <ComponentRef Id="ApplicationShortcutLifeBoard" />
+      <ComponentRef Id="InstallFonts" />
     </Feature>
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>

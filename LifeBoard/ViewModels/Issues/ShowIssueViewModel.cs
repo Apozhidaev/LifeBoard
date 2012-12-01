@@ -225,6 +225,7 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
             OnPropertyChanged("WebSite");
+            OnPropertyChanged("CreationDate");
             OnPropertyChanged("DescriptionVisibility");
             OnPropertyChanged("WebLinkVisibility");
             OnPropertyChanged("AttachmentsVisibility");

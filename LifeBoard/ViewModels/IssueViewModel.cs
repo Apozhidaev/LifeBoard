@@ -72,5 +72,15 @@ namespace LifeBoard.ViewModels
             if (obj.GetType() != this.GetType()) return false;
             return Equals((IssueViewModel) obj);
         }
+
+        public void UpdateSource()
+        {
+            OnPropertyChanged("Summary");
+            OnPropertyChanged("Description");
+            OnPropertyChanged("Priority");
+            OnPropertyChanged("IssueType");
+            OnPropertyChanged("Status");
+            OnPropertyChanged("CreationDate");
+        }
     }
 }
