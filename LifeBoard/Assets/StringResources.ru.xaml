@@ -12,7 +12,7 @@
     <system:String x:Key="EditHeader">Редактировать</system:String>
     <system:String x:Key="RemoveHeader">Удалить</system:String>
     <system:String x:Key="ShowHeader">Показать</system:String>
-    <system:String x:Key="ChangeHeader">Изменит</system:String>
+    <system:String x:Key="ChangeHeader">Изменить</system:String>
 
     <system:String x:Key="DashboardHeader">Дошборд</system:String>
     <system:String x:Key="IssuesHeader">Задачи</system:String>
@@ -66,7 +66,7 @@
     <system:String x:Key="DisplayHeader">Отображение</system:String>
 
     <system:String x:Key="LanguageLabel">Язык:</system:String>
-    <system:String x:Key="DocumentLabel">Докимент:</system:String>
+    <system:String x:Key="DocumentLabel">Документ:</system:String>
     <system:String x:Key="ConfigLabel">Конфиг:</system:String>
     <system:String x:Key="BackupsLabel">Бекапы:</system:String>
     <system:String x:Key="IssuePageLabel">Страница задачи:</system:String>

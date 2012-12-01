@@ -834,6 +834,8 @@
         <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
     </ItemsPanelTemplate>
     <DataTemplate x:Key="PagenatorItemDataTemplate">
-        <Button Content="{Binding Header}" FontSize="10" Height="22" Width="23" Command="{Binding Parent.GoPageCommand}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle}"  />
+        <Border BorderThickness="0" Background="{DynamicResource MarkBrush5}" SnapsToDevicePixels="True" Height="22" Width="23">
+            <TextBlock Text="{Binding Header}" Style="{DynamicResource CaptionGroupTextStyle}"  Foreground="{DynamicResource MarkBrush7}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
     </DataTemplate>
 </ResourceDictionary>

@@ -61,13 +61,6 @@ namespace LifeBoard.ViewModels.Issues
             get { return PageNumbers.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
         }
 
-        private DelegateCommand<PageNumberViewModel> _goPageCommand;
-
-        public ICommand GoPageCommand
-        {
-            get { return _goPageCommand ?? (_goPageCommand = new DelegateCommand<PageNumberViewModel>(GoPage)); }
-        }
-
         public void GoPage(PageNumberViewModel numberModel)
         {
             Issues.Clear();
@@ -77,10 +70,10 @@ namespace LifeBoard.ViewModels.Issues
             {
                 Issues.Add(AllIssues[i]);
             }
-            PageNumberCorrent = numberModel;
         }
 
         private DelegateCommand _searchCommand;
+
         private PageNumberViewModel _pageNumberCorrent;
 
         public ICommand SearchCommand
@@ -92,13 +85,29 @@ namespace LifeBoard.ViewModels.Issues
         {
             var issues = await Task<List<Issue>>.Factory.StartNew(() => _board.GetIssues(Filter.ToModel()).ToList());
 
-            AllIssues.Clear();
-            foreach (var issue in issues)
+            var removeAllList = AllIssues.Where(i => !issues.Contains(i.Model)).ToList();
+
+            bool hasChanged = false;
+
+            foreach (var issueViewModel in removeAllList)
             {
-                AllIssues.Add(new IssueViewModel(this, issue));
+                AllIssues.Remove(issueViewModel);
+                hasChanged = true;
             }
 
-            var pageIssues = AllIssues.Take(PageCount).ToList();
+            foreach (var issue in issues)
+            {
+                var model = new IssueViewModel(this, issue);
+                if (!AllIssues.Contains(model))
+                {
+                    AllIssues.Add(model);
+                    hasChanged = true;
+                }
+            }
+
+            int skip = PageNumberCorrent != null ? (PageNumberCorrent.Number - 1)*PageCount : 0;
+
+            var pageIssues = AllIssues.Skip(skip).Take(PageCount).ToList();
 
             var removeList = Issues.Where(i => !pageIssues.Contains(i)).ToList();
 
@@ -115,16 +124,19 @@ namespace LifeBoard.ViewModels.Issues
                 }
             }
 
-            PageNumbers.Clear();
-            for (int i = 0; i < (AllIssues.Count - 1) / PageCount; i++)
+            if (hasChanged)
             {
-                PageNumbers.Add(new PageNumberViewModel(this, i + 1));
+                PageNumbers.Clear();
+                for (int i = 0; i < (AllIssues.Count - 1)/PageCount; i++)
+                {
+                    PageNumbers.Add(new PageNumberViewModel(this, i + 1));
+                }
+                if (PageNumbers.Count > 0)
+                {
+                    PageNumberCorrent = new PageNumberViewModel(this, 1);
+                }
+                OnPropertyChanged("PagenatorVisibility");
             }
-            if (PageNumbers.Count > 0)
-            {
-                PageNumberCorrent = new PageNumberViewModel(this, 1);
-            }
-            OnPropertyChanged("PagenatorVisibility");
         }
 
         public override Page Page
