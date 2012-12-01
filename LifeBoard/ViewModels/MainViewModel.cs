@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using LifeBoard.Commands;
@@ -25,6 +26,8 @@ namespace LifeBoard.ViewModels
 
         private readonly Stack<PageViewModelBase> _navigateHistory = new Stack<PageViewModelBase>();
 
+        private bool _isHistoryChecked;
+
         public MainViewModel(Board board)
         {
             _board = board;
@@ -37,6 +40,43 @@ namespace LifeBoard.ViewModels
             _current = Dashboard;
             _backPage = Dashboard;
             _current.IsNavigated = true;
+        }
+
+        //private DelegateCommand<IssueViewModel> _historyBackCommand;
+
+        //public ICommand HistoryBackCommand
+        //{
+        //    get { return _historyBackCommand ?? (_historyBackCommand = new DelegateCommand<IssueViewModel>(DeleteBack)); }
+        //}
+
+        //private void HistoryBack(IssueViewModel issue)
+        //{
+            
+        //}
+
+        public ObservableCollection<IssueViewModel> ShowHistory
+        {
+            get { return _showHistory; }
+        }
+
+        private readonly ObservableCollection<IssueViewModel> _showHistory = new ObservableCollection<IssueViewModel>();
+
+        public bool IsHistoryChecked
+        {
+            get { return _isHistoryChecked; }
+            set
+            {
+                if (_isHistoryChecked != value)
+                {
+                    _isHistoryChecked = value;
+                    OnPropertyChanged("IsHistoryChecked");
+                }
+            }
+        }
+
+        public bool IsHistoryEnabled
+        {
+            get { return ShowHistory.Count != 0; }
         }
 
         public PageViewModelBase Current
@@ -82,13 +122,36 @@ namespace LifeBoard.ViewModels
 
         public void Show(IssueViewModel issue)
         {
-            if(issue == null)
+            if(issue == null || (issue.Equals(_actualIssue)))
             {
                 return;
             }
+
+            SetShowHistory(issue);
+
             _actualIssue = issue;
             ShowIssue.SetIssue(issue);
             Navigate(ShowIssue);
+        }
+
+        private void SetShowHistory(IssueViewModel issue)
+        {
+            IsHistoryChecked = false;
+            var removeList = new List<IssueViewModel>();
+            int index = _showHistory.IndexOf(issue);
+            if (index >= 0)
+            {
+                for (int i = _showHistory.Count - 1; i >= index; i--)
+                {
+                    removeList.Add(_showHistory[i]);
+                }
+                foreach (var issueViewModel in removeList)
+                {
+                    _showHistory.Remove(issueViewModel);
+                }
+            }
+            _showHistory.Add(issue);
+            OnPropertyChanged("IsHistoryEnabled");
         }
 
         private DelegateCommand<IssueViewModel> _createCommand;
@@ -222,10 +285,13 @@ namespace LifeBoard.ViewModels
                 var lastIssue = _issueHistory.Peek();
                 if (lastPage is EditIssueViewModel)
                 {
+                    _actualIssue = lastIssue;
                     EditIssue.SetIssue(lastIssue.Model);
                 }
                 if (lastPage is ShowIssueViewModel)
                 {
+                    _actualIssue = lastIssue;
+                    SetShowHistory(lastIssue);
                     ShowIssue.SetIssue(lastIssue);
                 }
                 Current = lastPage;
@@ -238,6 +304,7 @@ namespace LifeBoard.ViewModels
 
         public void ClearHistory()
         {
+            _showHistory.Clear();
             _navigateHistory.Clear();
             _issueHistory.Clear();
             _actualIssue = null;

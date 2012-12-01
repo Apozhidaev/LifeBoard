@@ -74,4 +74,7 @@
     <system:String x:Key="TableColumnsHeader">Table columns</system:String>
     <system:String x:Key="SitebarRowsHeader">Sitebar rows</system:String>
 
+    <system:String x:Key="NavigationHeader">Navigation</system:String>
+    <system:String x:Key="UseHistoryHeader">Use history as parents</system:String>
+
 </ResourceDictionary>

@@ -2,7 +2,7 @@
 
 namespace LifeBoard.ViewModels.Configuration
 {
-    public class ConfigShowIssueViewModel
+    public class ConfigShowIssueViewModel : ViewModelBase
     {
         public ConfigShowIssueViewModel()
         {
@@ -13,5 +13,19 @@ namespace LifeBoard.ViewModels.Configuration
         public ConfigIssueViewModel Table { get; set; }
 
         public ConfigIssueViewModel Sitebar { get; set; }
+
+        public bool IsHistoryAsParents
+        {
+            get { return ConfigRepository.Config.Display.ShowIssue.IsHistoryAsParents; }
+            set
+            {
+                if (ConfigRepository.Config.Display.ShowIssue.IsHistoryAsParents != value)
+                {
+                    ConfigRepository.Config.Display.ShowIssue.IsHistoryAsParents = value;
+                    ConfigRepository.Save();
+                    OnPropertyChanged("IsHistoryAsParents");
+                }
+            }
+        }
     }
 }

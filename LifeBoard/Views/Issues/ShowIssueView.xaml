@@ -140,7 +140,12 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-        <ToggleButton IsEnabled="{Binding IsParentsEnabled}" IsChecked="{Binding IsParentsChecked, Mode=TwoWay}" x:Name="_parentBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
+        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=HistoryVisibility}" IsEnabled="{Binding Parent.IsHistoryEnabled}" IsChecked="{Binding Parent.IsHistoryChecked, Mode=TwoWay}" x:Name="_historyBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
+        <Popup x:Name="_historyPopup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=_historyBack}" VerticalOffset="-1"
+               IsOpen="{Binding ElementName=_historyBack, Path=IsChecked,Mode=TwoWay}" StaysOpen="{Binding IsMouseOver, ElementName=_historyBack, Mode=OneWay}">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" ItemsSource="{Binding Parent.ShowHistory}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}" ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}"/>
+        </Popup>
+        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=ParentsVisibility}" IsEnabled="{Binding IsParentsEnabled}" IsChecked="{Binding IsParentsChecked, Mode=TwoWay}" x:Name="_parentBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
         <Popup x:Name="_parentPopup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=_parentBack}" VerticalOffset="-1"
                IsOpen="{Binding ElementName=_parentBack, Path=IsChecked,Mode=TwoWay}" StaysOpen="{Binding IsMouseOver, ElementName=_parentBack, Mode=OneWay}">
             <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" ItemsSource="{Binding Parents}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}" ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}"/>

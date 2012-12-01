@@ -238,6 +238,7 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         private DelegateCommand<AttachmentViewModel> _openAttachmentCommand;
+
         private bool _isParentsChecked;
 
         public ICommand OpenAttachmentCommand

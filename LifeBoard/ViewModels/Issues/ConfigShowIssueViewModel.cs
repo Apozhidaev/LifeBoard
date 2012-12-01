@@ -1,4 +1,5 @@
-﻿using LifeBoard.Models.Configs;
+﻿using System.Windows;
+using LifeBoard.Models.Configs;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -14,10 +15,22 @@ namespace LifeBoard.ViewModels.Issues
 
         public ConfigIssueViewModel Sitebar { get; set; }
 
+        public Visibility HistoryVisibility
+        {
+            get { return ConfigRepository.Config.Display.ShowIssue.IsHistoryAsParents ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
+        public Visibility ParentsVisibility
+        {
+            get { return ConfigRepository.Config.Display.ShowIssue.IsHistoryAsParents ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
         public void Update()
         {
             OnPropertyChanged("Table");
             OnPropertyChanged("Sitebar");
+            OnPropertyChanged("HistoryVisibility");
+            OnPropertyChanged("ParentsVisibility");
         }
     }
 }
