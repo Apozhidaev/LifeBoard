@@ -1,18 +1,26 @@
 ﻿<Window x:Class="LifeBoard.Views.MainView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Life Board"
-        WindowState="Maximized" MinHeight="380" MinWidth="600" Icon="/LifeBoard;component/Icon.ico" >
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Life Board" WindowState="Maximized" MinHeight="380"
+        MinWidth="600" Icon="/LifeBoard;component/Icon.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="3" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Menu HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" FontSize="16" Style="{DynamicResource MenuStyle}" Background="White">
-            <MenuItem Header="{DynamicResource DashboardHeader}" IsChecked="{Binding Dashboard.IsNavigated, Mode=OneWay}" Command="{Binding NavigateCommand}" CommandParameter="{Binding Dashboard}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}" />
-            <MenuItem Header="{DynamicResource IssuesHeader}" IsChecked="{Binding Issues.IsNavigated, Mode=OneWay}"  Command="{Binding NavigateCommand}" CommandParameter="{Binding Issues}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
-            <MenuItem Header="{DynamicResource ConfigurationHeader}" IsChecked="{Binding Configuration.IsNavigated, Mode=OneWay}"  Command="{Binding NavigateCommand}" CommandParameter="{Binding Configuration}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}"/>
+        <Menu HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" FontSize="16"
+              Style="{DynamicResource MenuStyle}" Background="White">
+            <MenuItem Header="{DynamicResource DashboardHeader}"
+                      IsChecked="{Binding Dashboard.IsNavigated, Mode=OneWay}" Command="{Binding NavigateCommand}"
+                      CommandParameter="{Binding Dashboard}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}" />
+            <MenuItem Header="{DynamicResource IssuesHeader}" IsChecked="{Binding Issues.IsNavigated, Mode=OneWay}"
+                      Command="{Binding NavigateCommand}" CommandParameter="{Binding Issues}" Width="150" Height="50"
+                      Template="{DynamicResource MenuItemControlTemplate}" />
+            <MenuItem Header="{DynamicResource ConfigurationHeader}"
+                      IsChecked="{Binding Configuration.IsNavigated, Mode=OneWay}" Command="{Binding NavigateCommand}"
+                      CommandParameter="{Binding Configuration}" Width="150" Height="50" Template="{DynamicResource MenuItemControlTemplate}" />
         </Menu>
         <Rectangle Height="3" Fill="{DynamicResource MarkBrush6}" VerticalAlignment="Stretch" Grid.Row="1" />
-        <Frame NavigationUIVisibility="Hidden" Content="{Binding Current.Page}" HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" VerticalAlignment="Stretch" />
+        <Frame NavigationUIVisibility="Hidden" Content="{Binding Current.Page}" HorizontalAlignment="Stretch"
+               Margin="0" Grid.Row="2" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

@@ -1,41 +1,52 @@
-﻿<Page x:Class="LifeBoard.Views.Dashboard.DashboardView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Page x:Class="LifeBoard.Views.Dashboard.DashboardView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Views="clr-namespace:LifeBoard.Views"
-      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500"
-      Title="DashboardView">
+      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500" Title="DashboardView">
     <Page.Resources>
         <ItemsPanelTemplate x:Key="DashboardItemsPanelTemplate">
-            <WrapPanel IsItemsHost="True"/>
+            <WrapPanel IsItemsHost="True" />
         </ItemsPanelTemplate>
         <DataTemplate x:Key="DashboardDataTemplate">
-            <Border BorderBrush="{DynamicResource MarkBrush5}" x:Name="Bd" BorderThickness="1" Background="{DynamicResource MarkBrush5}">
+            <Border BorderBrush="{DynamicResource MarkBrush5}" x:Name="Bd" BorderThickness="1"
+                    Background="{DynamicResource MarkBrush5}">
                 <Grid Height="200" Width="200" ToolTip="{Binding Summary}">
-                    <TextBlock Text="{Binding IssueType}" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Text="{Binding Priority}" Foreground="White" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource MarkBrush6}" HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Style="{DynamicResource CaptionTextStyle}" />
-                    <TextBlock Margin="10,42,0,0" Text="{Binding Summary}" Style="{DynamicResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                    <Rectangle Fill="{DynamicResource MarkBrush6}" HorizontalAlignment="Stretch" Height="1" Margin="10,65,10,0" VerticalAlignment="Top"/>
-                    <TextBlock Margin="20,70,10,10" Foreground="{DynamicResource MarkBrush7}" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
+                    <TextBlock Text="{Binding IssueType}" Foreground="White" HorizontalAlignment="Left"
+                               Margin="10,5,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                    <TextBlock Text="{Binding Priority}" Foreground="White" HorizontalAlignment="Right"
+                               Margin="0,5,10,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource MarkBrush6}"
+                               HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Style="{DynamicResource CaptionTextStyle}" />
+                    <TextBlock Margin="10,42,0,0" Text="{Binding Summary}" Style="{DynamicResource TitleTextStyle}"
+                               TextWrapping="NoWrap" />
+                    <Rectangle Fill="{DynamicResource MarkBrush6}" HorizontalAlignment="Stretch" Height="1"
+                               Margin="10,65,10,0" VerticalAlignment="Top" />
+                    <TextBlock Margin="20,70,10,10" Foreground="{DynamicResource MarkBrush7}"
+                               Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left"
+                               Style="{DynamicResource BodyTextStyle}" />
                 </Grid>
             </Border>
         </DataTemplate>
         <Style x:Key="DashboardListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="Margin" Value="1,1"/>
-            <Setter Property="Padding" Value="1,0"/>
-            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Margin" Value="1,1" />
+            <Setter Property="Padding" Value="1,0" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FocusVisualStyle">
                 <Setter.Value>
                     <Style>
                         <Setter Property="Control.Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True"
+                                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -45,35 +56,42 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
-                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="True" />
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MarkBrush5}"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="LightBlue"/>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MarkBrush5}" />
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="LightBlue" />
                             </MultiTrigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
-                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
-                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                    <Condition Property="IsSelected" Value="True" />
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Background" TargetName="Bd" Value="#FFF2F2F2"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="#FFDADADA"/>
+                                <Setter Property="Background" TargetName="Bd" Value="#FFF2F2F2" />
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="#FFDADADA" />
                             </MultiTrigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
-                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
-                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                    <Condition Property="IsSelected" Value="True" />
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MarkBrush5}"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="LightBlue"/>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MarkBrush5}" />
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="LightBlue" />
                             </MultiTrigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="Bd"
+                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -83,12 +101,21 @@
     </Page.Resources>
 
     <Grid Background="{DynamicResource BaseBrush1}">
-        <TextBlock Text="{DynamicResource DashboardHeader}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
-        <ListBox Background="White" Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
-                        Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}" x:Name="_list" Margin="10,70,10,10" ItemsSource="{Binding Issues}" ItemsPanel="{DynamicResource DashboardItemsPanelTemplate}" ItemTemplate="{DynamicResource DashboardDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{DynamicResource DashboardListBoxItemStyle}"/>
-        <Menu Background="{DynamicResource BaseBrush2}" HorizontalAlignment="Right" Height="30" Margin="0,40,10,0" VerticalAlignment="Top" Width="200">
-            <MenuItem Header="{DynamicResource CustomHeader}" Height="30" Width="100" Command="{Binding CustomRootCommand}" IsChecked="{Binding IsCustomRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
-            <MenuItem Header="{DynamicResource RootHeader}" Height="30" Width="100" Command="{Binding RootCommand}" IsChecked="{Binding IsRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}"/>
+        <TextBlock Text="{DynamicResource DashboardHeader}" HorizontalAlignment="Left" Margin="10,20,0,0"
+                   VerticalAlignment="Top" Style="{DynamicResource GroupHeaderTextStyle}" />
+        <ListBox Background="White"
+                 Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
+                 Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}" x:Name="_list" Margin="10,70,10,10"
+                 ItemsSource="{Binding Issues}" ItemsPanel="{DynamicResource DashboardItemsPanelTemplate}"
+                 ItemTemplate="{DynamicResource DashboardDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemContainerStyle="{DynamicResource DashboardListBoxItemStyle}" />
+        <Menu Background="{DynamicResource BaseBrush2}" HorizontalAlignment="Right" Height="30" Margin="0,40,10,0"
+              VerticalAlignment="Top" Width="200">
+            <MenuItem Header="{DynamicResource CustomHeader}" Height="30" Width="100"
+                      Command="{Binding CustomRootCommand}" IsChecked="{Binding IsCustomRoot, Mode=OneWay}"
+                      Template="{DynamicResource DashdoardMenuItemControlTemplate}" />
+            <MenuItem Header="{DynamicResource RootHeader}" Height="30" Width="100" Command="{Binding RootCommand}"
+                      IsChecked="{Binding IsRoot, Mode=OneWay}" Template="{DynamicResource DashdoardMenuItemControlTemplate}" />
         </Menu>
     </Grid>
 </Page>

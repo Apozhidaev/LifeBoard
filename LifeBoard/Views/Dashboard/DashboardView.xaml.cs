@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using LifeBoard.ViewModels;
 using LifeBoard.ViewModels.Dashboard;
 
 namespace LifeBoard.Views.Dashboard

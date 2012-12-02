@@ -4,10 +4,21 @@ using System.Xml.Serialization;
 
 namespace LifeBoard.Models.Configs
 {
+    /// <summary>
+    /// Class ConfigRepository
+    /// </summary>
     public static class ConfigRepository
     {
+        /// <summary>
+        /// Gets the config.
+        /// </summary>
+        /// <value>The config.</value>
         public static Config Config { get; private set; }
 
+        /// <summary>
+        /// Sets the document path.
+        /// </summary>
+        /// <param name="path">The path.</param>
         public static void SetDocumentPath(string path)
         {
             if (Config.DocumentPath != path)
@@ -17,14 +28,17 @@ namespace LifeBoard.Models.Configs
             }
         }
 
+        /// <summary>
+        /// Opens this instance.
+        /// </summary>
         public static void Open()
         {
             FileStream fs = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(Config));
+                var serializer = new XmlSerializer(typeof (Config));
                 fs = new FileStream(Global.ConfigFile, FileMode.Open);
-                Config = (Config)serializer.Deserialize(fs);
+                Config = (Config) serializer.Deserialize(fs);
             }
             catch (Exception)
             {
@@ -37,9 +51,12 @@ namespace LifeBoard.Models.Configs
                     fs.Close();
                 }
             }
-
         }
 
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>Config.</returns>
         private static Config Create()
         {
             return new Config
@@ -49,19 +66,22 @@ namespace LifeBoard.Models.Configs
                                          {
                                              ShowIssue = new ShowIssue
                                                              {
-                                                                 Table = new Issue{ IsIssueType = true },
+                                                                 Table = new Issue {IsIssueType = true},
                                                                  Sitebar = new Issue()
                                                              }
                                          }
                        };
         }
 
+        /// <summary>
+        /// Saves this instance.
+        /// </summary>
         public static void Save()
         {
             TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(Config));
+                var serializer = new XmlSerializer(typeof (Config));
                 writer = new StreamWriter(Global.ConfigFile);
                 serializer.Serialize(writer, Config);
             }

@@ -5,36 +5,53 @@ using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
 {
+    /// <summary>
+    /// Class EditIssueViewModel
+    /// </summary>
     public class EditIssueViewModel : EditIssueViewModelBase
     {
+        /// <summary>
+        /// The _issue
+        /// </summary>
         private Issue _issue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditIssueViewModel" /> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        /// <param name="board">The board.</param>
         public EditIssueViewModel(INavigatePage parent, Board board)
             : base(parent, board)
         {
-            SubmitHeader = (string)Application.Current.FindResource("EditHeader");
+            SubmitHeader = (string) Application.Current.FindResource("EditHeader");
         }
 
+        /// <summary>
+        /// Sets the issue.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
         public void SetIssue(Issue issue)
         {
             _issue = issue;
             FromIssue();
             FromAttachments();
             ParentIssues.Clear();
-            foreach (var parent in Board.GetParents(issue.Id))
+            foreach (Issue parent in Board.GetParents(issue.Id))
             {
                 ParentIssues.Add(new IssueViewModel(this, parent));
             }
         }
 
+        /// <summary>
+        /// Submits this instance.
+        /// </summary>
         protected override void Submit()
         {
-            
             int id = _issue.Id;
-            if (Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths)) 
+            if (Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths))
             {
                 ToIssue();
-                var parents = ParentIssues.Select(pi => pi.Model.Id);
+                IEnumerable<int> parents = ParentIssues.Select(pi => pi.Model.Id);
                 Board.SetParents(id, parents);
                 Board.Submit();
                 base.Submit();
@@ -46,6 +63,9 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
+        /// <summary>
+        /// Froms the issue.
+        /// </summary>
         private void FromIssue()
         {
             Type = _issue.Type;
@@ -56,16 +76,22 @@ namespace LifeBoard.ViewModels.Issues
             WebSite = _issue.WebSite;
         }
 
+        /// <summary>
+        /// Froms the attachments.
+        /// </summary>
         private void FromAttachments()
         {
             Attachments.Clear();
             FilePaths.Clear();
-            foreach (var attachment in Board.GetAttachments(_issue.Id))
+            foreach (string attachment in Board.GetAttachments(_issue.Id))
             {
-                Attachments.Add(new AttachmentViewModel(this) { FileName = attachment });
+                Attachments.Add(new AttachmentViewModel(this) {FileName = attachment});
             }
         }
 
+        /// <summary>
+        /// To the issue.
+        /// </summary>
         private void ToIssue()
         {
             _issue.Type = Type;
@@ -76,6 +102,10 @@ namespace LifeBoard.ViewModels.Issues
             _issue.WebSite = WebSite;
         }
 
+        /// <summary>
+        /// Gets the filter issues.
+        /// </summary>
+        /// <returns>IEnumerable{Issue}.</returns>
         protected override IEnumerable<Issue> GetFilterIssues()
         {
             return Board.GetIssuesExeptChildren(_issue.Id, Query);

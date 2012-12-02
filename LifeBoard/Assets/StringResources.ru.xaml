@@ -1,7 +1,5 @@
-﻿<ResourceDictionary 
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Lang">ru</system:String>
 
@@ -20,7 +18,9 @@
 
     <system:String x:Key="InprogressHeader">В процессе</system:String>
 
-    <system:String x:Key="ConstructionMessage">Страница находиться в разработке.</system:String>
+    <system:String x:Key="ConstructionMessage">
+        Страница находиться в разработке.
+    </system:String>
 
     <system:String x:Key="TypesHeader">Типы</system:String>
     <system:String x:Key="StatusesHeader">Статусы</system:String>
@@ -46,7 +46,9 @@
     <system:String x:Key="AddParentHeader">Add</system:String>
     <system:String x:Key="RemoveParentHeader">Del</system:String>
 
-    <system:String x:Key="DeleteMessage">Вы дейтсвительно хотите удалить эту задачу?</system:String>
+    <system:String x:Key="DeleteMessage">
+        Вы дейтсвительно хотите удалить эту задачу?
+    </system:String>
 
     <system:String x:Key="IsRootHeader">Корневые</system:String>
     <system:String x:Key="IsActiveHeader">Активные</system:String>
@@ -57,7 +59,9 @@
     <system:String x:Key="WebLinkLabel">Веб сайт:</system:String>
     <system:String x:Key="AttachmentsLabel">Вложения:</system:String>
     <system:String x:Key="DashboardLabel">Дашборд:</system:String>
-    <system:String x:Key="IsCustomRootMessage">Показывать на дашборде</system:String>
+    <system:String x:Key="IsCustomRootMessage">
+        Показывать на дашборде
+    </system:String>
 
     <system:String x:Key="FoundLabel">Найдено:</system:String>
 
@@ -72,9 +76,13 @@
     <system:String x:Key="IssuePageLabel">Страница задачи:</system:String>
 
     <system:String x:Key="TableColumnsHeader">Колонки таблицы</system:String>
-    <system:String x:Key="SitebarRowsHeader">Строки боковой панели</system:String>
+    <system:String x:Key="SitebarRowsHeader">
+        Строки боковой панели
+    </system:String>
 
     <system:String x:Key="NavigationHeader">Навигация</system:String>
-    <system:String x:Key="UseHistoryHeader">Использовать историю как родителей</system:String>
+    <system:String x:Key="UseHistoryHeader">
+        Использовать историю как родителей
+    </system:String>
 
 </ResourceDictionary>

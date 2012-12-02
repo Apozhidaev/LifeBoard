@@ -1,30 +1,29 @@
-﻿<Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Issues="clr-namespace:LifeBoard.ViewModels.Issues" xmlns:Views="clr-namespace:LifeBoard.Views"
-      x:Class="LifeBoard.Views.Issues.ShowIssueView" 
-      mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
-	Title="ShowIssueView" Background="{DynamicResource BaseBrush1}">
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Issues="clr-namespace:LifeBoard.ViewModels.Issues"
+      xmlns:Views="clr-namespace:LifeBoard.Views" x:Class="LifeBoard.Views.Issues.ShowIssueView" mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="800" Title="ShowIssueView" Background="{DynamicResource BaseBrush1}">
     <Page.Resources>
         <Issues:ConfigShowIssueViewModel x:Key="Config" />
         <Style x:Key="AttachListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="Padding" Value="4,1"/>
-            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Padding" Value="4,1" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FocusVisualStyle">
                 <Setter.Value>
                     <Style>
                         <Setter Property="Control.Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True"
+                                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -34,12 +33,19 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="Bd"
+                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -48,90 +54,139 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}" Style="{DynamicResource BackButtonStyle}"/>
-        <ComboBox ItemsSource="{Binding Statuses}" SelectedValue="{Binding Status}" Height="28" Width="100"  HorizontalAlignment="Right" Margin="0,10,360,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle}" FontSize="14" />
-        <Button Content="{DynamicResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0" VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{DynamicResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
-        <Button Content="{DynamicResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}" Style="{DynamicResource MainButtonStyle}"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}"
+                Style="{DynamicResource BackButtonStyle}" />
+        <ComboBox ItemsSource="{Binding Statuses}" SelectedValue="{Binding Status}" Height="28" Width="100"
+                  HorizontalAlignment="Right" Margin="0,10,360,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle}"
+                  FontSize="14" />
+        <Button Content="{DynamicResource CreateHeader}" HorizontalAlignment="Right" Margin="0,10,230,0"
+                VerticalAlignment="Top" Command="{Binding Parent.CreateCommand}" CommandParameter="{Binding IssueModel}"
+                Style="{DynamicResource MainButtonStyle}" />
+        <Button Content="{DynamicResource DeleteHeader}" HorizontalAlignment="Right" Margin="0,10,120,0"
+                VerticalAlignment="Top" Command="{Binding Parent.DeleteBackCommand}" CommandParameter="{Binding IssueModel}"
+                Style="{DynamicResource MainButtonStyle}" />
+        <Button Content="{DynamicResource EditHeader}" HorizontalAlignment="Right" Margin="0,10,10,0"
+                VerticalAlignment="Top" Command="{Binding Parent.EditCommand}" CommandParameter="{Binding IssueModel}"
+                Style="{DynamicResource MainButtonStyle}" />
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="225"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="225" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="1" Margin="0,30,0,30">
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsPriority}">
-                            <TextBlock Text="{DynamicResource PriorityLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                            <TextBlock Text="{Binding Priority}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        <Grid Margin="0,10,0,0"
+                              Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsPriority}">
+                            <TextBlock Text="{DynamicResource PriorityLabel}" HorizontalAlignment="Left"
+                                       Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding Priority}" HorizontalAlignment="Left" Margin="120,0,0,0"
+                                       VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1"
+                                       Margin="10,30,20,0" VerticalAlignment="Top" />
                         </Grid>
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueStatus}">
-                            <TextBlock Text="{DynamicResource StatusLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                            <TextBlock Text="{Binding Status}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        <Grid Margin="0,10,0,0"
+                              Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueStatus}">
+                            <TextBlock Text="{DynamicResource StatusLabel}" HorizontalAlignment="Left"
+                                       Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding Status}" HorizontalAlignment="Left" Margin="120,0,0,0"
+                                       VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1"
+                                       Margin="10,30,20,0" VerticalAlignment="Top" />
                         </Grid>
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueType}">
-                            <TextBlock Text="{DynamicResource TypeLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                            <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        <Grid Margin="0,10,0,0"
+                              Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsIssueType}">
+                            <TextBlock Text="{DynamicResource TypeLabel}" HorizontalAlignment="Left" Margin="10,0,0,0"
+                                       VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding IssueType}" HorizontalAlignment="Left" Margin="120,0,0,0"
+                                       VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1"
+                                       Margin="10,30,20,0" VerticalAlignment="Top" />
                         </Grid>
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsCreationDate}">
-                            <TextBlock Text="{DynamicResource CreationDateLabel}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                            <TextBlock Text="{Binding CreationDate}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
-                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1" Margin="10,30,20,0" VerticalAlignment="Top"/>
+                        <Grid Margin="0,10,0,0"
+                              Visibility="{Binding Source={StaticResource Config},Path=Sitebar.IsCreationDate}">
+                            <TextBlock Text="{DynamicResource CreationDateLabel}" HorizontalAlignment="Left"
+                                       Margin="10,0,0,0" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
+                            <TextBlock Text="{Binding CreationDate}" HorizontalAlignment="Left" Margin="120,0,0,0"
+                                       VerticalAlignment="Top" Style="{DynamicResource TitleTextStyle}" />
+                            <Rectangle Fill="{DynamicResource MarkBrush7}" HorizontalAlignment="Stretch" Height="1"
+                                       Margin="10,30,20,0" VerticalAlignment="Top" />
                         </Grid>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="70,30,0,0">
                         <Grid Margin="0,0,0,30">
-                            <TextBlock Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <TextBox Height="23" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource TitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0"/>
+                            <TextBlock Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <TextBox Height="23" Margin="130,0,20,0" TextWrapping="Wrap"
+                                     Text="{Binding Summary, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource TitleTextBoxStyle}"
+                                     IsReadOnly="True" BorderThickness="0" />
                         </Grid>
                         <Grid Visibility="{Binding DescriptionVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="{DynamicResource DescriptionLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <TextBox MaxWidth="800" Margin="130,0,20,0" TextWrapping="Wrap" Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource SubtitleTextBoxStyle}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{DynamicResource DescriptionLabel}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <TextBox MaxWidth="800" Margin="130,0,20,0" TextWrapping="Wrap"
+                                     Text="{Binding Description, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource SubtitleTextBoxStyle}"
+                                     IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left" />
                         </Grid>
                         <Grid Visibility="{Binding WebLinkVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <Button Margin="130,0,0,0" Style="{DynamicResource LinkButtonStyle}" Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <Button Margin="130,0,0,0" Style="{DynamicResource LinkButtonStyle}"
+                                    Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}"
+                                    VerticalAlignment="Center" />
                         </Grid>
                         <Grid Visibility="{Binding AttachmentsVisibility}" Margin="0,0,0,30">
-                            <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}" ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}"/>
+                            <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left"
+                                     VerticalAlignment="Center" ItemsSource="{Binding Attachments}" ItemTemplate="{DynamicResource FileItemDataTemplate}"
+                                     ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}" />
                         </Grid>
                     </StackPanel>
                 </Grid>
                 <Grid Visibility="{Binding ChildrenVisibility}">
-                    <CheckBox Height="25" Content="{DynamicResource IsRootHeader}" IsChecked="{Binding IsRootChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
-                    <CheckBox Height="25" Content="{DynamicResource IsActiveHeader}" IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,65,0,0"/>
-                    <TextBlock Text="{DynamicResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                    <DataGrid x:Name="_dataGrid"
-                        Views:UIElementCorrector.FixScrolling="Fix"
-						IsReadOnly="True"
-						HorizontalAlignment="Stretch"
-						Margin="200,0,20,20"
-						ItemsSource="{Binding Children}"
-						RowStyle="{DynamicResource IssueDataGridRowStyle}"
-                        CellStyle="{DynamicResource IssueDataGridCellStyle}"
-						GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single"
-						BorderThickness="0" Background="{DynamicResource BaseBrush1}" 
-                        Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
-                        Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}"
-						RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}" HeadersVisibility="Column"
-						ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}">
+                    <CheckBox Height="25" Content="{DynamicResource IsRootHeader}" IsChecked="{Binding IsRootChildren}"
+                              Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0" />
+                    <CheckBox Height="25" Content="{DynamicResource IsActiveHeader}"
+                              IsChecked="{Binding IsActiveChildren}" Command="{Binding UpdateChildrenCommand}" HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Margin="80,65,0,0" />
+                    <TextBlock Text="{DynamicResource SubissuesLabel}" HorizontalAlignment="Left" Margin="70,0,0,0"
+                               VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <DataGrid x:Name="_dataGrid" Views:UIElementCorrector.FixScrolling="Fix" IsReadOnly="True"
+                              HorizontalAlignment="Stretch" Margin="200,0,20,20" ItemsSource="{Binding Children}"
+                              RowStyle="{DynamicResource IssueDataGridRowStyle}" CellStyle="{DynamicResource IssueDataGridCellStyle}"
+                              GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single" BorderThickness="0"
+                              Background="{DynamicResource BaseBrush1}"
+                              Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
+                              Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}"
+                              RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}" HeadersVisibility="Column"
+                              ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueType}" Header="{DynamicResource TypeHeader}" Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Header="{DynamicResource SummaryHeader}" Binding="{Binding Summary}" ElementStyle="{DynamicResource BodyGroupTextStyle}"/>
-                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsPriority}" Header="{DynamicResource PriorityHeader}" Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueStatus}" Header="{DynamicResource StatusHeader}" Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}"/>
-                            <DataGridTextColumn Visibility="{Binding Source={StaticResource Config},Path=Table.IsCreationDate}" Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}" ElementStyle="{DynamicResource CaptionGroupTextStyle}"/>
+                            <DataGridTextColumn
+                                Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueType}" Header="{DynamicResource TypeHeader}"
+                                Binding="{Binding IssueType}" ElementStyle="{DynamicResource GroupTextStyle}" />
+                            <DataGridTextColumn Header="{DynamicResource SummaryHeader}" Binding="{Binding Summary}"
+                                                ElementStyle="{DynamicResource BodyGroupTextStyle}" />
+                            <DataGridTextColumn
+                                Visibility="{Binding Source={StaticResource Config},Path=Table.IsPriority}" Header="{DynamicResource PriorityHeader}"
+                                Binding="{Binding Priority}" ElementStyle="{DynamicResource GroupTextStyle}" />
+                            <DataGridTextColumn
+                                Visibility="{Binding Source={StaticResource Config},Path=Table.IsIssueStatus}" Header="{DynamicResource StatusHeader}"
+                                Binding="{Binding Status}" ElementStyle="{DynamicResource GroupTextStyle}" />
+                            <DataGridTextColumn
+                                Visibility="{Binding Source={StaticResource Config},Path=Table.IsCreationDate}"
+                                Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}"
+                                ElementStyle="{DynamicResource CaptionGroupTextStyle}" />
                         </DataGrid.Columns>
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0" BorderBrush="{DynamicResource MarkBrush2}">
                                     <Grid Height="150" Background="{DynamicResource MarkBrush5}">
-                                        <TextBlock Margin="15,10,0,0" Text="{DynamicResource DescriptionLabel}" Foreground="White" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27" VerticalAlignment="Top"/>
-                                        <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100" MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}"/>
+                                        <TextBlock Margin="15,10,0,0" Text="{DynamicResource DescriptionLabel}"
+                                                   Foreground="White" Style="{DynamicResource BodyGroupTextStyle}" HorizontalAlignment="Left" Width="122" Height="27"
+                                                   VerticalAlignment="Top" />
+                                        <TextBlock Margin="40,30,10,10" Text="{Binding Description}" Height="100"
+                                                   MaxWidth="800" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{DynamicResource BodyTextStyle}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -140,15 +195,31 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=HistoryVisibility}" IsEnabled="{Binding Parent.IsHistoryEnabled}" IsChecked="{Binding Parent.IsHistoryChecked, Mode=TwoWay}" x:Name="_historyBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
-        <Popup x:Name="_historyPopup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=_historyBack}" VerticalOffset="-1"
-               IsOpen="{Binding ElementName=_historyBack, Path=IsChecked,Mode=TwoWay}" StaysOpen="{Binding IsMouseOver, ElementName=_historyBack, Mode=OneWay}">
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" ItemsSource="{Binding Parent.ShowHistory}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}" ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}"/>
+        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=HistoryVisibility}"
+                      IsEnabled="{Binding Parent.IsHistoryEnabled}" IsChecked="{Binding Parent.IsHistoryChecked, Mode=TwoWay}"
+                      x:Name="_historyBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left"
+                      Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}"
+                      BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
+        <Popup x:Name="_historyPopup" AllowsTransparency="True" Placement="Bottom"
+               PlacementTarget="{Binding ElementName=_historyBack}" VerticalOffset="-1"
+               IsOpen="{Binding ElementName=_historyBack, Path=IsChecked,Mode=TwoWay}"
+               StaysOpen="{Binding IsMouseOver, ElementName=_historyBack, Mode=OneWay}">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200"
+                     ItemsSource="{Binding Parent.ShowHistory}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}"
+                     ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}" />
         </Popup>
-        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=ParentsVisibility}" IsEnabled="{Binding IsParentsEnabled}" IsChecked="{Binding IsParentsChecked, Mode=TwoWay}" x:Name="_parentBack" Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25" ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
-        <Popup x:Name="_parentPopup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=_parentBack}" VerticalOffset="-1"
-               IsOpen="{Binding ElementName=_parentBack, Path=IsChecked,Mode=TwoWay}" StaysOpen="{Binding IsMouseOver, ElementName=_parentBack, Mode=OneWay}">
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" ItemsSource="{Binding Parents}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}" ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}"/>
+        <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=ParentsVisibility}"
+                      IsEnabled="{Binding IsParentsEnabled}" IsChecked="{Binding IsParentsChecked, Mode=TwoWay}" x:Name="_parentBack"
+                      Content="▼" VerticalAlignment="Top" FontSize="14" Margin="55,17,0,0" HorizontalAlignment="Left" Width="25" Height="25"
+                      ClickMode="Press" Background="{DynamicResource BaseBrush1}" BorderBrush="{x:Null}" BorderThickness="0"
+                      Foreground="{DynamicResource MarkBrush6}" Style="{DynamicResource ToggleButtonStyle}" />
+        <Popup x:Name="_parentPopup" AllowsTransparency="True" Placement="Bottom"
+               PlacementTarget="{Binding ElementName=_parentBack}" VerticalOffset="-1"
+               IsOpen="{Binding ElementName=_parentBack, Path=IsChecked,Mode=TwoWay}"
+               StaysOpen="{Binding IsMouseOver, ElementName=_parentBack, Mode=OneWay}">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" ItemsSource="{Binding Parents}"
+                     ItemTemplate="{DynamicResource ParentBackItemDataTemplate}"
+                     ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}" />
         </Popup>
     </Grid>
 </Page>

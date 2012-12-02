@@ -2,15 +2,29 @@
 
 namespace LifeBoard.ViewModels
 {
+    /// <summary>
+    /// Class PageViewModelBase
+    /// </summary>
     public abstract class PageViewModelBase : ParentViewModelBase
     {
+        /// <summary>
+        /// The _is navigated
+        /// </summary>
         private bool _isNavigated;
 
-        protected PageViewModelBase(object parent) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageViewModelBase" /> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        protected PageViewModelBase(object parent)
             : base(parent)
         {
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is navigated.
+        /// </summary>
+        /// <value><c>true</c> if this instance is navigated; otherwise, <c>false</c>.</value>
         public bool IsNavigated
         {
             get { return _isNavigated; }
@@ -28,8 +42,17 @@ namespace LifeBoard.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the page.
+        /// </summary>
+        /// <value>The page.</value>
         public abstract Page Page { get; }
 
-        protected virtual void OnNavigated(){ }
+        /// <summary>
+        /// Called when [navigated].
+        /// </summary>
+        protected virtual void OnNavigated()
+        {
+        }
     }
 }

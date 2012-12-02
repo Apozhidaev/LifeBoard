@@ -8,12 +8,28 @@ using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels.Issues
 {
+    /// <summary>
+    /// Class FilterViewModel
+    /// </summary>
     public class FilterViewModel : ParentViewModelBase
     {
+        /// <summary>
+        /// The _issues view model
+        /// </summary>
+        private readonly IssuesViewModel _issuesViewModel;
+        /// <summary>
+        /// The _clear command
+        /// </summary>
+        private DelegateCommand _clearCommand;
+        /// <summary>
+        /// The _query
+        /// </summary>
         private string _query = String.Empty;
 
-        private readonly IssuesViewModel _issuesViewModel;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilterViewModel" /> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
         public FilterViewModel(object parent)
             : base(parent)
         {
@@ -23,6 +39,10 @@ namespace LifeBoard.ViewModels.Issues
             _issuesViewModel = parent as IssuesViewModel;
         }
 
+        /// <summary>
+        /// Gets or sets the query.
+        /// </summary>
+        /// <value>The query.</value>
         public string Query
         {
             get { return _query; }
@@ -37,43 +57,74 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
-         private DelegateCommand _clearCommand;
-
+        /// <summary>
+        /// Gets the clear command.
+        /// </summary>
+        /// <value>The clear command.</value>
         public ICommand ClearCommand
         {
             get { return _clearCommand ?? (_clearCommand = new DelegateCommand(Clear)); }
         }
 
+        /// <summary>
+        /// Gets or sets the types.
+        /// </summary>
+        /// <value>The types.</value>
+        public ObservableCollection<TypeViewModel> Types { get; set; }
+
+        /// <summary>
+        /// Gets or sets the statuses.
+        /// </summary>
+        /// <value>The statuses.</value>
+        public ObservableCollection<StatusViewModel> Statuses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the priorities.
+        /// </summary>
+        /// <value>The priorities.</value>
+        public ObservableCollection<PriorityViewModel> Priorities { get; set; }
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
         public void Clear()
         {
             Query = String.Empty;
         }
 
-        public ObservableCollection<TypeViewModel> Types { get; set; }
-
-        public ObservableCollection<StatusViewModel> Statuses { get; set; }
-
-        public ObservableCollection<PriorityViewModel> Priorities { get; set; }
-
+        /// <summary>
+        /// Sets the model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="filter">The filter.</param>
         public void SetModel(IssueFilter model, IssueFilter filter)
         {
             Types.Clear();
             Statuses.Clear();
             Priorities.Clear();
-            foreach (var type in model.Types.Select(t => new TypeViewModel(Parent, t, filter.Types.Contains(t))))
+            foreach (
+                TypeViewModel type in model.Types.Select(t => new TypeViewModel(Parent, t, filter.Types.Contains(t))))
             {
                 Types.Add(type);
             }
-            foreach (var status in model.Statuses.Select(t => new StatusViewModel(Parent, t, filter.Statuses.Contains(t))))
+            foreach (
+                StatusViewModel status in
+                    model.Statuses.Select(t => new StatusViewModel(Parent, t, filter.Statuses.Contains(t))))
             {
                 Statuses.Add(status);
             }
-            foreach (var priority in model.Priorities.Select(t => new PriorityViewModel(Parent, t, filter.Priorities.Contains(t))))
+            foreach (
+                PriorityViewModel priority in
+                    model.Priorities.Select(t => new PriorityViewModel(Parent, t, filter.Priorities.Contains(t))))
             {
                 Priorities.Add(priority);
             }
         }
 
+        /// <summary>
+        /// To the model.
+        /// </summary>
+        /// <returns>IssueFilter.</returns>
         public IssueFilter ToModel()
         {
             var model = new IssueFilter();

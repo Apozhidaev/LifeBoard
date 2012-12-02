@@ -1,6 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
-using LifeBoard.ViewModels;
 using LifeBoard.ViewModels.Issues;
 
 namespace LifeBoard.Views.Issues

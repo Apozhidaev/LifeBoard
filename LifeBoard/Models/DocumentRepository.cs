@@ -3,15 +3,37 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
+using LifeBoard.Models.XMLDocuments.V1;
 
 namespace LifeBoard.Models
 {
+    /// <summary>
+    /// Class DocumentRepository
+    /// </summary>
     public class DocumentRepository
     {
+        /// <summary>
+        /// The attachments folder
+        /// </summary>
+        public static readonly string AttachmentsFolder = "Attachments";
+        /// <summary>
+        /// The _document
+        /// </summary>
         private readonly Document _document = new Document();
+        /// <summary>
+        /// The _document folder
+        /// </summary>
+        private string _documentFolder;
+        /// <summary>
+        /// The _document path
+        /// </summary>
+        private string _documentPath;
 
+        /// <summary>
+        /// Gets the document path.
+        /// </summary>
+        /// <value>The document path.</value>
         public string DocumentPath
         {
             get { return _documentPath; }
@@ -28,61 +50,123 @@ namespace LifeBoard.Models
             }
         }
 
+        /// <summary>
+        /// Gets the document.
+        /// </summary>
+        /// <value>The document.</value>
         public Document Document
         {
             get { return _document; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is file exists.
+        /// </summary>
+        /// <value><c>true</c> if this instance is file exists; otherwise, <c>false</c>.</value>
         public bool IsFileExists
         {
             get { return File.Exists(DocumentPath); }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is path rooted.
+        /// </summary>
+        /// <value><c>true</c> if this instance is path rooted; otherwise, <c>false</c>.</value>
         public bool IsPathRooted
         {
             get { return Path.IsPathRooted(DocumentPath); }
         }
 
+        /// <summary>
+        /// Gets or sets the document folder.
+        /// </summary>
+        /// <value>The document folder.</value>
+        public string DocumentFolder
+        {
+            get { return _documentFolder; }
+            set
+            {
+                if (_documentFolder != value)
+                {
+                    _documentFolder = value;
+                    AttachmentsPath = String.Format("{0}\\{1}", DocumentFolder, AttachmentsFolder);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the attachments path.
+        /// </summary>
+        /// <value>The attachments path.</value>
+        public string AttachmentsPath { get; private set; }
+
+        /// <summary>
+        /// Deletes the issue.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
         public void DeleteIssue(Issue issue)
         {
             Document.Issues.Remove(issue.Id);
-            foreach (var projectIssue in Document.IssuesLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
+            foreach (
+                IssueLink projectIssue in
+                    Document.IssuesLinks.Where(pi => pi.ChildId == issue.Id || pi.ParentId == issue.Id).ToList())
             {
                 Document.IssuesLinks.Remove(projectIssue);
             }
             DeleteAttachments(issue.Id);
         }
 
+        /// <summary>
+        /// Sets the parents.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="parents">The parents.</param>
         public void SetParents(int id, IEnumerable<int> parents)
         {
-            foreach (var issueLink in Document.IssuesLinks.Where(l => l.ChildId == id).ToList())
+            foreach (IssueLink issueLink in Document.IssuesLinks.Where(l => l.ChildId == id).ToList())
             {
                 Document.IssuesLinks.Remove(issueLink);
             }
-            foreach (var parent in parents)
+            foreach (int parent in parents)
             {
-                Document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
+                Document.IssuesLinks.Add(new IssueLink {ChildId = id, ParentId = parent});
             }
         }
 
-        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string httpLink)
+        /// <summary>
+        /// Creates the issue.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="summary">The summary.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="isCustomRoot">if set to <c>true</c> [is custom root].</param>
+        /// <param name="httpLink">The HTTP link.</param>
+        /// <returns>System.Int32.</returns>
+        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot,
+                               string httpLink)
         {
             int id = NewIssueId();
             _document.Issues.Add(id, new Issue
-            {
-                Id = id,
-                Type = type,
-                Status = IssueStatus.Open,
-                Priority = priority,
-                Summary = summary,
-                Description = description,
-                IsCustomRoot = isCustomRoot,
-                WebSite = httpLink,
-                CreationDate = DateTime.Now
-            });
+                                         {
+                                             Id = id,
+                                             Type = type,
+                                             Status = IssueStatus.Open,
+                                             Priority = priority,
+                                             Summary = summary,
+                                             Description = description,
+                                             IsCustomRoot = isCustomRoot,
+                                             WebSite = httpLink,
+                                             CreationDate = DateTime.Now
+                                         });
             return id;
         }
 
+        /// <summary>
+        /// Opens the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public bool Open(string path)
         {
             if (!Path.IsPathRooted(path))
@@ -92,13 +176,15 @@ namespace LifeBoard.Models
             FileStream fs = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
+                var serializer = new XmlSerializer(typeof (XMLDocuments.V1.Document));
                 fs = new FileStream(path, FileMode.Open);
-                SetDocument((XMLDocuments.V1.Document)serializer.Deserialize(fs));
+                SetDocument((XMLDocuments.V1.Document) serializer.Deserialize(fs));
                 DocumentPath = path;
                 return true;
             }
-            catch { }
+            catch
+            {
+            }
             finally
             {
                 if (fs != null)
@@ -109,12 +195,18 @@ namespace LifeBoard.Models
             return false;
         }
 
+        /// <summary>
+        /// News this instance.
+        /// </summary>
         public void New()
         {
             SetDocument(CreateDocoment());
             DocumentPath = String.Empty;
         }
 
+        /// <summary>
+        /// Clears the backups.
+        /// </summary>
         private void ClearBackups()
         {
             int backupMax = Global.BackupMaxCount;
@@ -126,6 +218,11 @@ namespace LifeBoard.Models
             }
         }
 
+        /// <summary>
+        /// Saves the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public bool Save(string path)
         {
             if (!Path.IsPathRooted(path))
@@ -139,19 +236,23 @@ namespace LifeBoard.Models
                     ClearBackups();
                     File.Move(path, Global.NewBackupFile);
                 }
-                catch { }
+                catch
+                {
+                }
             }
             bool isSave = false;
             TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
+                var serializer = new XmlSerializer(typeof (XMLDocuments.V1.Document));
                 writer = new StreamWriter(path);
                 serializer.Serialize(writer, GetDocoment());
                 DocumentPath = path;
                 isSave = true;
             }
-            catch { }
+            catch
+            {
+            }
             finally
             {
                 if (writer != null)
@@ -162,6 +263,9 @@ namespace LifeBoard.Models
             return isSave;
         }
 
+        /// <summary>
+        /// Submits this instance.
+        /// </summary>
         public void Submit()
         {
             if (!IsFileExists)
@@ -171,61 +275,76 @@ namespace LifeBoard.Models
             Save(DocumentPath);
         }
 
+        /// <summary>
+        /// Sets the document.
+        /// </summary>
+        /// <param name="document">The document.</param>
         private void SetDocument(XMLDocuments.V1.Document document)
         {
             _document.Issues = document.Issues.Select(i => new Issue
-            {
-                Id = i.Id,
-                Priority = i.Priority,
-                Summary = i.Summary,
-                Description = i.Description,
-                Type = i.Type,
-                Status = i.Status,
-                CreationDate = i.CreationDate,
-                WebSite = i.WebSite,
-                IsCustomRoot = i.IsCustomRoot
-            }).ToDictionary(i => i.Id);
+                                                               {
+                                                                   Id = i.Id,
+                                                                   Priority = i.Priority,
+                                                                   Summary = i.Summary,
+                                                                   Description = i.Description,
+                                                                   Type = i.Type,
+                                                                   Status = i.Status,
+                                                                   CreationDate = i.CreationDate,
+                                                                   WebSite = i.WebSite,
+                                                                   IsCustomRoot = i.IsCustomRoot
+                                                               }).ToDictionary(i => i.Id);
             _document.IssuesLinks = document.IssuesLinks.Select(pi => new IssueLink
-            {
-                ChildId = pi.ParentId,
-                ParentId = pi.ChildId
-            }).ToList();
-
+                                                                          {
+                                                                              ChildId = pi.ParentId,
+                                                                              ParentId = pi.ChildId
+                                                                          }).ToList();
         }
 
+        /// <summary>
+        /// Gets the docoment.
+        /// </summary>
+        /// <returns>XMLDocuments.V1.Document.</returns>
         private XMLDocuments.V1.Document GetDocoment()
         {
             return new XMLDocuments.V1.Document
-            {
-                Issues = _document.Issues.Values.Select(i => new XMLDocuments.V1.Issue
-                {
-                    Id = i.Id,
-                    Priority = i.Priority,
-                    Summary = i.Summary,
-                    Description = i.Description,
-                    Type = i.Type,
-                    Status = i.Status,
-                    CreationDate = i.CreationDate,
-                    WebSite = i.WebSite,
-                    IsCustomRoot = i.IsCustomRoot
-                }).ToArray(),
-                IssuesLinks = _document.IssuesLinks.Select(pi => new XMLDocuments.V1.IssueLinks
-                {
-                    ParentId = pi.ChildId,
-                    ChildId = pi.ParentId
-                }).ToArray()
-            };
+                       {
+                           Issues = _document.Issues.Values.Select(i => new XMLDocuments.V1.Issue
+                                                                            {
+                                                                                Id = i.Id,
+                                                                                Priority = i.Priority,
+                                                                                Summary = i.Summary,
+                                                                                Description = i.Description,
+                                                                                Type = i.Type,
+                                                                                Status = i.Status,
+                                                                                CreationDate = i.CreationDate,
+                                                                                WebSite = i.WebSite,
+                                                                                IsCustomRoot = i.IsCustomRoot
+                                                                            }).ToArray(),
+                           IssuesLinks = _document.IssuesLinks.Select(pi => new IssueLinks
+                                                                                {
+                                                                                    ParentId = pi.ChildId,
+                                                                                    ChildId = pi.ParentId
+                                                                                }).ToArray()
+                       };
         }
 
+        /// <summary>
+        /// Creates the docoment.
+        /// </summary>
+        /// <returns>XMLDocuments.V1.Document.</returns>
         private XMLDocuments.V1.Document CreateDocoment()
         {
             return new XMLDocuments.V1.Document
-            {
-                Issues = new XMLDocuments.V1.Issue[0],
-                IssuesLinks = new XMLDocuments.V1.IssueLinks[0]
-            };
+                       {
+                           Issues = new XMLDocuments.V1.Issue[0],
+                           IssuesLinks = new IssueLinks[0]
+                       };
         }
 
+        /// <summary>
+        /// News the issue id.
+        /// </summary>
+        /// <returns>System.Int32.</returns>
         private int NewIssueId()
         {
             int id = 1;
@@ -241,29 +360,12 @@ namespace LifeBoard.Models
         }
 
 
-        public static readonly string AttachmentsFolder = "Attachments";
-
-        private string _documentFolder;
-        private string _documentPath;
-
-        public string DocumentFolder
-        {
-            get { return _documentFolder; }
-            set
-            {
-                if (_documentFolder != value)
-                {
-                    _documentFolder = value;
-                    AttachmentsPath = String.Format("{0}\\{1}", DocumentFolder, AttachmentsFolder);
-                }
-            }
-        }
-
-        public string AttachmentsPath { get; private set; }
-
+        /// <summary>
+        /// Clears the directory.
+        /// </summary>
         public void ClearDirectory()
         {
-            foreach (var directory in Directory.GetDirectories(AttachmentsPath))
+            foreach (string directory in Directory.GetDirectories(AttachmentsPath))
             {
                 if (Directory.GetFiles(directory).Length == 0)
                 {
@@ -271,11 +373,18 @@ namespace LifeBoard.Models
                     {
                         Directory.Delete(directory);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Gets the attachments.
+        /// </summary>
+        /// <param name="documentId">The document id.</param>
+        /// <returns>IEnumerable{System.String}.</returns>
         public IEnumerable<string> GetAttachments(int documentId)
         {
             string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
@@ -286,6 +395,13 @@ namespace LifeBoard.Models
             return new string[0];
         }
 
+        /// <summary>
+        /// Updates the attachments.
+        /// </summary>
+        /// <param name="documentId">The document id.</param>
+        /// <param name="attachments">The attachments.</param>
+        /// <param name="filePaths">The file paths.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public bool UpdateAttachments(int documentId, List<string> attachments, Dictionary<string, string> filePaths)
         {
             try
@@ -295,7 +411,7 @@ namespace LifeBoard.Models
                 {
                     Directory.CreateDirectory(dir);
                 }
-                foreach (var filePath in Directory.GetFiles(dir))
+                foreach (string filePath in Directory.GetFiles(dir))
                 {
                     string file = Path.GetFileName(filePath);
                     if (!attachments.Contains(file))
@@ -321,6 +437,12 @@ namespace LifeBoard.Models
             return true;
         }
 
+        /// <summary>
+        /// Opens the attachment.
+        /// </summary>
+        /// <param name="documentId">The document id.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public bool OpenAttachment(int documentId, string fileName)
         {
             try
@@ -335,6 +457,10 @@ namespace LifeBoard.Models
             return true;
         }
 
+        /// <summary>
+        /// Deletes the attachments.
+        /// </summary>
+        /// <param name="documentId">The document id.</param>
         public void DeleteAttachments(int documentId)
         {
             string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
@@ -343,13 +469,11 @@ namespace LifeBoard.Models
                 try
                 {
                     Directory.Delete(dir, true);
-
                 }
                 catch (Exception)
                 {
                 }
             }
-
         }
     }
 }
