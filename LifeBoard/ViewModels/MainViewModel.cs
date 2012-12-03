@@ -95,6 +95,24 @@ namespace LifeBoard.ViewModels
             _current.IsNavigated = true;
         }
 
+        private DelegateCommand<IssueViewModel> _historyBackCommand;
+
+        public ICommand HistoryBackCommand
+        {
+            get { return _historyBackCommand ?? (_historyBackCommand = new DelegateCommand<IssueViewModel>(HistoryBack)); }
+        }
+
+        private void HistoryBack(IssueViewModel issue)
+        {
+            Show(issue);
+            while (_issueHistory.Count > ShowHistory.Count)
+            {
+                _issueHistory.Pop();
+                _navigateHistory.Pop();
+            }
+        }
+
+
         /// <summary>
         /// Gets the show history.
         /// </summary>

@@ -205,7 +205,7 @@
                IsOpen="{Binding ElementName=_historyBack, Path=IsChecked,Mode=TwoWay}"
                StaysOpen="{Binding IsMouseOver, ElementName=_historyBack, Mode=OneWay}">
             <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200"
-                     ItemsSource="{Binding Parent.ShowHistory}" ItemTemplate="{DynamicResource ParentBackItemDataTemplate}"
+                     ItemsSource="{Binding Parent.ShowHistory}" ItemTemplate="{DynamicResource HistoryBackItemDataTemplate}"
                      ItemContainerStyle="{DynamicResource ParentBackListBoxItemStyle}" />
         </Popup>
         <ToggleButton Visibility="{Binding Source={StaticResource Config},Path=ParentsVisibility}"

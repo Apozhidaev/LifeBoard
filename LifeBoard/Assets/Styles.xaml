@@ -761,6 +761,12 @@
                 HorizontalContentAlignment="Left" Style="{DynamicResource ButtonStyle}" />
     </DataTemplate>
 
+    <DataTemplate x:Key="HistoryBackItemDataTemplate">
+        <Button Content="{Binding Summary}" Command="{Binding Parent.Parent.HistoryBackCommand}" CommandParameter="{Binding}"
+                Height="30" Width="200" Background="White" BorderBrush="{x:Null}" BorderThickness="0" Padding="10,0,10,0"
+                HorizontalContentAlignment="Left" Style="{DynamicResource ButtonStyle}" />
+    </DataTemplate>
+
     <Style x:Key="ParentBackListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="4,1" />

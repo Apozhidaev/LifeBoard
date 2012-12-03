@@ -559,6 +559,9 @@ namespace LifeBoard.ViewModels.Issues
             WebSite = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
+            Attachments.Clear();
+            FilePaths.Clear();
+            Clear();
         }
     }
 }

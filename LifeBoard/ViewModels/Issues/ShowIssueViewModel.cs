@@ -66,7 +66,7 @@ namespace LifeBoard.ViewModels.Issues
             Children = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
             IsActiveChildren = true;
-            IsRootChildren = false;
+            IsRootChildren = true;
         }
 
         /// <summary>
