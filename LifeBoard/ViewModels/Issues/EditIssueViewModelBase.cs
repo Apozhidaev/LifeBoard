@@ -31,6 +31,8 @@ namespace LifeBoard.ViewModels.Issues
         /// The _add attachment command
         /// </summary>
         private DelegateCommand _addAttachmentCommand;
+
+        private DelegateCommand _addLinkCommand;
         /// <summary>
         /// The _add command
         /// </summary>
@@ -67,6 +69,8 @@ namespace LifeBoard.ViewModels.Issues
         /// The _remove attachment command
         /// </summary>
         private DelegateCommand<AttachmentViewModel> _removeAttachmentCommand;
+
+        private DelegateCommand<LinkViewModel> _removeLinkCommand;
         /// <summary>
         /// The _remove command
         /// </summary>
@@ -90,7 +94,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <summary>
         /// The _web site
         /// </summary>
-        private string _webSite;
+        private string _link;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditIssueViewModelBase" /> class.
@@ -105,6 +109,7 @@ namespace LifeBoard.ViewModels.Issues
             Issues = new ObservableCollection<IssueViewModel>();
             ParentIssues = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
+            Links = new ObservableCollection<LinkViewModel>();
             FilePaths = new Dictionary<string, string>();
             SubmitHeader = "Submit";
         }
@@ -135,6 +140,20 @@ namespace LifeBoard.ViewModels.Issues
             {
                 return _removeAttachmentCommand ??
                        (_removeAttachmentCommand = new DelegateCommand<AttachmentViewModel>(RemoveAttachment));
+            }
+        }
+
+        public ICommand AddLinkCommand
+        {
+            get { return _addLinkCommand ?? (_addLinkCommand = new DelegateCommand(AddLink, CanAddLink)); }
+        }
+
+        public ICommand RemoveLinkCommand
+        {
+            get
+            {
+                return _removeLinkCommand ??
+                       (_removeLinkCommand = new DelegateCommand<LinkViewModel>(RemoveLink));
             }
         }
 
@@ -234,6 +253,22 @@ namespace LifeBoard.ViewModels.Issues
             FilePaths.Remove(file.FileName);
         }
 
+
+        private void AddLink()
+        {
+            Links.Add(new LinkViewModel(this) {LinkName = Link});
+        }
+
+        private bool CanAddLink()
+        {
+            return !String.IsNullOrEmpty(Link);
+        }
+
+        private void RemoveLink(LinkViewModel link)
+        {
+            Links.Remove(link);
+        }
+
         /// <summary>
         /// Determines whether this instance can submit.
         /// </summary>
@@ -316,6 +351,8 @@ namespace LifeBoard.ViewModels.Issues
         /// </summary>
         /// <value>The attachments.</value>
         public ObservableCollection<AttachmentViewModel> Attachments { get; private set; }
+
+        public ObservableCollection<LinkViewModel> Links { get; private set; }
 
         /// <summary>
         /// Gets or sets the priority.
@@ -407,15 +444,15 @@ namespace LifeBoard.ViewModels.Issues
         /// Gets or sets the web site.
         /// </summary>
         /// <value>The web site.</value>
-        public string WebSite
+        public string Link
         {
-            get { return _webSite; }
+            get { return _link; }
             set
             {
-                if (_webSite != value)
+                if (_link != value)
                 {
-                    _webSite = value;
-                    OnPropertyChanged("WebSite");
+                    _link = value;
+                    OnPropertyChanged("Link");
                 }
             }
         }
@@ -556,11 +593,12 @@ namespace LifeBoard.ViewModels.Issues
             Summary = String.Empty;
             Description = String.Empty;
             IsCustomRoot = false;
-            WebSite = String.Empty;
+            Link = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
             Attachments.Clear();
             FilePaths.Clear();
+            Links.Clear();
             Clear();
         }
     }

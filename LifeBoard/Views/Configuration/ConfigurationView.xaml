@@ -25,23 +25,31 @@
                                Text="{DynamicResource FilesHeader}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
                     <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1"
                                Margin="20,30,200,0" VerticalAlignment="Top" />
-                    <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap"
+                    <StackPanel Margin="0,70,0,0" Orientation="Vertical">
+                        <Grid Margin="0,30,0,0">
+                            <TextBlock HorizontalAlignment="Left" Margin="100,0,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource DocumentLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                    <StackPanel Margin="250,70,0,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
+                            <StackPanel Margin="250,0,0,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top">
-                        <TextBlock TextWrapping="NoWrap" Text="{Binding DocumentPath}"
+                                <TextBlock TextWrapping="NoWrap" Text="{Binding DocumentPath}"
                                    Style="{DynamicResource SubheaderTextStyle}" />
-                        <Button Content="{DynamicResource ChangeHeader}" Command="{Binding OpenDocumentCommand}"
+                                <Button Content="{DynamicResource ChangeHeader}" Command="{Binding OpenDocumentCommand}"
                                 Margin="30,0,30,0" Style="{DynamicResource MainButtonStyle}" />
-                    </StackPanel>
-                    <TextBlock HorizontalAlignment="Left" Margin="100,120,0,0" TextWrapping="Wrap"
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,30,0,0">
+                            <TextBlock HorizontalAlignment="Left" Margin="100,0,0,0" TextWrapping="Wrap" MaxWidth="120"
                                Text="{DynamicResource ConfigLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="250,120,0,0" TextWrapping="NoWrap"
+                            <TextBlock HorizontalAlignment="Left" Margin="250,0,0,0" TextWrapping="NoWrap"
                                Text="{Binding ConfigFile}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="100,170,0,0" TextWrapping="Wrap"
+                        </Grid>
+                        <Grid Margin="0,30,0,0">
+                            <TextBlock HorizontalAlignment="Left" Margin="100,0,0,0" TextWrapping="Wrap" MaxWidth="120"
                                Text="{DynamicResource BackupsLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="250,170,0,0" TextWrapping="NoWrap"
+                            <TextBlock HorizontalAlignment="Left" Margin="250,0,0,0" TextWrapping="NoWrap"
                                Text="{Binding BackupFolder}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
                 <Grid Margin="0,50,0,30">
                     <Grid.ColumnDefinitions>

@@ -131,9 +131,9 @@
                         <Grid Visibility="{Binding WebLinkVisibility}" Margin="0,0,0,30">
                             <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left"
                                        VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                            <Button Margin="130,0,0,0" Style="{DynamicResource LinkButtonStyle}"
-                                    Command="{Binding GoHttpCommand}" HorizontalAlignment="Left" Content="{Binding WebSite, Mode=OneWay}"
-                                    VerticalAlignment="Center" />
+                            <ListBox BorderThickness="0" Margin="130,0,0,0" HorizontalAlignment="Left"
+                                     VerticalAlignment="Center" ItemsSource="{Binding Links}" ItemTemplate="{DynamicResource LinkItemDataTemplate}"
+                                     ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}" />
                         </Grid>
                         <Grid Visibility="{Binding AttachmentsVisibility}" Margin="0,0,0,30">
                             <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left"

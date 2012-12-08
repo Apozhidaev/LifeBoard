@@ -12,7 +12,7 @@
     <system:String x:Key="ShowHeader">Показать</system:String>
     <system:String x:Key="ChangeHeader">Изменить</system:String>
 
-    <system:String x:Key="DashboardHeader">Дошборд</system:String>
+    <system:String x:Key="DashboardHeader">Дашборд</system:String>
     <system:String x:Key="IssuesHeader">Задачи</system:String>
     <system:String x:Key="ConfigurationHeader">Конфигурация</system:String>
 
@@ -56,7 +56,7 @@
     <system:String x:Key="RootHeader">Корень</system:String>
     <system:String x:Key="CustomHeader">Мой</system:String>
 
-    <system:String x:Key="WebLinkLabel">Веб сайт:</system:String>
+    <system:String x:Key="WebLinkLabel">Ссылки:</system:String>
     <system:String x:Key="AttachmentsLabel">Вложения:</system:String>
     <system:String x:Key="DashboardLabel">Дашборд:</system:String>
     <system:String x:Key="IsCustomRootMessage">
@@ -71,8 +71,8 @@
 
     <system:String x:Key="LanguageLabel">Язык:</system:String>
     <system:String x:Key="DocumentLabel">Документ:</system:String>
-    <system:String x:Key="ConfigLabel">Конфиг:</system:String>
-    <system:String x:Key="BackupsLabel">Бекапы:</system:String>
+    <system:String x:Key="ConfigLabel">Конфигурационный файл:</system:String>
+    <system:String x:Key="BackupsLabel">Резервное копирование:</system:String>
     <system:String x:Key="IssuePageLabel">Страница задачи:</system:String>
 
     <system:String x:Key="TableColumnsHeader">Колонки таблицы</system:String>
@@ -82,7 +82,7 @@
 
     <system:String x:Key="NavigationHeader">Навигация</system:String>
     <system:String x:Key="UseHistoryHeader">
-        Использовать историю как родителей
+        Показывать задачи верхнего уровня
     </system:String>
 
 </ResourceDictionary>

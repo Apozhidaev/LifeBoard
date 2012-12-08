@@ -54,7 +54,7 @@
     <system:String x:Key="RootHeader">Root</system:String>
     <system:String x:Key="CustomHeader">Custom</system:String>
 
-    <system:String x:Key="WebLinkLabel">Web site:</system:String>
+    <system:String x:Key="WebLinkLabel">Links:</system:String>
     <system:String x:Key="AttachmentsLabel">Attachments:</system:String>
     <system:String x:Key="DashboardLabel">Dashboard:</system:String>
     <system:String x:Key="IsCustomRootMessage">Show on dashboard</system:String>
@@ -76,7 +76,7 @@
 
     <system:String x:Key="NavigationHeader">Navigation</system:String>
     <system:String x:Key="UseHistoryHeader">
-        Use history as parents
+        Show issues top level
     </system:String>
 
 </ResourceDictionary>

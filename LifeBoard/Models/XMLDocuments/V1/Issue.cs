@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LifeBoard.Models.XMLDocuments.V1
 {
@@ -60,5 +61,7 @@ namespace LifeBoard.Models.XMLDocuments.V1
         /// </summary>
         /// <value>The web site.</value>
         public string WebSite { get; set; }
+
+        public string[] Links { get; set; }
     }
 }

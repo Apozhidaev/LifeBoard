@@ -951,6 +951,13 @@
                     VerticalAlignment="Center" />
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="LinkItemDataTemplate">
+        <Grid>
+            <Button Style="{DynamicResource LinkButtonStyle}" Content="{Binding LinkName}"
+                    Command="{Binding Parent.GoHttpCommand}" CommandParameter="{Binding}" HorizontalAlignment="Left"
+                    VerticalAlignment="Center" />
+        </Grid>
+    </DataTemplate>
 
     <ItemsPanelTemplate x:Key="PageItemsPanelTemplate">
         <StackPanel Orientation="Horizontal" IsItemsHost="True" />

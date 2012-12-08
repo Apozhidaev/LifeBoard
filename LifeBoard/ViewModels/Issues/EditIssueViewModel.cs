@@ -73,7 +73,11 @@ namespace LifeBoard.ViewModels.Issues
             Summary = _issue.Summary;
             Description = _issue.Description;
             IsCustomRoot = _issue.IsCustomRoot;
-            WebSite = _issue.WebSite;
+            Links.Clear();
+            foreach (var link in _issue.Links)
+            {
+                Links.Add(new LinkViewModel(this) {LinkName = link});
+            }
         }
 
         /// <summary>
@@ -99,7 +103,11 @@ namespace LifeBoard.ViewModels.Issues
             _issue.Summary = Summary;
             _issue.Description = Description;
             _issue.IsCustomRoot = IsCustomRoot;
-            _issue.WebSite = WebSite;
+            _issue.Links.Clear();
+            foreach (var link in Links)
+            {
+                _issue.Links.Add(link.LinkName);
+            }
         }
 
         /// <summary>

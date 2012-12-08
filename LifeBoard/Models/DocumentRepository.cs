@@ -141,10 +141,10 @@ namespace LifeBoard.Models
         /// <param name="summary">The summary.</param>
         /// <param name="description">The description.</param>
         /// <param name="isCustomRoot">if set to <c>true</c> [is custom root].</param>
-        /// <param name="httpLink">The HTTP link.</param>
+        /// <param name="links">The HTTP link.</param>
         /// <returns>System.Int32.</returns>
         public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot,
-                               string httpLink)
+                               IEnumerable<string> links)
         {
             int id = NewIssueId();
             _document.Issues.Add(id, new Issue
@@ -156,8 +156,8 @@ namespace LifeBoard.Models
                                              Summary = summary,
                                              Description = description,
                                              IsCustomRoot = isCustomRoot,
-                                             WebSite = httpLink,
-                                             CreationDate = DateTime.Now
+                                             CreationDate = DateTime.Now,
+                                             Links = links.ToList()
                                          });
             return id;
         }
@@ -289,10 +289,17 @@ namespace LifeBoard.Models
                                                                    Description = i.Description,
                                                                    Type = i.Type,
                                                                    Status = i.Status,
+                                                                   Links = i.Links!=null ? i.Links.ToList():new List<string>(),
                                                                    CreationDate = i.CreationDate,
-                                                                   WebSite = i.WebSite,
                                                                    IsCustomRoot = i.IsCustomRoot
                                                                }).ToDictionary(i => i.Id);
+            foreach (var issue in document.Issues)
+            {
+                if(!String.IsNullOrEmpty(issue.WebSite))
+                {
+                    _document.Issues[issue.Id].Links.Add(issue.WebSite);
+                }
+            }
             _document.IssuesLinks = document.IssuesLinks.Select(pi => new IssueLink
                                                                           {
                                                                               ChildId = pi.ParentId,
@@ -317,7 +324,7 @@ namespace LifeBoard.Models
                                                                                 Type = i.Type,
                                                                                 Status = i.Status,
                                                                                 CreationDate = i.CreationDate,
-                                                                                WebSite = i.WebSite,
+                                                                                Links = i.Links.ToArray(),
                                                                                 IsCustomRoot = i.IsCustomRoot
                                                                             }).ToArray(),
                            IssuesLinks = _document.IssuesLinks.Select(pi => new IssueLinks

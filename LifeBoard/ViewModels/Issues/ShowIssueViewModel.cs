@@ -25,7 +25,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <summary>
         /// The _go HTTP command
         /// </summary>
-        private DelegateCommand _goHttpCommand;
+        private DelegateCommand<LinkViewModel> _goHttpCommand;
         /// <summary>
         /// The _is parents checked
         /// </summary>
@@ -65,6 +65,7 @@ namespace LifeBoard.ViewModels.Issues
             Parents = new ObservableCollection<IssueViewModel>();
             Children = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
+            Links = new ObservableCollection<LinkViewModel>();
             IsActiveChildren = true;
             IsRootChildren = true;
         }
@@ -135,14 +136,7 @@ namespace LifeBoard.ViewModels.Issues
             get { return _issue.Description; }
         }
 
-        /// <summary>
-        /// Gets the web site.
-        /// </summary>
-        /// <value>The web site.</value>
-        public string WebSite
-        {
-            get { return _issue.WebSite; }
-        }
+        public ObservableCollection<LinkViewModel> Links { get; private set; }
 
         /// <summary>
         /// Gets the priority.
@@ -213,7 +207,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <value>The web link visibility.</value>
         public Visibility WebLinkVisibility
         {
-            get { return String.IsNullOrEmpty(WebSite) ? Visibility.Collapsed : Visibility.Visible; }
+            get { return Links.Count == 0 ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         /// <summary>
@@ -275,7 +269,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <value>The go HTTP command.</value>
         public ICommand GoHttpCommand
         {
-            get { return _goHttpCommand ?? (_goHttpCommand = new DelegateCommand(GoHttp)); }
+            get { return _goHttpCommand ?? (_goHttpCommand = new DelegateCommand<LinkViewModel>(GoHttp)); }
         }
 
         /// <summary>
@@ -304,6 +298,11 @@ namespace LifeBoard.ViewModels.Issues
             {
                 Attachments.Add(new AttachmentViewModel(this) {FileName = attachment});
             }
+            Links.Clear();
+            foreach (var link in _issue.Links)
+            {
+                Links.Add(new LinkViewModel(this){ LinkName = link});
+            }
             UpdateParents();
             UpdateChildren();
             UpdateSource();
@@ -312,11 +311,11 @@ namespace LifeBoard.ViewModels.Issues
         /// <summary>
         /// Goes the HTTP.
         /// </summary>
-        public void GoHttp()
+        public void GoHttp(LinkViewModel link)
         {
             try
             {
-                Process.Start(WebSite);
+                Process.Start(link.LinkName);
             }
             catch (Exception)
             {
@@ -378,7 +377,7 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("Priority");
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
-            OnPropertyChanged("WebSite");
+            OnPropertyChanged("Link");
             OnPropertyChanged("CreationDate");
             OnPropertyChanged("DescriptionVisibility");
             OnPropertyChanged("WebLinkVisibility");

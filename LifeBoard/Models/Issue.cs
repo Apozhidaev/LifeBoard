@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LifeBoard.Models
 {
@@ -59,7 +60,7 @@ namespace LifeBoard.Models
         /// Gets or sets the web site.
         /// </summary>
         /// <value>The web site.</value>
-        public string WebSite { get; set; }
+        public List<string> Links { get; set; }
 
         /// <summary>
         /// Gets the next status.
