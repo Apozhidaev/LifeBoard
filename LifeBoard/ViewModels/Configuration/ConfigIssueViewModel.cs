@@ -92,5 +92,19 @@ namespace LifeBoard.ViewModels.Configuration
                 }
             }
         }
+
+        public bool IsDeadline
+        {
+            get { return _issue.IsDeadline; }
+            set
+            {
+                if (_issue.IsDeadline != value)
+                {
+                    _issue.IsDeadline = value;
+                    ConfigRepository.Save();
+                    OnPropertyChanged("IsDeadline");
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using LifeBoard.Models;
+﻿using System;
+using System.Windows;
+using LifeBoard.Models;
 
 namespace LifeBoard.ViewModels
 {
@@ -53,6 +55,11 @@ namespace LifeBoard.ViewModels
         public string Description
         {
             get { return _issue.Description; }
+        }
+
+        public string Deadline
+        {
+            get { return _issue.Deadline; }
         }
 
         /// <summary>
@@ -139,6 +146,7 @@ namespace LifeBoard.ViewModels
         {
             OnPropertyChanged("Summary");
             OnPropertyChanged("Description");
+            OnPropertyChanged("Deadline");
             OnPropertyChanged("Priority");
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");

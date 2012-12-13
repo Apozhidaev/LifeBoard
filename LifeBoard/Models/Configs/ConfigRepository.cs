@@ -36,9 +36,9 @@ namespace LifeBoard.Models.Configs
             FileStream fs = null;
             try
             {
-                var serializer = new XmlSerializer(typeof (Config));
+                var serializer = new XmlSerializer(typeof(Config));
                 fs = new FileStream(Global.ConfigFile, FileMode.Open);
-                Config = (Config) serializer.Deserialize(fs);
+                Config = (Config)serializer.Deserialize(fs);
             }
             catch (Exception)
             {
@@ -66,8 +66,12 @@ namespace LifeBoard.Models.Configs
                                          {
                                              ShowIssue = new ShowIssue
                                                              {
-                                                                 Table = new Issue {IsIssueType = true},
-                                                                 Sitebar = new Issue()
+                                                                 Table = new Issue { IsIssueType = true },
+                                                                 Sitebar = new Issue { IsDeadline = true }
+                                                             },
+                                             Dashboard = new Dashboard
+                                                             {
+                                                                 IsSortByPriority = true
                                                              }
                                          }
                        };
@@ -81,7 +85,7 @@ namespace LifeBoard.Models.Configs
             TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof (Config));
+                var serializer = new XmlSerializer(typeof(Config));
                 writer = new StreamWriter(Global.ConfigFile);
                 serializer.Serialize(writer, Config);
             }

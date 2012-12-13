@@ -56,11 +56,9 @@ namespace LifeBoard.Models
         /// <value>The creation date.</value>
         public DateTime CreationDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the web site.
-        /// </summary>
-        /// <value>The web site.</value>
         public List<string> Links { get; set; }
+
+        public string Deadline { get; set; }
 
         /// <summary>
         /// Gets the next status.

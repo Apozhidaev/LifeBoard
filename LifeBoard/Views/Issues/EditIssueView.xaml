@@ -52,101 +52,155 @@
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding Parent.BackCommand}"
                 Style="{DynamicResource BackButtonStyle}" />
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBox Height="25" Margin="15,51,20,0" TextWrapping="Wrap"
-                         Text="{Binding Summary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Grid.Column="1"
-                         Style="{DynamicResource TitleTextBoxStyle}" />
-                <TextBox Views:TextBoxCorrector.SelectionStart="{Binding SelectionStart,Mode=TwoWay}"
-                         Views:TextBoxCorrector.SelectionLength="{Binding SelectionLength,Mode=TwoWay}"
-                         Views:TextBoxCorrector.IsObserveSelectionChanged="True" Height="150" Margin="15,167,20,0" TextWrapping="Wrap"
-                         Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
-                         Grid.Column="1" Style="{DynamicResource SubtitleTextBoxStyle}" AcceptsTab="True" />
-                <TextBlock Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Left" Margin="48,51,0,0"
+            <StackPanel Margin="70,0,40,30">
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource TypeLabel}" HorizontalAlignment="Left"
                            VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <TextBlock Text="{DynamicResource DescriptionLabel}" HorizontalAlignment="Left" Margin="48,167,0,0"
-                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <TextBlock Text="{DynamicResource TypeLabel}" HorizontalAlignment="Left" Margin="48,8,0,0"
-                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <ComboBox Height="28" HorizontalAlignment="Left" Margin="15,8,0,0" VerticalAlignment="Top" Width="100"
+                    <ComboBox Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"
                           ItemsSource="{Binding Types}" SelectedValue="{Binding Type}" Grid.Column="1" Style="{DynamicResource ComboBoxStyle}" />
-                <TextBlock Text="{DynamicResource PriorityLabel}" HorizontalAlignment="Left" Margin="48,95,0,0"
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Left"
                            VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <ComboBox Height="28" HorizontalAlignment="Left" Margin="15,95,0,0" VerticalAlignment="Top" Width="100"
+                    <TextBox VerticalContentAlignment="Center" Height="28" TextWrapping="Wrap" Grid.Column="1"
+                         Text="{Binding Summary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
+                         Style="{DynamicResource TitleTextBoxStyle}" BorderBrush="{DynamicResource BaseBrush3}"/>
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource DescriptionLabel}" HorizontalAlignment="Left" 
+                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <Button Content="–" Command="{Binding InsertCommand}" CommandParameter="–"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="—" Command="{Binding InsertCommand}" CommandParameter="—"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="25,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="→" Command="{Binding InsertCommand}" CommandParameter="→"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="50,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="←" Command="{Binding InsertCommand}" CommandParameter="←"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="75,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="•" Command="{Binding InsertCommand}" CommandParameter="•"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="100,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="§" Command="{Binding InsertCommand}" CommandParameter="§"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="125,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <Button Content="☺" Command="{Binding InsertCommand}" CommandParameter="☺"
+                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="150,0,0,0" HorizontalAlignment="Left"
+                        VerticalAlignment="Top" Height="22" Width="23" />
+                    <TextBox Views:TextBoxCorrector.SelectionStart="{Binding SelectionStart,Mode=TwoWay}"
+                         Views:TextBoxCorrector.SelectionLength="{Binding SelectionLength,Mode=TwoWay}"
+                         Views:TextBoxCorrector.IsObserveSelectionChanged="True" Height="150" Margin="0,30,0,0" TextWrapping="Wrap"
+                         Text="{Binding Description}" VerticalAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                         Grid.Column="1" Style="{DynamicResource SubtitleTextBoxStyle}" AcceptsTab="True" BorderBrush="{DynamicResource BaseBrush3}"/>
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource PriorityLabel}" HorizontalAlignment="Left" 
+                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <ComboBox Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"
                           ItemsSource="{Binding Priorities}" SelectedValue="{Binding Priority}" Grid.Column="1"
                           Style="{DynamicResource ComboBoxStyle}" />
-                <Button Content="–" Command="{Binding InsertCommand}" CommandParameter="–"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="15,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="—" Command="{Binding InsertCommand}" CommandParameter="—"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="40,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="→" Command="{Binding InsertCommand}" CommandParameter="→"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="65,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="←" Command="{Binding InsertCommand}" CommandParameter="←"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="90,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="•" Command="{Binding InsertCommand}" CommandParameter="•"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="115,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="§" Command="{Binding InsertCommand}" CommandParameter="§"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="140,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <Button Content="☺" Command="{Binding InsertCommand}" CommandParameter="☺"
-                        Style="{DynamicResource MainButtonStyle}" Grid.Column="1" Margin="165,140,0,0" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Height="22" Width="23" />
-                <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left" Margin="48,340,0,0"
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource WebLinkLabel}" HorizontalAlignment="Left" 
                            VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <Grid Grid.Column="1" Margin="15,340,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <TextBox Height="25" Margin="0,0,55,0" TextWrapping="Wrap" Text="{Binding Link,UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" />
-                    <Button Foreground="{DynamicResource MarkBrush7}" Height="30" Margin="0,0,20,0"
+                    <TextBox VerticalContentAlignment="Center" Height="28" Margin="0,0,35,0" TextWrapping="Wrap" Text="{Binding Link,UpdateSourceTrigger=PropertyChanged}"
+                         VerticalAlignment="Top" Style="{DynamicResource TitleTextBoxStyle}" Grid.Column="1" BorderBrush="{DynamicResource BaseBrush3}"/>
+                    <Button Foreground="{DynamicResource MarkBrush7}" Height="28" Margin="0,0,0,0" Grid.Column="1"
                             Command="{Binding AddLinkCommand}" Style="{DynamicResource MainButtonStyle}" Content="➕" VerticalAlignment="Top"
                             HorizontalAlignment="Right" Width="30" FontFamily="Segoe UI Symbol" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus" Height="100" Margin="0,28,55,0"
-                             ItemsSource="{Binding Links}" VerticalAlignment="Top" ItemTemplate="{DynamicResource LinkItemDataTemplate}" />
+                    <ListBox Views:UIElementCorrector.FixScrolling="Fix" Margin="0,35,35,0" Grid.Column="1" ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}"
+                             ItemsSource="{Binding Links}" VerticalAlignment="Top" ItemTemplate="{DynamicResource LinkItemDataTemplate}" BorderBrush="{DynamicResource BaseBrush1}" BorderThickness="0"/>
                 </Grid>
-                <TextBlock Text="{DynamicResource DashboardLabel}" HorizontalAlignment="Left" Margin="48,502,0,0"
-                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <CheckBox Grid.Column="1" Content="{DynamicResource IsCustomRootMessage}"
-                          IsChecked="{Binding IsCustomRoot}" Margin="15,505,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left" Margin="48,555,0,0"
-                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                <Grid Grid.Column="1" Margin="0,555,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <Button Foreground="{DynamicResource MarkBrush7}" Margin="0,0,20,0"
-                            Command="{Binding AddAttachmentCommand}" Style="{DynamicResource MainButtonStyle}" Content="" VerticalAlignment="Top"
-                            HorizontalAlignment="Right" Width="30" FontFamily="Segoe UI Symbol" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus" Height="100" Margin="10,0,55,0"
-                             ItemsSource="{Binding Attachments}" VerticalAlignment="Top" ItemTemplate="{DynamicResource FileItemDataTemplate}" />
-                </Grid>
-                <Grid Grid.Column="1" Margin="0,675,20,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Grid Margin="0,30,0,0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource AttachmentsLabel}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <Button Foreground="{DynamicResource MarkBrush7}" Margin="0,0,0,0"
+                            Command="{Binding AddAttachmentCommand}" Style="{DynamicResource MainButtonStyle}" Content="" VerticalAlignment="Top"
+                            HorizontalAlignment="Right" Width="30" FontFamily="Segoe UI Symbol" Grid.Column="1"/>
+                    <ListBox Views:UIElementCorrector.FixScrolling="Fix" Margin="0,0,35,0" Grid.Column="1" ItemContainerStyle="{DynamicResource AttachListBoxItemStyle}"
+                             ItemsSource="{Binding Attachments}" VerticalAlignment="Top" ItemTemplate="{DynamicResource FileItemDataTemplate}" BorderBrush="{DynamicResource BaseBrush1}"  BorderThickness="0"/>
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource DashboardLabel}" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <CheckBox Grid.Column="1" Content="{DynamicResource IsCustomRootMessage}"
+                          IsChecked="{Binding IsCustomRoot}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource DeadlineLabel}" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <Border Width="177" Grid.Column="1" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Grid>
+                            <DatePicker Height="25" VerticalContentAlignment="Center" BorderBrush="{DynamicResource BaseBrush1}" Text="{Binding Deadline,Mode=TwoWay}" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" FontSize="14"/>
+                            <Button Foreground="{DynamicResource MarkBrush7}" Margin="150,0,0,0" 
+                            Command="{Binding ClearDeadlineCommand}" HorizontalAlignment="Left" Content="" Width="25" Height="25" VerticalAlignment="Top"
+                            Style="{DynamicResource ButtonStyle}" FontFamily="Segoe UI Symbol" />
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Margin="10,0,35,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
+                    <TextBlock Text="{DynamicResource ParentsLabel}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <Border Grid.Column="1" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid>
+                            <TextBox Margin="0,0,25,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
                              Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
-                             Style="{DynamicResource TitleTextBoxStyle}" />
-                    <Button Foreground="{DynamicResource MarkBrush7}" Margin="0,0,10,0"
+                             Style="{DynamicResource TitleTextBoxStyle}" BorderBrush="{DynamicResource BaseBrush1}"/>
+                            <Button Foreground="{DynamicResource MarkBrush7}" Margin="0,0,0,0" 
                             Command="{Binding ClearCommand}" HorizontalAlignment="Right" Content="" Width="25" Height="25" VerticalAlignment="Top"
                             Style="{DynamicResource ButtonStyle}" FontFamily="Segoe UI Symbol" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,30,10,0"
+                        </Grid>
+                    </Border>
+                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus" Grid.Column="1"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0"
                              ItemTemplate="{DynamicResource AddItemDataTemplate}" ItemsSource="{Binding Issues}" Height="150"
-                             VerticalAlignment="Top" />
+                             VerticalAlignment="Top" BorderBrush="{DynamicResource BaseBrush3}"/>
                     <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="1" Margin="10,30,10,0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="2" Margin="20,30,0,0"
                              ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}" Height="150"
-                             VerticalAlignment="Top" />
+                             VerticalAlignment="Top" BorderBrush="{DynamicResource BaseBrush3}"/>
                 </Grid>
-                <TextBlock Text="{DynamicResource ParentsLabel}" HorizontalAlignment="Left" Margin="48,675,0,0"
-                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-
-            </Grid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

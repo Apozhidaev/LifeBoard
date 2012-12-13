@@ -11,6 +11,7 @@
         public ConfigDisplayViewModel()
         {
             ShowIssue = new ConfigShowIssueViewModel();
+            Dashboard = new ConfigDashboardViewModel();
         }
 
         /// <summary>
@@ -18,5 +19,7 @@
         /// </summary>
         /// <value>The show issue.</value>
         public ConfigShowIssueViewModel ShowIssue { get; set; }
+
+        public ConfigDashboardViewModel Dashboard { get; set; }
     }
 }

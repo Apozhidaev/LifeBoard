@@ -41,6 +41,8 @@ namespace LifeBoard.ViewModels.Issues
         /// The _clear command
         /// </summary>
         private DelegateCommand _clearCommand;
+
+        private DelegateCommand _clearDeadlineCommand;
         /// <summary>
         /// The _description
         /// </summary>
@@ -120,6 +122,8 @@ namespace LifeBoard.ViewModels.Issues
         /// The _search command
         /// </summary>
         private DelegateCommand _searchCommand;
+
+        private string _deadline;
 
         /// <summary>
         /// Gets the add attachment command.
@@ -257,6 +261,7 @@ namespace LifeBoard.ViewModels.Issues
         private void AddLink()
         {
             Links.Add(new LinkViewModel(this) {LinkName = Link});
+            Link = String.Empty;
         }
 
         private bool CanAddLink()
@@ -457,8 +462,21 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
+        public string Deadline
+        {
+            get { return _deadline; }
+            set
+            {
+                if (_deadline != value)
+                {
+                    _deadline = value;
+                    OnPropertyChanged("Deadline");
+                }
+            }
+        }
+
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is custom root.
+        /// Gets or sets a value indicating whether this instance is custom root.public string Deadline { get; set; }
         /// </summary>
         /// <value><c>true</c> if this instance is custom root; otherwise, <c>false</c>.</value>
         public bool IsCustomRoot
@@ -534,6 +552,11 @@ namespace LifeBoard.ViewModels.Issues
             get { return _clearCommand ?? (_clearCommand = new DelegateCommand(Clear)); }
         }
 
+        public ICommand ClearDeadlineCommand
+        {
+            get { return _clearDeadlineCommand ?? (_clearDeadlineCommand = new DelegateCommand(ClearDeadline)); }
+        }
+
         /// <summary>
         /// Gets or sets the length of the selection.
         /// </summary>
@@ -563,6 +586,10 @@ namespace LifeBoard.ViewModels.Issues
         public void Clear()
         {
             Query = String.Empty;
+        }
+        public void ClearDeadline()
+        {
+            Deadline = String.Empty;
         }
 
         /// <summary>
@@ -594,6 +621,7 @@ namespace LifeBoard.ViewModels.Issues
             Description = String.Empty;
             IsCustomRoot = false;
             Link = String.Empty;
+            Deadline = String.Empty;
             Issues.Clear();
             ParentIssues.Clear();
             Attachments.Clear();

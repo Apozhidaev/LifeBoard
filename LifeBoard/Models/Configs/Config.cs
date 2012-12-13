@@ -5,6 +5,11 @@
     /// </summary>
     public class Config
     {
+        public Config()
+        {
+            Display = new Display();
+        }
+
         /// <summary>
         /// Gets or sets the document path.
         /// </summary>

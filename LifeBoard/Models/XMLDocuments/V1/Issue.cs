@@ -62,6 +62,8 @@ namespace LifeBoard.Models.XMLDocuments.V1
         /// <value>The web site.</value>
         public string WebSite { get; set; }
 
+        public string Deadline { get; set; }
+
         public string[] Links { get; set; }
     }
 }

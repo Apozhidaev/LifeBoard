@@ -28,5 +28,7 @@
         /// </summary>
         /// <value><c>true</c> if this instance is creation date; otherwise, <c>false</c>.</value>
         public bool IsCreationDate { get; set; }
+
+        public bool IsDeadline { get; set; }
     }
 }

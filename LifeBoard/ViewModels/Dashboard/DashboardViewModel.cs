@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Linq;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
+using LifeBoard.Models.Configs;
 using LifeBoard.Views.Dashboard;
+using Issue = LifeBoard.Models.Issue;
 
 namespace LifeBoard.ViewModels.Dashboard
 {
@@ -138,19 +142,22 @@ namespace LifeBoard.ViewModels.Dashboard
                                             ? await
                                               Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetCustomRootIssues)
                                             : await Task<IEnumerable<Issue>>.Factory.StartNew(_board.GetRootIssues);
-            Issues.Clear();
-            foreach (Issue issue in issues)
+            if (ConfigRepository.Config.Display.Dashboard.IsSortByDeadline)
             {
-                Issues.Add(new IssueViewModel(this, issue));
+                issues = issues.OrderBy(i =>
+                                            {
+                                                DateTime date;
+                                                if(!DateTime.TryParse(i.Deadline, out date))
+                                                {
+                                                    date = DateTime.MaxValue;
+                                                }
+                                                return date;
+                                            });
             }
-        }
-
-        /// <summary>
-        /// Updates the issues.
-        /// </summary>
-        private void UpdateIssues()
-        {
-            IEnumerable<Issue> issues = IsCustomRoot ? _board.GetCustomRootIssues() : _board.GetRootIssues();
+            if (ConfigRepository.Config.Display.Dashboard.IsSortByPriority)
+            {
+                issues = issues.OrderBy(i => i.Priority);
+            }
             Issues.Clear();
             foreach (Issue issue in issues)
             {

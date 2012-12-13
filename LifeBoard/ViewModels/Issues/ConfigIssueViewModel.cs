@@ -57,5 +57,10 @@ namespace LifeBoard.ViewModels.Issues
         {
             get { return _issue.IsCreationDate ? Visibility.Visible : Visibility.Collapsed; }
         }
+
+        public Visibility IsDeadline
+        {
+            get { return _issue.IsDeadline ? Visibility.Visible : Visibility.Collapsed; }
+        }
     }
 }

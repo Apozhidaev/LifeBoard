@@ -108,6 +108,7 @@
     <Compile Include="Global.cs" />
     <Compile Include="Models\Configs\Config.cs" />
     <Compile Include="Models\Configs\ConfigRepository.cs" />
+    <Compile Include="Models\Configs\Dashboard.cs" />
     <Compile Include="Models\Configs\Display.cs" />
     <Compile Include="Models\Configs\ShowIssue.cs" />
     <Compile Include="Models\Document.cs" />
@@ -122,6 +123,8 @@
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\IssueLink.cs" />
+    <Compile Include="Models\XMLDocuments\Version.cs" />
+    <Compile Include="ViewModels\Configuration\ConfigDashboardViewModel.cs" />
     <Compile Include="ViewModels\Configuration\ConfigDisplayViewModel.cs" />
     <Compile Include="ViewModels\Configuration\ConfigIssueViewModel.cs" />
     <Compile Include="ViewModels\Configuration\ConfigShowIssueViewModel.cs" />

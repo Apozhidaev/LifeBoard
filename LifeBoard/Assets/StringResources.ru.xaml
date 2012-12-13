@@ -85,4 +85,9 @@
         Показывать задачи верхнего уровня
     </system:String>
 
+    <system:String x:Key="DeadlineHeader">Крайний срок</system:String>
+    <system:String x:Key="DeadlineLabel">Крайний срок:</system:String>
+
+    <system:String x:Key="SortByLabel">Сортировать по:</system:String>
+
 </ResourceDictionary>

@@ -263,12 +263,12 @@ namespace LifeBoard.Models
         /// <param name="summary">The summary.</param>
         /// <param name="description">The description.</param>
         /// <param name="isCustomRoot">if set to <c>true</c> [is custom root].</param>
+        /// <param name="deadline"> </param>
         /// <param name="links">The HTTP link.</param>
         /// <returns>System.Int32.</returns>
-        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot,
-                               IEnumerable<string> links)
+        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string deadline, IEnumerable<string> links)
         {
-            return _documentRepository.CreateIssue(type, priority, summary, description, isCustomRoot, links);
+            return _documentRepository.CreateIssue(type, priority, summary, description, isCustomRoot, deadline, links);
         }
 
         /// <summary>

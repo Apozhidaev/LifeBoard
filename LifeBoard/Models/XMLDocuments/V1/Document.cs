@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LifeBoard.Models.XMLDocuments.V1
+﻿namespace LifeBoard.Models.XMLDocuments.V1
 {
     /// <summary>
     /// Class Document
@@ -12,7 +10,7 @@ namespace LifeBoard.Models.XMLDocuments.V1
         /// </summary>
         public Document()
         {
-            Version = new Version(1, 0);
+            Version = new Version {Major = 1, Minor = 0};
         }
 
         /// <summary>

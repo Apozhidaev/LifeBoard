@@ -79,4 +79,9 @@
         Show issues top level
     </system:String>
 
+    <system:String x:Key="DeadlineHeader">Deadline</system:String>
+    <system:String x:Key="DeadlineLabel">Deadline:</system:String>
+
+    <system:String x:Key="SortByLabel">Sort by:</system:String>
+
 </ResourceDictionary>

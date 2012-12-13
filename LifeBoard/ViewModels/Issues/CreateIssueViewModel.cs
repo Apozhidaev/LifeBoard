@@ -35,7 +35,7 @@ namespace LifeBoard.ViewModels.Issues
         /// </summary>
         protected override void Submit()
         {
-            int id = Board.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, Links.Select(l => l.LinkName));
+            int id = Board.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, Deadline,Links.Select(l => l.LinkName));
             IEnumerable<int> parents = ParentIssues.Select(pi => pi.Model.Id);
             Board.SetParents(id, parents);
             if (!Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths))

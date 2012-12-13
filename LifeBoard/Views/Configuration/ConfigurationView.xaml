@@ -12,7 +12,7 @@
                 <Grid Margin="0,30,0,0">
                     <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource CommonHeader}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1"
+                    <Rectangle Fill="{DynamicResource BaseBrush3}" HorizontalAlignment="Stretch" Height="1"
                                Margin="20,30,200,0" VerticalAlignment="Top" />
                     <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource LanguageLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
@@ -23,7 +23,7 @@
                 <Grid Margin="0,30,0,0">
                     <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource FilesHeader}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1"
+                    <Rectangle Fill="{DynamicResource BaseBrush3}" HorizontalAlignment="Stretch" Height="1"
                                Margin="20,30,200,0" VerticalAlignment="Top" />
                     <StackPanel Margin="0,70,0,0" Orientation="Vertical">
                         <Grid Margin="0,30,0,0">
@@ -51,59 +51,94 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
-                <Grid Margin="0,50,0,30">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Grid  Margin="0,50,0,30">
                     <TextBlock HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource DisplayHeader}" VerticalAlignment="Top" Style="{DynamicResource SubheaderTextStyle}" />
-                    <Rectangle Fill="{DynamicResource MarkBrush2}" HorizontalAlignment="Stretch" Height="1"
+                    <Rectangle Fill="{DynamicResource BaseBrush3}" HorizontalAlignment="Stretch" Height="1"
                                Margin="20,30,200,0" VerticalAlignment="Top" Grid.ColumnSpan="6" />
-                    <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap"
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource IssuePageLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
+                            <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource TableColumnsHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"
                                Grid.Column="2" />
-                    <CheckBox Content="{DynamicResource TypeHeader}"
+                            <CheckBox Content="{DynamicResource TypeHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueType}" Margin="35,100,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="2" />
-                    <CheckBox Content="{DynamicResource PriorityHeader}"
+                            <CheckBox Content="{DynamicResource PriorityHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsPriority}" Margin="35,130,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="2" />
-                    <CheckBox Content="{DynamicResource StatusHeader}"
+                            <CheckBox Content="{DynamicResource StatusHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsIssueStatus}" Margin="35,160,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="2" />
-                    <CheckBox Content="{DynamicResource CreationDateHeader}"
+                            <CheckBox Content="{DynamicResource CreationDateHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsCreationDate}" Margin="35,190,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="2" />
-                    <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
+                            <CheckBox Content="{DynamicResource DeadlineHeader}"
+                              IsChecked="{Binding ConfigDisplay.ShowIssue.Table.IsDeadline}" Margin="35,220,0,0" HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Grid.Column="2" />
+                            <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource SitebarRowsHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"
                                Grid.Column="4" />
-                    <CheckBox Content="{DynamicResource TypeHeader}"
+                            <CheckBox Content="{DynamicResource TypeHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueType}" Margin="35,100,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="4" />
-                    <CheckBox Content="{DynamicResource PriorityHeader}"
+                            <CheckBox Content="{DynamicResource PriorityHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsPriority}" Margin="35,130,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="4" />
-                    <CheckBox Content="{DynamicResource StatusHeader}"
+                            <CheckBox Content="{DynamicResource StatusHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsIssueStatus}" Margin="35,160,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="4" />
-                    <CheckBox Content="{DynamicResource CreationDateHeader}"
+                            <CheckBox Content="{DynamicResource CreationDateHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsCreationDate}" Margin="35,190,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="4" />
-                    <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
+                            <CheckBox Content="{DynamicResource DeadlineHeader}"
+                              IsChecked="{Binding ConfigDisplay.ShowIssue.Sitebar.IsDeadline}" Margin="35,220,0,0" HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Grid.Column="4" />
+                            <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource NavigationHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"
                                Grid.Column="6" />
-                    <CheckBox Content="{DynamicResource UseHistoryHeader}"
+                            <CheckBox Content="{DynamicResource UseHistoryHeader}"
                               IsChecked="{Binding ConfigDisplay.ShowIssue.IsHistoryAsParents}" Margin="35,100,0,0" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Grid.Column="6" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock HorizontalAlignment="Left" Margin="100,70,0,0" TextWrapping="Wrap"
+                               Text="{DynamicResource DashboardLabel}" VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                            <TextBlock HorizontalAlignment="Left" Margin="25,70,0,0" TextWrapping="Wrap"
+                               Text="{DynamicResource SortByLabel}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}"
+                               Grid.Column="2" />
+                            <CheckBox Content="{DynamicResource PriorityHeader}"
+                              IsChecked="{Binding ConfigDisplay.Dashboard.IsSortByPriority}" Margin="35,100,0,0" HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Grid.Column="2" />
+                            <CheckBox Content="{DynamicResource DeadlineHeader}"
+                              IsChecked="{Binding ConfigDisplay.Dashboard.IsSortByDeadline}" Margin="35,130,0,0" HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Grid.Column="2" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

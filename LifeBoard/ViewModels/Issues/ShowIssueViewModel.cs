@@ -9,7 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using LifeBoard.Commands;
 using LifeBoard.Models;
+using LifeBoard.Models.Configs;
 using LifeBoard.Views.Issues;
+using Issue = LifeBoard.Models.Issue;
 
 namespace LifeBoard.ViewModels.Issues
 {
@@ -163,6 +165,17 @@ namespace LifeBoard.ViewModels.Issues
         public string CreationDate
         {
             get { return _issue.CreationDate.ToShortDateString(); }
+        }
+
+        public string Deadline
+        {
+            get { return _issue.Deadline; }
+        }
+
+        public Visibility DeadlineVisibility
+        {
+            get { return !String.IsNullOrEmpty(_issue.Deadline) &&
+                ConfigRepository.Config.Display.ShowIssue.Sitebar.IsDeadline ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         /// <summary>
@@ -378,10 +391,12 @@ namespace LifeBoard.ViewModels.Issues
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
             OnPropertyChanged("Link");
+            OnPropertyChanged("Deadline");
             OnPropertyChanged("CreationDate");
             OnPropertyChanged("DescriptionVisibility");
             OnPropertyChanged("WebLinkVisibility");
             OnPropertyChanged("AttachmentsVisibility");
+            OnPropertyChanged("DeadlineVisibility");
 
             var config = Page.Resources["Config"] as ConfigShowIssueViewModel;
             if (config != null)

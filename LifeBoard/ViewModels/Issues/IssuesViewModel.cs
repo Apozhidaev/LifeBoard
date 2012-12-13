@@ -230,7 +230,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <param name="issues">The issues.</param>
         private void SortIssues(ObservableCollection<IssueViewModel> issues)
         {
-            List<IssueViewModel> list = issues.OrderBy(i => i.Model.Id).ToList();
+            List<IssueViewModel> list = issues.OrderByDescending(i => i.Model.CreationDate).ToList();
             for (int i = 0; i < issues.Count; i++)
             {
                 issues[i] = list[i];

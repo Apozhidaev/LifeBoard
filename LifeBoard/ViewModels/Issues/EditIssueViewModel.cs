@@ -73,6 +73,7 @@ namespace LifeBoard.ViewModels.Issues
             Summary = _issue.Summary;
             Description = _issue.Description;
             IsCustomRoot = _issue.IsCustomRoot;
+            Deadline = _issue.Deadline;
             Links.Clear();
             foreach (var link in _issue.Links)
             {
@@ -103,6 +104,7 @@ namespace LifeBoard.ViewModels.Issues
             _issue.Summary = Summary;
             _issue.Description = Description;
             _issue.IsCustomRoot = IsCustomRoot;
+            _issue.Deadline = Deadline;
             _issue.Links.Clear();
             foreach (var link in Links)
             {

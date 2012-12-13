@@ -141,10 +141,10 @@ namespace LifeBoard.Models
         /// <param name="summary">The summary.</param>
         /// <param name="description">The description.</param>
         /// <param name="isCustomRoot">if set to <c>true</c> [is custom root].</param>
+        /// <param name="deadline"> </param>
         /// <param name="links">The HTTP link.</param>
         /// <returns>System.Int32.</returns>
-        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot,
-                               IEnumerable<string> links)
+        public int CreateIssue(IssueType type, int priority, string summary, string description, bool isCustomRoot, string deadline, IEnumerable<string> links)
         {
             int id = NewIssueId();
             _document.Issues.Add(id, new Issue
@@ -156,6 +156,7 @@ namespace LifeBoard.Models
                                              Summary = summary,
                                              Description = description,
                                              IsCustomRoot = isCustomRoot,
+                                             Deadline = deadline,
                                              CreationDate = DateTime.Now,
                                              Links = links.ToList()
                                          });
@@ -289,6 +290,7 @@ namespace LifeBoard.Models
                                                                    Description = i.Description,
                                                                    Type = i.Type,
                                                                    Status = i.Status,
+                                                                   Deadline = i.Deadline,
                                                                    Links = i.Links!=null ? i.Links.ToList():new List<string>(),
                                                                    CreationDate = i.CreationDate,
                                                                    IsCustomRoot = i.IsCustomRoot
@@ -323,6 +325,7 @@ namespace LifeBoard.Models
                                                                                 Description = i.Description,
                                                                                 Type = i.Type,
                                                                                 Status = i.Status,
+                                                                                Deadline = i.Deadline,
                                                                                 CreationDate = i.CreationDate,
                                                                                 Links = i.Links.ToArray(),
                                                                                 IsCustomRoot = i.IsCustomRoot
@@ -411,6 +414,10 @@ namespace LifeBoard.Models
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public bool UpdateAttachments(int documentId, List<string> attachments, Dictionary<string, string> filePaths)
         {
+            if (!IsFileExists)
+            {
+                return attachments.Count == 0;
+            }
             try
             {
                 string dir = String.Format("{0}\\{1}", AttachmentsPath, documentId);
