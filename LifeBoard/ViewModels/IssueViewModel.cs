@@ -63,6 +63,23 @@ namespace LifeBoard.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is custom root.public string Deadline { get; set; }
+        /// </summary>
+        /// <value><c>true</c> if this instance is custom root; otherwise, <c>false</c>.</value>
+        public bool IsCustomRoot
+        {
+            get { return _issue.IsCustomRoot; }
+            set
+            {
+                if (_issue.IsCustomRoot != value)
+                {
+                    _issue.IsCustomRoot = value;
+                    OnPropertyChanged("IsCustomRoot");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the type of the issue.
         /// </summary>
         /// <value>The type of the issue.</value>
@@ -151,6 +168,7 @@ namespace LifeBoard.ViewModels
             OnPropertyChanged("IssueType");
             OnPropertyChanged("Status");
             OnPropertyChanged("CreationDate");
+            OnPropertyChanged("IsCustomRoot");
         }
     }
 }

@@ -234,8 +234,7 @@
     <!-- Стили Menu -->
 
     <ControlTemplate x:Key="DashdoardMenuItemControlTemplate" TargetType="{x:Type MenuItem}">
-        <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+        <Border x:Name="templateRoot" BorderBrush="White" BorderThickness="0,3,0,0" Background="{TemplateBinding Background}"
                 SnapsToDevicePixels="True">
             <Grid>
                 <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -245,18 +244,15 @@
         <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush5}" />
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush5}" />
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot"
                         Value="{StaticResource SelectedBrush7}" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush35}" />
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush35}" />
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{StaticResource BaseBrush7}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource MarkBrush2}" />
-                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource MarkBrush2}" />
                 <Setter Property="TextElement.Foreground" TargetName="templateRoot"
                         Value="{StaticResource SelectedBrush7}" />
             </Trigger>
@@ -473,12 +469,15 @@
                         <SelectiveScrollingGrid>
                             <SelectiveScrollingGrid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="{StaticResource ShowHeader}"
+                                    <MenuItem Header="{DynamicResource ShowHeader}"
                                               Command="{Binding Parent.Parent.ShowCommand}" CommandParameter="{Binding}" />
-                                    <MenuItem Header="{StaticResource EditHeader}"
+                                    <MenuItem Header="{DynamicResource EditHeader}"
                                               Command="{Binding Parent.Parent.EditCommand}" CommandParameter="{Binding}" />
                                     <Separator />
-                                    <MenuItem Header="{StaticResource DeleteHeader}"
+                                    <MenuItem Header="{DynamicResource IsCustomRootMessage}" IsChecked="{Binding IsCustomRoot}"
+                                              Command="{Binding Parent.Parent.ShowOnDashboardCommand}" CommandParameter="{Binding}" />
+                                    <Separator />
+                                    <MenuItem Header="{DynamicResource DeleteHeader}"
                                               Command="{Binding Parent.Parent.DeleteCommand}" CommandParameter="{Binding}" />
                                 </ContextMenu>
                             </SelectiveScrollingGrid.ContextMenu>

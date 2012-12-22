@@ -44,6 +44,8 @@ namespace LifeBoard.ViewModels.Dashboard
         /// </summary>
         private DelegateCommand _rootCommand;
 
+        private DelegateCommand<IssueViewModel> _showOnDashboardCommand;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DashboardViewModel" /> class.
         /// </summary>
@@ -88,6 +90,11 @@ namespace LifeBoard.ViewModels.Dashboard
         public ICommand RootCommand
         {
             get { return _rootCommand ?? (_rootCommand = new DelegateCommand(Root)); }
+        }
+
+        public ICommand ShowOnDashboardCommand
+        {
+            get { return _showOnDashboardCommand ?? (_showOnDashboardCommand = new DelegateCommand<IssueViewModel>(ShowOnDashboard)); }
         }
 
         /// <summary>
@@ -179,6 +186,16 @@ namespace LifeBoard.ViewModels.Dashboard
         private void Root()
         {
             GoRoot(false);
+        }
+
+        private void ShowOnDashboard(IssueViewModel issue)
+        {
+            issue.IsCustomRoot = !issue.IsCustomRoot;
+            _board.Submit();
+            if (IsCustomRoot)
+            {
+                AsyncUpdateIssues();
+            }
         }
 
         /// <summary>

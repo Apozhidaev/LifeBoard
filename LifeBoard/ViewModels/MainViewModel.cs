@@ -77,6 +77,8 @@ namespace LifeBoard.ViewModels
         /// </summary>
         private DelegateCommand<IssueViewModel> _showCommand;
 
+        private DelegateCommand<IssueViewModel> _showOnDashboardCommand;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel" /> class.
         /// </summary>
@@ -93,6 +95,17 @@ namespace LifeBoard.ViewModels
             _current = Dashboard;
             _backPage = Dashboard;
             _current.IsNavigated = true;
+        }
+
+        public ICommand ShowOnDashboardCommand
+        {
+            get { return _showOnDashboardCommand ?? (_showOnDashboardCommand = new DelegateCommand<IssueViewModel>(ShowOnDashboard)); }
+        }
+
+        private void ShowOnDashboard(IssueViewModel issue)
+        {
+            issue.IsCustomRoot = !issue.IsCustomRoot;
+            _board.Submit();
         }
 
         private DelegateCommand<IssueViewModel> _historyBackCommand;
