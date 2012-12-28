@@ -129,7 +129,7 @@ namespace LifeBoard.Models
             }
             foreach (int parent in parents)
             {
-                Document.IssuesLinks.Add(new IssueLink {ChildId = id, ParentId = parent});
+                Document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
             }
         }
 
@@ -177,9 +177,9 @@ namespace LifeBoard.Models
             FileStream fs = null;
             try
             {
-                var serializer = new XmlSerializer(typeof (XMLDocuments.V1.Document));
+                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
                 fs = new FileStream(path, FileMode.Open);
-                SetDocument((XMLDocuments.V1.Document) serializer.Deserialize(fs));
+                SetDocument((XMLDocuments.V1.Document)serializer.Deserialize(fs));
                 DocumentPath = path;
                 return true;
             }
@@ -245,7 +245,7 @@ namespace LifeBoard.Models
             TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof (XMLDocuments.V1.Document));
+                var serializer = new XmlSerializer(typeof(XMLDocuments.V1.Document));
                 writer = new StreamWriter(path);
                 serializer.Serialize(writer, GetDocoment());
                 DocumentPath = path;
@@ -291,13 +291,13 @@ namespace LifeBoard.Models
                                                                    Type = i.Type,
                                                                    Status = i.Status,
                                                                    Deadline = i.Deadline,
-                                                                   Links = i.Links!=null ? i.Links.ToList():new List<string>(),
+                                                                   Links = i.Links != null ? i.Links.ToList() : new List<string>(),
                                                                    CreationDate = i.CreationDate,
                                                                    IsCustomRoot = i.IsCustomRoot
                                                                }).ToDictionary(i => i.Id);
             foreach (var issue in document.Issues)
             {
-                if(!String.IsNullOrEmpty(issue.WebSite))
+                if (!String.IsNullOrEmpty(issue.WebSite))
                 {
                     _document.Issues[issue.Id].Links.Add(issue.WebSite);
                 }
@@ -346,7 +346,42 @@ namespace LifeBoard.Models
         {
             return new XMLDocuments.V1.Document
                        {
-                           Issues = new XMLDocuments.V1.Issue[0],
+                           Issues = new[]
+                            {
+                                new XMLDocuments.V1.Issue
+                                {
+                                    Id = 1,
+                                    Type = IssueType.Epic,
+                                    Status = IssueStatus.Open,
+                                    CreationDate = DateTime.Now,
+                                    Summary = "Развитие",
+                                    Description = "Все что касается моего развития.",
+                                    Priority = 1,
+                                    IsCustomRoot = true
+                                },
+                                new XMLDocuments.V1.Issue
+                                {
+                                    Id = 2,
+                                    Type = IssueType.Epic,
+                                    Status = IssueStatus.Open,
+                                    CreationDate = DateTime.Now,
+                                    Summary = "Карьера",
+                                    Description = "Все что связано с работой.",
+                                    Priority = 1,
+                                    IsCustomRoot = true
+                                },
+                                new XMLDocuments.V1.Issue
+                                {
+                                    Id = 2,
+                                    Type = IssueType.Epic,
+                                    Status = IssueStatus.Open,
+                                    CreationDate = DateTime.Now,
+                                    Summary = "Личная жизнь",
+                                    Description = "Отношения, семья.",
+                                    Priority = 1,
+                                    IsCustomRoot = true
+                                }
+                            },
                            IssuesLinks = new IssueLinks[0]
                        };
         }

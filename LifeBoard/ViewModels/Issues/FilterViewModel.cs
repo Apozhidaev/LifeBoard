@@ -26,6 +26,10 @@ namespace LifeBoard.ViewModels.Issues
         /// </summary>
         private string _query = String.Empty;
 
+        private bool _hasDeadline;
+
+        private bool _isActualDeadline;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterViewModel" /> class.
         /// </summary>
@@ -37,6 +41,34 @@ namespace LifeBoard.ViewModels.Issues
             Statuses = new ObservableCollection<StatusViewModel>();
             Priorities = new ObservableCollection<PriorityViewModel>();
             _issuesViewModel = parent as IssuesViewModel;
+        }
+
+        public bool HasDeadline
+        {
+            get { return _hasDeadline; }
+            set
+            {
+                if (_hasDeadline != value)
+                {
+                    _hasDeadline = value;
+                    _issuesViewModel.AsyncSearch();
+                    OnPropertyChanged("HasDeadline");
+                }
+            }
+        }
+
+        public bool IsActualDeadline
+        {
+            get { return _isActualDeadline; }
+            set
+            {
+                if (_isActualDeadline != value)
+                {
+                    _isActualDeadline = value;
+                    _issuesViewModel.AsyncSearch();
+                    OnPropertyChanged("IsActualDeadline");
+                }
+            }
         }
 
         /// <summary>
@@ -129,6 +161,8 @@ namespace LifeBoard.ViewModels.Issues
         {
             var model = new IssueFilter();
             model.Query = Query;
+            model.HasDeadline = HasDeadline;
+            model.IsActualDeadline = IsActualDeadline;
             model.Types = new HashSet<IssueType>(Types.Where(t => t.IsChecked).Select(t => t.IssueType));
             model.Statuses = new HashSet<IssueStatus>(Statuses.Where(t => t.IsChecked).Select(t => t.IssueStatus));
             model.Priorities = new HashSet<int>(Priorities.Where(t => t.IsChecked).Select(t => t.Priority));

@@ -16,6 +16,10 @@ namespace LifeBoard.Models
             Query = String.Empty;
         }
 
+        public bool HasDeadline { get; set; }
+
+        public bool IsActualDeadline { get; set; }
+
         /// <summary>
         /// Gets or sets the query.
         /// </summary>

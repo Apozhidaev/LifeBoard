@@ -180,15 +180,31 @@ namespace LifeBoard.Models
             if (filter.HasQuery)
             {
                 return Document.Issues.Values.Where(
-                    i => filter.Types.Contains(i.Type) &&
+                    i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) && 
+                        filter.Types.Contains(i.Type) &&
                          filter.Statuses.Contains(i.Status) &&
                          filter.Priorities.Contains(i.Priority) &&
                          Regex.IsMatch(i.Summary.ToLower(), filter.Query.ToLower()));
             }
             return Document.Issues.Values.Where(
-                i => filter.Types.Contains(i.Type) &&
+                i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) && 
+                    filter.Types.Contains(i.Type) &&
                      filter.Statuses.Contains(i.Status) &&
                      filter.Priorities.Contains(i.Priority));
+        }
+
+        private bool HasDeadline(Issue issue, bool isActual)
+        {
+            if(isActual)
+            {
+                DateTime date;
+                if (!DateTime.TryParse(issue.Deadline, out date))
+                {
+                    date = DateTime.MinValue;
+                }
+                return date > DateTime.Now;
+            }
+            return !String.IsNullOrWhiteSpace(issue.Deadline);
         }
 
         /// <summary>

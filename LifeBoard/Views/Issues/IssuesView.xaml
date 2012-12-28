@@ -1,6 +1,7 @@
 ﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Views="clr-namespace:LifeBoard.Views"
       x:Class="LifeBoard.Views.Issues.IssuesView" mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
       Title="IssuesView">
@@ -14,7 +15,7 @@
                 Style="{DynamicResource MainButtonStyle}" />
         <ScrollViewer Margin="0,70,0,0" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <Border Margin="20,0,20,10" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1">
+                <Border Margin="10,0,10,10" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1">
                 <Grid>
                     <TextBox Margin="0,0,25,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
                              Text="{Binding Filter.Query, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
@@ -24,7 +25,33 @@
                             Foreground="{DynamicResource MarkBrush7}" FontFamily="Segoe UI Symbol" />
                 </Grid>
                 </Border>
-                <Grid Margin="20,0,10,10">
+                <Controls:Accordion HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,10,0" SelectionMode="ZeroOrMore">
+                    <Controls:AccordionItem Header="{DynamicResource DeadlineHeader}" IsSelected="True" >
+                        <StackPanel Orientation="Vertical" Background="White" HorizontalAlignment="Stretch">
+                            <CheckBox x:Name="_hasDeadline" IsChecked="{Binding Filter.HasDeadline}" Content="HasDeadline" Width="200"/>
+                            <CheckBox IsChecked="{Binding Filter.IsActualDeadline}" Content="IsActualDeadline" Width="200" IsEnabled="{Binding ElementName=_hasDeadline, Path=IsChecked}"/>
+                        </StackPanel>
+                    </Controls:AccordionItem>
+                    <Controls:AccordionItem Header="{DynamicResource TypesHeader}" IsSelected="True">
+                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Types}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
+                             BorderThickness="0" />
+                    </Controls:AccordionItem>
+                    <Controls:AccordionItem Header="{DynamicResource StatusesHeader}">
+                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Statuses}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
+                             BorderThickness="0" />
+                    </Controls:AccordionItem>
+                    <Controls:AccordionItem Header="{DynamicResource PrioritiesHeader}">
+                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="125" HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}"
+                             ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
+                    </Controls:AccordionItem>
+                </Controls:Accordion>
+                <Grid Margin="20,0,10,10" Visibility="Collapsed">
                     <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap"
                                Text="{DynamicResource TypesHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
                     <TextBlock HorizontalAlignment="Left" Margin="0,145,0,0" TextWrapping="Wrap"
@@ -73,8 +100,8 @@
                                             ElementStyle="{DynamicResource GroupTextStyle}" />
                         <DataGridTextColumn Header="{DynamicResource CreationDateHeader}"
                                             Binding="{Binding CreationDate}" ElementStyle="{DynamicResource GroupTextStyle}" />
-                        <!--<DataGridTextColumn Header="{DynamicResource DeadlineHeader}"
-                                            Binding="{Binding Deadline}" ElementStyle="{DynamicResource GroupTextStyle}" />-->
+                        <DataGridTextColumn Header="{DynamicResource DeadlineHeader}"
+                                            Binding="{Binding Deadline}" ElementStyle="{DynamicResource GroupTextStyle}" />
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>

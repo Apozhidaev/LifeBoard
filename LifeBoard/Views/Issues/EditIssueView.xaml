@@ -200,6 +200,33 @@
                              ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}" Height="150"
                              VerticalAlignment="Top" BorderBrush="{DynamicResource BaseBrush3}"/>
                 </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource SubissuesLabel}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Style="{DynamicResource SubGroupHeaderTextStyle}" />
+                    <Border Grid.Column="1" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid>
+                            <TextBox Margin="0,0,25,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
+                             Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
+                             Style="{DynamicResource TitleTextBoxStyle}" BorderBrush="{DynamicResource BaseBrush1}"/>
+                            <Button Foreground="{DynamicResource MarkBrush7}" Margin="0,0,0,0" 
+                            Command="{Binding ClearCommand}" HorizontalAlignment="Right" Content="" Width="25" Height="25" VerticalAlignment="Top"
+                            Style="{DynamicResource ButtonStyle}" FontFamily="Segoe UI Symbol" />
+                        </Grid>
+                    </Border>
+                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus" Grid.Column="1"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0"
+                             ItemTemplate="{DynamicResource AddItemDataTemplate}" ItemsSource="{Binding Issues}" Height="150"
+                             VerticalAlignment="Top" BorderBrush="{DynamicResource BaseBrush3}"/>
+                    <ListBox Views:UIElementCorrector.FixScrolling="FixNoFocus"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="2" Margin="20,30,0,0"
+                             ItemsSource="{Binding ParentIssues}" ItemTemplate="{DynamicResource RemoveItemDataTemplate}" Height="150"
+                             VerticalAlignment="Top" BorderBrush="{DynamicResource BaseBrush3}"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>
