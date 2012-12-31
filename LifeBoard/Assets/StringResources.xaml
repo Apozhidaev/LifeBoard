@@ -84,4 +84,7 @@
 
     <system:String x:Key="SortByLabel">Sort by:</system:String>
 
+    <system:String x:Key="HasDeadlineHeader">Has deadline</system:String>
+    <system:String x:Key="IsActualDeadlineHeader">Is actual</system:String>
+
 </ResourceDictionary>

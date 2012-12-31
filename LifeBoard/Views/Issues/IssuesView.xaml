@@ -5,6 +5,39 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Views="clr-namespace:LifeBoard.Views"
       x:Class="LifeBoard.Views.Issues.IssuesView" mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
       Title="IssuesView">
+    <Page.Resources>
+        <Style x:Key="FilterListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid Background="{DynamicResource BaseBrush1}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -13,64 +46,56 @@
         <Button Content="{DynamicResource CreateHeader}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,0"
                 VerticalAlignment="Top" Command="{Binding Parent.NavigateCommand}" CommandParameter="{Binding Parent.CreateIssue}"
                 Style="{DynamicResource MainButtonStyle}" />
-        <ScrollViewer Margin="0,70,0,0" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="0,70,0,30" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <Border Margin="10,0,10,10" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1">
-                <Grid>
-                    <TextBox Margin="0,0,25,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
+                <Border Margin="10,2,10,10" Padding="1"  BorderBrush="{DynamicResource BaseBrush3}" BorderThickness="1">
+                    <Grid>
+                        <TextBox Margin="0,0,25,0" HorizontalAlignment="Stretch" Height="25" TextWrapping="NoWrap"
                              Text="{Binding Filter.Query, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
                              Style="{DynamicResource TitleTextBoxStyle}" BorderBrush="{DynamicResource BaseBrush1}" />
-                    <Button Margin="0,0,0,0" Command="{Binding Filter.ClearCommand}" HorizontalAlignment="Right"
-                            Content="" Width="25" Height="25" VerticalAlignment="Top" Style="{DynamicResource ButtonStyle}"
+                        <Button Margin="0,0,0,0" Command="{Binding Filter.ClearCommand}" HorizontalAlignment="Right"
+                            Content="&#xE0A9;" Width="25" Height="25" VerticalAlignment="Top" Style="{DynamicResource ButtonStyle}"
                             Foreground="{DynamicResource MarkBrush7}" FontFamily="Segoe UI Symbol" />
-                </Grid>
+                    </Grid>
                 </Border>
-                <Controls:Accordion HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,10,0" SelectionMode="ZeroOrMore">
-                    <Controls:AccordionItem Header="{DynamicResource DeadlineHeader}" IsSelected="True" >
+                <Controls:Accordion Views:UIElementCorrector.FixScrolling="Fix" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,10,0" SelectionMode="ZeroOrMore" Background="White">
+                    <Controls:AccordionItem IsSelected="True" BorderThickness="0" >
+                        <Controls:AccordionItem.Header>
+                            <TextBlock Text="{DynamicResource DeadlineHeader}" Style="{DynamicResource GroupTextStyle}" Margin="0,0,0,8"/>
+                        </Controls:AccordionItem.Header>
                         <StackPanel Orientation="Vertical" Background="White" HorizontalAlignment="Stretch">
-                            <CheckBox x:Name="_hasDeadline" IsChecked="{Binding Filter.HasDeadline}" Content="HasDeadline" Width="200"/>
-                            <CheckBox IsChecked="{Binding Filter.IsActualDeadline}" Content="IsActualDeadline" Width="200" IsEnabled="{Binding ElementName=_hasDeadline, Path=IsChecked}"/>
+                            <CheckBox Margin="5,10,0,10" x:Name="_hasDeadline" IsChecked="{Binding Filter.HasDeadline}" Content="{DynamicResource HasDeadlineHeader}" Width="200"/>
+                            <CheckBox Margin="5,0,0,10" IsChecked="{Binding Filter.IsActualDeadline}" Content="{DynamicResource IsActualDeadlineHeader}" Width="200" IsEnabled="{Binding IsChecked, ElementName=_hasDeadline}"/>
                         </StackPanel>
                     </Controls:AccordionItem>
-                    <Controls:AccordionItem Header="{DynamicResource TypesHeader}" IsSelected="True">
-                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                    <Controls:AccordionItem IsSelected="True" BorderThickness="0">
+                        <Controls:AccordionItem.Header>
+                            <TextBlock Text="{DynamicResource TypesHeader}" Style="{DynamicResource GroupTextStyle}" Margin="0,0,0,8"/>
+                        </Controls:AccordionItem.Header>
+                        <ListBox
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch"
                              VerticalAlignment="Top" ItemsSource="{Binding Filter.Types}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
-                             BorderThickness="0" />
+                             BorderThickness="0" Views:UIElementCorrector.FixScrolling="Fix" ItemContainerStyle="{DynamicResource FilterListBoxItemStyle}" />
                     </Controls:AccordionItem>
-                    <Controls:AccordionItem Header="{DynamicResource StatusesHeader}">
-                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                    <Controls:AccordionItem BorderThickness="0">
+                        <Controls:AccordionItem.Header>
+                            <TextBlock Text="{DynamicResource StatusesHeader}" Style="{DynamicResource GroupTextStyle}" Margin="0,0,0,8"/>
+                        </Controls:AccordionItem.Header>
+                        <ListBox
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch"
                              VerticalAlignment="Top" ItemsSource="{Binding Filter.Statuses}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
-                             BorderThickness="0" />
+                             BorderThickness="0" Views:UIElementCorrector.FixScrolling="Fix" ItemContainerStyle="{DynamicResource FilterListBoxItemStyle}"/>
                     </Controls:AccordionItem>
-                    <Controls:AccordionItem Header="{DynamicResource PrioritiesHeader}">
-                        <ListBox Views:UIElementCorrector.FixScrolling="Fix"
+                    <Controls:AccordionItem BorderThickness="0">
+                        <Controls:AccordionItem.Header>
+                            <TextBlock Text="{DynamicResource PrioritiesHeader}" Style="{DynamicResource GroupTextStyle}" Margin="0,0,0,8"/>
+                        </Controls:AccordionItem.Header>
+                        <ListBox
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="125" HorizontalAlignment="Stretch"
-                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}"
-                             ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
+                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}" ItemContainerStyle="{DynamicResource FilterListBoxItemStyle}"
+                             ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" Views:UIElementCorrector.FixScrolling="Fix" />
                     </Controls:AccordionItem>
                 </Controls:Accordion>
-                <Grid Margin="20,0,10,10" Visibility="Collapsed">
-                    <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap"
-                               Text="{DynamicResource TypesHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="0,145,0,0" TextWrapping="Wrap"
-                               Text="{DynamicResource StatusesHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <TextBlock HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap"
-                               Text="{DynamicResource PrioritiesHeader}" VerticalAlignment="Top" Style="{DynamicResource GroupTextStyle}" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="Fix"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch" Margin="5,28,5,0"
-                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Types}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
-                             BorderThickness="0" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="Fix"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="100" HorizontalAlignment="Stretch" Margin="5,172,5,0"
-                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Statuses}" ItemTemplate="{DynamicResource FilterItemDataTemplate}"
-                             BorderThickness="0" />
-                    <ListBox Views:UIElementCorrector.FixScrolling="Fix"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="125" HorizontalAlignment="Stretch" Margin="5,312,5,0"
-                             VerticalAlignment="Top" ItemsSource="{Binding Filter.Priorities}"
-                             ItemTemplate="{DynamicResource FilterItemDataTemplate}" BorderThickness="0" />
-                </Grid>
             </StackPanel>
         </ScrollViewer>
         <TextBlock HorizontalAlignment="Right" Margin="0,0,50,10" TextWrapping="Wrap"
@@ -82,13 +107,12 @@
                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
                 <DataGrid x:Name="_dataGrid" IsReadOnly="True" HorizontalAlignment="Stretch"
-                          Views:UIElementCorrector.FixScrolling="Fix" VerticalAlignment="Stretch" ItemsSource="{Binding Issues}"
+                          VerticalAlignment="Stretch" ItemsSource="{Binding Issues}"
                           RowStyle="{DynamicResource IssueDataGridRowStyle}" CellStyle="{DynamicResource IssueDataGridCellStyle}"
                           GridLinesVisibility="None" AutoGenerateColumns="False" SelectionMode="Single" BorderThickness="0"
-                          Views:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}"
-                          Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}" Background="{StaticResource BaseBrush1}"
+                          Background="{StaticResource BaseBrush1}"
                           RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}"
-                          ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}" HeadersVisibility="Column">
+                          ColumnHeaderStyle="{DynamicResource ShowDataGridColumnHeaderStyle}" HeadersVisibility="Column" Views:UIElementCorrector.DoubleClickCommand="{Binding Parent.ShowCommand}" Views:UIElementCorrector.DoubleClickCommandParameter="{Binding SelectedValue, RelativeSource={RelativeSource Self}}" Views:UIElementCorrector.FixScrolling="Fix">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{DynamicResource TypeHeader}" Binding="{Binding IssueType}"
                                             ElementStyle="{DynamicResource GroupTextStyle}" />
@@ -119,7 +143,7 @@
                 </DataGrid>
                 <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{StaticResource BaseBrush1}"
                          Visibility="{Binding PagenatorVisibility}" Height="70" Padding="20" BorderThickness="0"
-                         ItemsSource="{Binding PageNumbers}" SelectedValue="{Binding PageNumberCorrent,Mode=TwoWay}"
+                         ItemsSource="{Binding PageNumbers}" SelectedValue="{Binding PageNumberCorrent, Mode=TwoWay}"
                          HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsPanel="{DynamicResource PageItemsPanelTemplate}"
                          ItemTemplate="{DynamicResource PagenatorItemDataTemplate}" />
             </StackPanel>
