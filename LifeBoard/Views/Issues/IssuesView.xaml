@@ -98,9 +98,9 @@
                                             ElementStyle="{DynamicResource GroupTextStyle}" />
                         <DataGridTextColumn Header="{DynamicResource StatusHeader}" Binding="{Binding Status}"
                                             ElementStyle="{DynamicResource GroupTextStyle}" />
-                        <DataGridTextColumn Header="{DynamicResource CreationDateHeader}"
+                        <DataGridTextColumn Header="{DynamicResource CreationDateHeader}" CanUserSort="False"
                                             Binding="{Binding CreationDate}" ElementStyle="{DynamicResource GroupTextStyle}" />
-                        <DataGridTextColumn Header="{DynamicResource DeadlineHeader}"
+                        <DataGridTextColumn Header="{DynamicResource DeadlineHeader}" CanUserSort="False"
                                             Binding="{Binding Deadline}" ElementStyle="{DynamicResource GroupTextStyle}" />
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>

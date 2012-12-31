@@ -35,10 +35,15 @@ namespace LifeBoard.ViewModels.Issues
             _issue = issue;
             FromIssue();
             FromAttachments();
-            ParentIssues.Clear();
+            ParentsViewModel.RelationIssues.Clear();
             foreach (Issue parent in Board.GetParents(issue.Id))
             {
-                ParentIssues.Add(new IssueViewModel(this, parent));
+                ParentsViewModel.RelationIssues.Add(new IssueViewModel(ParentsViewModel, parent));
+            }
+            ChildrenViewModel.RelationIssues.Clear();
+            foreach (Issue child in Board.GetChildren(issue.Id))
+            {
+                ChildrenViewModel.RelationIssues.Add(new IssueViewModel(ChildrenViewModel, child));
             }
         }
 
@@ -51,8 +56,9 @@ namespace LifeBoard.ViewModels.Issues
             if (Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths))
             {
                 ToIssue();
-                IEnumerable<int> parents = ParentIssues.Select(pi => pi.Model.Id);
-                Board.SetParents(id, parents);
+                var parents = ParentsViewModel.RelationIssues.Select(pi => pi.Model.Id);
+                var children = ChildrenViewModel.RelationIssues.Select(pi => pi.Model.Id);
+                Board.SetRelations(id, parents, children);
                 Board.Submit();
                 base.Submit();
             }
@@ -116,9 +122,14 @@ namespace LifeBoard.ViewModels.Issues
         /// Gets the filter issues.
         /// </summary>
         /// <returns>IEnumerable{Issue}.</returns>
-        protected override IEnumerable<Issue> GetFilterIssues()
+        protected override IEnumerable<Issue> GetParentIssues()
         {
-            return Board.GetIssuesExeptChildren(_issue.Id, Query);
+            return base.GetParentIssues().Where(i => i.Id != _issue.Id);
+        }
+
+        protected override IEnumerable<Issue> GetChildIssues()
+        {
+            return base.GetChildIssues().Where(i => i.Id != _issue.Id);
         }
     }
 }

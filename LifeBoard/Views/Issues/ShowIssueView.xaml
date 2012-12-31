@@ -139,11 +139,11 @@
                             <DataGridTextColumn
                                 Visibility="{Binding Source={StaticResource Config},Path=Table.IsCreationDate}"
                                 Header="{DynamicResource CreationDateHeader}" Binding="{Binding CreationDate}"
-                                ElementStyle="{DynamicResource CaptionGroupTextStyle}" />
+                                ElementStyle="{DynamicResource CaptionGroupTextStyle}" CanUserSort="False"/>
                             <DataGridTextColumn
                                 Visibility="{Binding Source={StaticResource Config},Path=Table.IsDeadline}"
                                 Header="{DynamicResource DeadlineHeader}" Binding="{Binding Deadline}"
-                                ElementStyle="{DynamicResource CaptionGroupTextStyle}" />
+                                ElementStyle="{DynamicResource CaptionGroupTextStyle}" CanUserSort="False"/>
                         </DataGrid.Columns>
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>

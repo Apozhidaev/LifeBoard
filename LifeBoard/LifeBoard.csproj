@@ -135,8 +135,12 @@
     <Compile Include="ViewModels\Issues\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Issues\ConfigIssueViewModel.cs" />
     <Compile Include="ViewModels\Issues\ConfigShowIssueViewModel.cs" />
+    <Compile Include="ViewModels\Issues\EditRelationViewModel.cs" />
     <Compile Include="ViewModels\Issues\LinkViewModel.cs" />
     <Compile Include="ViewModels\Issues\PageNumberViewModel.cs" />
+    <Compile Include="Views\Issues\EditRelationView.xaml.cs">
+      <DependentUpon>EditRelationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TextBoxCorrector.cs" />
     <Compile Include="ViewModels\INavigatePage.cs" />
     <Compile Include="ViewModels\Issues\CreateIssueViewModel.cs" />
@@ -178,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Issues\EditIssueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Issues\EditRelationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

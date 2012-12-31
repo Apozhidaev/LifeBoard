@@ -331,8 +331,8 @@ namespace LifeBoard.ViewModels
         /// <param name="issue">The issue.</param>
         private void Create(IssueViewModel issue)
         {
-            Navigate(CreateIssue);
             CreateIssue.AddParent(issue);
+            Navigate(CreateIssue);
         }
 
         /// <summary>

@@ -120,16 +120,25 @@ namespace LifeBoard.Models
         /// Sets the parents.
         /// </summary>
         /// <param name="id">The id.</param>
+        /// <param name="children"> </param>
         /// <param name="parents">The parents.</param>
-        public void SetParents(int id, IEnumerable<int> parents)
+        public void SetRelations(int id, IEnumerable<int> parents, IEnumerable<int> children)
         {
-            foreach (IssueLink issueLink in Document.IssuesLinks.Where(l => l.ChildId == id).ToList())
+            foreach (IssueLink issueLink in Document.IssuesLinks.Where(l => l.ChildId == id || l.ParentId == id).ToList())
             {
                 Document.IssuesLinks.Remove(issueLink);
             }
+            int order = 0;
             foreach (int parent in parents)
             {
-                Document.IssuesLinks.Add(new IssueLink { ChildId = id, ParentId = parent });
+                Document.IssuesLinks.Add(new IssueLink {ChildId = id, ParentId = parent, Order = order});
+                ++order;
+            }
+            order = 0;
+            foreach (int child in children)
+            {
+                Document.IssuesLinks.Add(new IssueLink {ChildId = child, ParentId = id, Order = order});
+                ++order;
             }
         }
 
@@ -295,17 +304,11 @@ namespace LifeBoard.Models
                                                                    CreationDate = i.CreationDate,
                                                                    IsCustomRoot = i.IsCustomRoot
                                                                }).ToDictionary(i => i.Id);
-            foreach (var issue in document.Issues)
-            {
-                if (!String.IsNullOrEmpty(issue.WebSite))
-                {
-                    _document.Issues[issue.Id].Links.Add(issue.WebSite);
-                }
-            }
             _document.IssuesLinks = document.IssuesLinks.Select(pi => new IssueLink
                                                                           {
                                                                               ChildId = pi.ParentId,
-                                                                              ParentId = pi.ChildId
+                                                                              ParentId = pi.ChildId,
+                                                                              Order = pi.Order
                                                                           }).ToList();
         }
 
@@ -333,7 +336,8 @@ namespace LifeBoard.Models
                            IssuesLinks = _document.IssuesLinks.Select(pi => new IssueLinks
                                                                                 {
                                                                                     ParentId = pi.ChildId,
-                                                                                    ChildId = pi.ParentId
+                                                                                    ChildId = pi.ParentId,
+                                                                                    Order = pi.Order
                                                                                 }).ToArray()
                        };
         }

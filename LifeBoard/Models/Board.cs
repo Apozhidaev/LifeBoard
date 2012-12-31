@@ -14,7 +14,7 @@ namespace LifeBoard.Models
         /// <summary>
         /// The _child parents
         /// </summary>
-        private readonly Dictionary<int, HashSet<int>> _childParents = new Dictionary<int, HashSet<int>>();
+        private readonly Dictionary<int, List<int>> _childParents = new Dictionary<int, List<int>>();
 
         /// <summary>
         /// The _document repository
@@ -24,7 +24,7 @@ namespace LifeBoard.Models
         /// <summary>
         /// The _parent children
         /// </summary>
-        private readonly Dictionary<int, HashSet<int>> _parentChildren = new Dictionary<int, HashSet<int>>();
+        private readonly Dictionary<int, List<int>> _parentChildren = new Dictionary<int, List<int>>();
 
         /// <summary>
         /// Gets the document path.
@@ -92,9 +92,10 @@ namespace LifeBoard.Models
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="parents">The parents.</param>
-        public void SetParents(int id, IEnumerable<int> parents)
+        /// <param name="children"> </param>
+        public void SetRelations(int id, IEnumerable<int> parents, IEnumerable<int> children)
         {
-            _documentRepository.SetParents(id, parents);
+            _documentRepository.SetRelations(id, parents, children);
             UpdateLinks();
         }
 
@@ -105,9 +106,11 @@ namespace LifeBoard.Models
         /// <returns>IEnumerable{Issue}.</returns>
         public IEnumerable<Issue> GetParents(int id)
         {
-            return
-                Document.Issues.Values.Where(
-                    i => _parentChildren.ContainsKey(i.Id) && _parentChildren[i.Id].Contains(id));
+            if (_childParents.ContainsKey(id))
+            {
+                return _childParents[id].Select(t => Document.Issues[t]);
+            }
+            return new List<Issue>();
         }
 
         /// <summary>
@@ -117,7 +120,11 @@ namespace LifeBoard.Models
         /// <returns>IEnumerable{Issue}.</returns>
         public IEnumerable<Issue> GetChildren(int id)
         {
-            return Document.Issues.Values.Where(i => _childParents.ContainsKey(i.Id) && _childParents[i.Id].Contains(id));
+            if (_parentChildren.ContainsKey(id))
+            {
+                return _parentChildren[id].Select(t => Document.Issues[t]);
+            }
+            return new List<Issue>();
         }
 
         /// <summary>
@@ -144,6 +151,13 @@ namespace LifeBoard.Models
             return allChildren.Select(child => Document.Issues[child]);
         }
 
+        public IEnumerable<Issue> GetAllParents(int id)
+        {
+            var allParents = new HashSet<int>();
+            AddParentsTo(id, allParents);
+            return allParents.Select(parent => Document.Issues[parent]);
+        }
+
         /// <summary>
         /// Adds the children to.
         /// </summary>
@@ -157,6 +171,18 @@ namespace LifeBoard.Models
                 {
                     allChildren.Add(child);
                     AddChildrenTo(child, allChildren);
+                }
+            }
+        }
+
+        private void AddParentsTo(int id, HashSet<int> allParents)
+        {
+            if (_childParents.ContainsKey(id))
+            {
+                foreach (int parent in _childParents[id])
+                {
+                    allParents.Add(parent);
+                    AddParentsTo(parent, allParents);
                 }
             }
         }
@@ -180,14 +206,14 @@ namespace LifeBoard.Models
             if (filter.HasQuery)
             {
                 return Document.Issues.Values.Where(
-                    i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) && 
+                    i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) &&
                         filter.Types.Contains(i.Type) &&
                          filter.Statuses.Contains(i.Status) &&
                          filter.Priorities.Contains(i.Priority) &&
                          Regex.IsMatch(i.Summary.ToLower(), filter.Query.ToLower()));
             }
             return Document.Issues.Values.Where(
-                i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) && 
+                i => ((!filter.HasDeadline) || (filter.HasDeadline && HasDeadline(i, filter.IsActualDeadline))) &&
                     filter.Types.Contains(i.Type) &&
                      filter.Statuses.Contains(i.Status) &&
                      filter.Priorities.Contains(i.Priority));
@@ -195,7 +221,7 @@ namespace LifeBoard.Models
 
         private bool HasDeadline(Issue issue, bool isActual)
         {
-            if(isActual)
+            if (isActual)
             {
                 DateTime date;
                 if (!DateTime.TryParse(issue.Deadline, out date))
@@ -228,14 +254,29 @@ namespace LifeBoard.Models
         /// <summary>
         /// Gets the issues exept children.
         /// </summary>
-        /// <param name="id">The id.</param>
+        /// <param name="children">The ids.</param>
         /// <param name="query">The query.</param>
         /// <returns>IEnumerable{Issue}.</returns>
-        public IEnumerable<Issue> GetIssuesExeptChildren(int id, string query)
+        public IEnumerable<Issue> GetIssuesExeptChildren(IEnumerable<int> children, string query)
         {
             var allChildren = new HashSet<int>();
-            AddChildrenTo(id, allChildren);
-            return GetIssues(query).Where(i => i.Id != id && !allChildren.Contains(i.Id));
+            foreach (var child in children)
+            {
+                allChildren.Add(child);
+                AddChildrenTo(child, allChildren);
+            }
+            return GetIssues(query).Where(i => !allChildren.Contains(i.Id));
+        }
+
+        public IEnumerable<Issue> GetIssuesExeptParents(IEnumerable<int> parents, string query)
+        {
+            var allParents = new HashSet<int>();
+            foreach (var parent in parents)
+            {
+                allParents.Add(parent);
+                AddParentsTo(parent, allParents);
+            }
+            return GetIssues(query).Where(i => !allParents.Contains(i.Id));
         }
 
         /// <summary>
@@ -255,17 +296,17 @@ namespace LifeBoard.Models
         {
             _parentChildren.Clear();
             _childParents.Clear();
-            foreach (IssueLink projectIssue in Document.IssuesLinks)
+            foreach (IssueLink projectIssue in Document.IssuesLinks.OrderBy(il => il.Order))
             {
                 if (!_parentChildren.ContainsKey(projectIssue.ParentId))
                 {
-                    _parentChildren.Add(projectIssue.ParentId, new HashSet<int>());
+                    _parentChildren.Add(projectIssue.ParentId, new List<int>());
                 }
                 _parentChildren[projectIssue.ParentId].Add(projectIssue.ChildId);
 
                 if (!_childParents.ContainsKey(projectIssue.ChildId))
                 {
-                    _childParents.Add(projectIssue.ChildId, new HashSet<int>());
+                    _childParents.Add(projectIssue.ChildId, new List<int>());
                 }
                 _childParents[projectIssue.ChildId].Add(projectIssue.ParentId);
             }
@@ -293,7 +334,7 @@ namespace LifeBoard.Models
         /// <returns>IEnumerable{System.Int32}.</returns>
         public IEnumerable<int> GetPriorities()
         {
-            return new[] {1, 2, 3, 4, 5};
+            return new[] { 1, 2, 3, 4, 5 };
         }
 
         /// <summary>
@@ -302,7 +343,7 @@ namespace LifeBoard.Models
         /// <returns>IEnumerable{IssueType}.</returns>
         public IEnumerable<IssueType> GetTypes()
         {
-            return new[] {IssueType.Note, IssueType.Task, IssueType.Story, IssueType.Epic};
+            return new[] { IssueType.Note, IssueType.Task, IssueType.Story, IssueType.Epic };
         }
 
         /// <summary>
@@ -311,7 +352,7 @@ namespace LifeBoard.Models
         /// <returns>IEnumerable{IssueStatus}.</returns>
         public IEnumerable<IssueStatus> GetStatuses()
         {
-            return new[] {IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved, IssueStatus.Closed};
+            return new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved, IssueStatus.Closed };
         }
 
         /// <summary>
@@ -323,7 +364,7 @@ namespace LifeBoard.Models
             var filter = new IssueFilter();
             filter.Priorities = new HashSet<int>(GetPriorities());
             filter.Statuses =
-                new HashSet<IssueStatus>(new[] {IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved});
+                new HashSet<IssueStatus>(new[] { IssueStatus.Open, IssueStatus.InProgress, IssueStatus.Resolved });
             filter.Types = new HashSet<IssueType>(GetTypes());
             return filter;
         }

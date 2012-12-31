@@ -19,112 +19,152 @@ namespace LifeBoard.ViewModels.Issues
     /// </summary>
     public class EditIssueViewModelBase : PageViewModelBase
     {
-        /// <summary>
-        /// The _board
-        /// </summary>
+
         private readonly Board _board;
-        /// <summary>
-        /// The _parent
-        /// </summary>
+
         private readonly INavigatePage _parent;
-        /// <summary>
-        /// The _add attachment command
-        /// </summary>
+
         private DelegateCommand _addAttachmentCommand;
 
         private DelegateCommand _addLinkCommand;
-        /// <summary>
-        /// The _add command
-        /// </summary>
-        private DelegateCommand<IssueViewModel> _addCommand;
-        /// <summary>
-        /// The _clear command
-        /// </summary>
-        private DelegateCommand _clearCommand;
 
         private DelegateCommand _clearDeadlineCommand;
-        /// <summary>
-        /// The _description
-        /// </summary>
+
         private string _description;
-        /// <summary>
-        /// The _edit issue view
-        /// </summary>
+
         private EditIssueView _editIssueView;
-        /// <summary>
-        /// The _insert command
-        /// </summary>
+
         private DelegateCommand<string> _insertCommand;
-        /// <summary>
-        /// The _is custom root
-        /// </summary>
+
         private bool _isCustomRoot;
-        /// <summary>
-        /// The _priority
-        /// </summary>
+
         private int _priority;
-        /// <summary>
-        /// The _query
-        /// </summary>
-        private string _query = String.Empty;
-        /// <summary>
-        /// The _remove attachment command
-        /// </summary>
+
         private DelegateCommand<AttachmentViewModel> _removeAttachmentCommand;
 
         private DelegateCommand<LinkViewModel> _removeLinkCommand;
-        /// <summary>
-        /// The _remove command
-        /// </summary>
-        private DelegateCommand<IssueViewModel> _removeCommand;
-        /// <summary>
-        /// The _selection start
-        /// </summary>
+
         private int _selectionStart;
-        /// <summary>
-        /// The _submit command
-        /// </summary>
+
         private DelegateCommand _submitCommand;
-        /// <summary>
-        /// The _summary
-        /// </summary>
+
         private string _summary;
-        /// <summary>
-        /// The _type
-        /// </summary>
+
         private IssueType _type;
-        /// <summary>
-        /// The _web site
-        /// </summary>
+
         private string _link;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EditIssueViewModelBase" /> class.
-        /// </summary>
-        /// <param name="parent">The parent.</param>
-        /// <param name="board">The board.</param>
+        private string _deadline;
+
         public EditIssueViewModelBase(INavigatePage parent, Board board)
             : base(parent)
         {
             _parent = parent;
             _board = board;
-            Issues = new ObservableCollection<IssueViewModel>();
-            ParentIssues = new ObservableCollection<IssueViewModel>();
             Attachments = new ObservableCollection<AttachmentViewModel>();
             Links = new ObservableCollection<LinkViewModel>();
             FilePaths = new Dictionary<string, string>();
             SubmitHeader = "Submit";
+
+            ParentsViewModel = new EditRelationViewModel();
+            ChildrenViewModel = new EditRelationViewModel();
+
+            ParentsViewModel.AddCommand = new DelegateCommand<IssueViewModel>(AddParent, ParentsViewModel.CanAdd);
+            ParentsViewModel.RemoveCommand = new DelegateCommand<IssueViewModel>(RemoveParent);
+            ParentsViewModel.SearchCommand = new DelegateCommand(ParentSearch);
+
+            ChildrenViewModel.AddCommand = new DelegateCommand<IssueViewModel>(AddChild, ChildrenViewModel.CanAdd);
+            ChildrenViewModel.RemoveCommand = new DelegateCommand<IssueViewModel>(RemoveChild);
+            ChildrenViewModel.SearchCommand = new DelegateCommand(ChildSearch);
+        }
+
+        public EditRelationViewModel ParentsViewModel { get; private set; }
+
+        public EditRelationViewModel ChildrenViewModel { get; private set; }
+
+        /// <summary>
+        /// Adds the parent.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
+        public void AddParent(IssueViewModel issue)
+        {
+            ParentsViewModel.RelationIssues.Add(issue);
+            ChildSearch();
+        }
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        private void RemoveParent(IssueViewModel item)
+        {
+            ParentsViewModel.RelationIssues.Remove(item);
+            ChildSearch();
+        }
+
+        /// <summary>
+        /// Adds the parent.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
+        private void AddChild(IssueViewModel issue)
+        {
+            ChildrenViewModel.RelationIssues.Add(issue);
+            ParentSearch();
+        }
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        private void RemoveChild(IssueViewModel item)
+        {
+            ChildrenViewModel.RelationIssues.Remove(item);
+            ParentSearch();
+        }
+
+        /// <summary>
+        /// Searches this instance.
+        /// </summary>
+        private async void ParentSearch()
+        {
+            ParentsViewModel.Issues.Clear();
+            foreach (Issue issue in await Task<IEnumerable<Issue>>.Factory.StartNew(GetParentIssues))
+            {
+                ParentsViewModel.Issues.Add(new IssueViewModel(ParentsViewModel, issue));
+            }
+        }
+
+        /// <summary>
+        /// Searches this instance.
+        /// </summary>
+        private async void ChildSearch()
+        {
+            ChildrenViewModel.Issues.Clear();
+            foreach (Issue issue in await Task<IEnumerable<Issue>>.Factory.StartNew(GetChildIssues))
+            {
+                ChildrenViewModel.Issues.Add(new IssueViewModel(ChildrenViewModel, issue));
+            }
+        }
+
+        /// <summary>
+        /// Gets the filter issues.
+        /// </summary>
+        /// <returns>IEnumerable{Issue}.</returns>
+        protected virtual IEnumerable<Issue> GetParentIssues()
+        {
+            return _board.GetIssuesExeptChildren(ChildrenViewModel.RelationIssues.Select(ci => ci.Model.Id), ParentsViewModel.Query);
+        }
+
+        /// <summary>
+        /// Gets the filter issues.
+        /// </summary>
+        /// <returns>IEnumerable{Issue}.</returns>
+        protected virtual IEnumerable<Issue> GetChildIssues()
+        {
+            return _board.GetIssuesExeptParents(ParentsViewModel.RelationIssues.Select(pi => pi.Model.Id), ChildrenViewModel.Query);
         }
 
         #region Commands
-
-        /// <summary>
-        /// The _search command
-        /// </summary>
-        private DelegateCommand _searchCommand;
-
-        private string _deadline;
-
         /// <summary>
         /// Gets the add attachment command.
         /// </summary>
@@ -177,33 +217,6 @@ namespace LifeBoard.ViewModels.Issues
         public ICommand InsertCommand
         {
             get { return _insertCommand ?? (_insertCommand = new DelegateCommand<string>(Insert)); }
-        }
-
-        /// <summary>
-        /// Gets the add command.
-        /// </summary>
-        /// <value>The add command.</value>
-        public ICommand AddCommand
-        {
-            get { return _addCommand ?? (_addCommand = new DelegateCommand<IssueViewModel>(Add, CanAdd)); }
-        }
-
-        /// <summary>
-        /// Gets the remove command.
-        /// </summary>
-        /// <value>The remove command.</value>
-        public ICommand RemoveCommand
-        {
-            get { return _removeCommand ?? (_removeCommand = new DelegateCommand<IssueViewModel>(Remove)); }
-        }
-
-        /// <summary>
-        /// Gets the search command.
-        /// </summary>
-        /// <value>The search command.</value>
-        public ICommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(Search)); }
         }
 
         /// <summary>
@@ -283,46 +296,6 @@ namespace LifeBoard.ViewModels.Issues
             return !String.IsNullOrEmpty(Summary);
         }
 
-        /// <summary>
-        /// Adds the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        private void Add(IssueViewModel item)
-        {
-            ParentIssues.Add(item);
-        }
-
-        /// <summary>
-        /// Determines whether this instance can add the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <returns><c>true</c> if this instance can add the specified item; otherwise, <c>false</c>.</returns>
-        private bool CanAdd(IssueViewModel item)
-        {
-            return item != null && ParentIssues.All(pi => pi.Model.Id != item.Model.Id);
-        }
-
-        /// <summary>
-        /// Removes the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        private void Remove(IssueViewModel item)
-        {
-            ParentIssues.Remove(item);
-        }
-
-        /// <summary>
-        /// Searches this instance.
-        /// </summary>
-        private async void Search()
-        {
-            Issues.Clear();
-            foreach (Issue issue in await Task<IEnumerable<Issue>>.Factory.StartNew(GetFilterIssues))
-            {
-                Issues.Add(new IssueViewModel(this, issue));
-            }
-        }
-
         #endregion
 
         #region Properties
@@ -338,18 +311,6 @@ namespace LifeBoard.ViewModels.Issues
         /// </summary>
         /// <value>The submit header.</value>
         public string SubmitHeader { get; set; }
-
-        /// <summary>
-        /// Gets the issues.
-        /// </summary>
-        /// <value>The issues.</value>
-        public ObservableCollection<IssueViewModel> Issues { get; private set; }
-
-        /// <summary>
-        /// Gets the parent issues.
-        /// </summary>
-        /// <value>The parent issues.</value>
-        public ObservableCollection<IssueViewModel> ParentIssues { get; private set; }
 
         /// <summary>
         /// Gets the attachments.
@@ -510,7 +471,8 @@ namespace LifeBoard.ViewModels.Issues
         /// </summary>
         protected override void OnNavigated()
         {
-            Search();
+            ParentSearch();
+            ChildSearch();
             base.OnNavigated();
         }
 
@@ -523,33 +485,6 @@ namespace LifeBoard.ViewModels.Issues
         protected Board Board
         {
             get { return _board; }
-        }
-
-        /// <summary>
-        /// Gets or sets the query.
-        /// </summary>
-        /// <value>The query.</value>
-        public string Query
-        {
-            get { return _query; }
-            set
-            {
-                if (_query != value)
-                {
-                    _query = value;
-                    Search();
-                    OnPropertyChanged("Query");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the clear command.
-        /// </summary>
-        /// <value>The clear command.</value>
-        public ICommand ClearCommand
-        {
-            get { return _clearCommand ?? (_clearCommand = new DelegateCommand(Clear)); }
         }
 
         public ICommand ClearDeadlineCommand
@@ -580,34 +515,10 @@ namespace LifeBoard.ViewModels.Issues
             }
         }
 
-        /// <summary>
-        /// Clears this instance.
-        /// </summary>
-        public void Clear()
-        {
-            Query = String.Empty;
-        }
+
         public void ClearDeadline()
         {
             Deadline = String.Empty;
-        }
-
-        /// <summary>
-        /// Adds the parent.
-        /// </summary>
-        /// <param name="issue">The issue.</param>
-        public void AddParent(IssueViewModel issue)
-        {
-            ParentIssues.Add(issue);
-        }
-
-        /// <summary>
-        /// Gets the filter issues.
-        /// </summary>
-        /// <returns>IEnumerable{Issue}.</returns>
-        protected virtual IEnumerable<Issue> GetFilterIssues()
-        {
-            return _board.GetIssues(Query);
         }
 
         /// <summary>
@@ -622,12 +533,11 @@ namespace LifeBoard.ViewModels.Issues
             IsCustomRoot = false;
             Link = String.Empty;
             Deadline = String.Empty;
-            Issues.Clear();
-            ParentIssues.Clear();
             Attachments.Clear();
             FilePaths.Clear();
             Links.Clear();
-            Clear();
+            ParentsViewModel.ClearForm();
+            ChildrenViewModel.ClearForm();
         }
     }
 }

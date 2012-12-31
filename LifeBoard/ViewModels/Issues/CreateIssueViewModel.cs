@@ -36,8 +36,9 @@ namespace LifeBoard.ViewModels.Issues
         protected override void Submit()
         {
             int id = Board.CreateIssue(Type, Priority, Summary, Description, IsCustomRoot, Deadline,Links.Select(l => l.LinkName));
-            IEnumerable<int> parents = ParentIssues.Select(pi => pi.Model.Id);
-            Board.SetParents(id, parents);
+            var parents = ParentsViewModel.RelationIssues.Select(pi => pi.Model.Id);
+            var children = ChildrenViewModel.RelationIssues.Select(pi => pi.Model.Id);
+            Board.SetRelations(id, parents, children);
             if (!Board.UpdateAttachments(id, Attachments.Select(a => a.FileName).ToList(), FilePaths))
             {
                 MessageBox.Show("Неудалось добавить выбранные файла.");

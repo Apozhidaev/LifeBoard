@@ -16,5 +16,7 @@
         /// </summary>
         /// <value>The parent id.</value>
         public int ParentId { get; set; }
+
+        public int Order { get; set; }
     }
 }

@@ -56,12 +56,6 @@ namespace LifeBoard.Models.XMLDocuments.V1
         /// <value>The creation date.</value>
         public DateTime CreationDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the web site.
-        /// </summary>
-        /// <value>The web site.</value>
-        public string WebSite { get; set; }
-
         public string Deadline { get; set; }
 
         public string[] Links { get; set; }
