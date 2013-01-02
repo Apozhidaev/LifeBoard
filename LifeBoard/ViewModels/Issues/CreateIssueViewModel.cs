@@ -22,15 +22,6 @@ namespace LifeBoard.ViewModels.Issues
         }
 
         /// <summary>
-        /// Called when [navigated].
-        /// </summary>
-        protected override void OnNavigated()
-        {
-            ClearForm();
-            base.OnNavigated();
-        }
-
-        /// <summary>
         /// Submits this instance.
         /// </summary>
         protected override void Submit()

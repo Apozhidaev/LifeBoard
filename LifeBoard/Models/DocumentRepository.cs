@@ -376,7 +376,7 @@ namespace LifeBoard.Models
                                 },
                                 new XMLDocuments.V1.Issue
                                 {
-                                    Id = 2,
+                                    Id = 3,
                                     Type = IssueType.Epic,
                                     Status = IssueStatus.Open,
                                     CreationDate = DateTime.Now,

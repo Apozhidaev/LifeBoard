@@ -524,7 +524,7 @@ namespace LifeBoard.ViewModels.Issues
         /// <summary>
         /// Clears the form.
         /// </summary>
-        protected virtual void ClearForm()
+        public virtual void ClearForm()
         {
             Type = IssueType.Note;
             Priority = 3;

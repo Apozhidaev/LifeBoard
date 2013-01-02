@@ -16,7 +16,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
           <Component Id="ProductComponent" Guid="D2D6DFCC-3F44-4A9C-9AFA-49D87581371E">
-            <File Id='Calc' DiskId='1' Source='..\LifeBoard\bin\Release\LifeBoard.exe'/>
+            <File Id='LifeBoard' DiskId='1' Source='..\LifeBoard\bin\Release\LifeBoard.exe'/>
           </Component>
         </Directory>
       </Directory>
