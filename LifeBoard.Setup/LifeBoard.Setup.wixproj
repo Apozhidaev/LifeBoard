@@ -33,6 +33,16 @@
     <Folder Include="Fonts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Fonts\segoeui.ttf" />
+    <Content Include="Fonts\segoeuib.ttf" />
+    <Content Include="Fonts\segoeuii.ttf" />
+    <Content Include="Fonts\segoeuil.ttf" />
+    <Content Include="Fonts\segoeuisl.ttf" />
+    <Content Include="Fonts\segoeuiz.ttf" />
+    <Content Include="Fonts\seguili.ttf" />
+    <Content Include="Fonts\seguisb.ttf" />
+    <Content Include="Fonts\seguisbi.ttf" />
+    <Content Include="Fonts\seguisli.ttf" />
     <Content Include="Fonts\seguisym.ttf" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

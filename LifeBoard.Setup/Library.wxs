@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  
+
   <?define ProductName="Life Board" ?>
   <?define ProductVersion="1.0.0.0" ?>
   <?define ProductCode="3FDDCFB3-98B5-431A-B914-0A252A33A8C1"?>
@@ -35,11 +35,21 @@
       </Directory>
       <Directory Id="FontsFolder">
         <Component Id="InstallFonts" Guid="C2A374DD-A419-41E1-BA15-B784E5DA8096">
+          <File DiskId='1' Id="segoeui.TTF" Source="Fonts\segoeui.ttf" TrueType="yes" />
+          <File DiskId='1' Id="segoeuib.TTF" Source="Fonts\segoeuib.ttf" TrueType="yes" />
+          <File DiskId='1' Id="segoeuii.TTF" Source="Fonts\segoeuii.ttf" TrueType="yes" />
+          <File DiskId='1' Id="segoeuil.TTF" Source="Fonts\segoeuil.ttf" TrueType="yes" />
+          <File DiskId='1' Id="segoeuisl.TTF" Source="Fonts\segoeuisl.ttf" TrueType="yes" />
+          <File DiskId='1' Id="segoeuiz.TTF" Source="Fonts\segoeuiz.ttf" TrueType="yes" />
+          <File DiskId='1' Id="seguili.TTF" Source="Fonts\seguili.ttf" TrueType="yes" />
+          <File DiskId='1' Id="seguisb.TTF" Source="Fonts\seguisb.ttf" TrueType="yes" />
+          <File DiskId='1' Id="seguisbi.TTF" Source="Fonts\seguisbi.ttf" TrueType="yes" />
+          <File DiskId='1' Id="seguisli.TTF" Source="Fonts\seguisli.ttf" TrueType="yes" />
           <File DiskId='1' Id="seguisym.TTF" Source="Fonts\seguisym.ttf" TrueType="yes" />
         </Component>
       </Directory>
     </Directory>
-    
+
     <Feature Id="ProductFeature" Title="LifeBoard" Level="1">
       <ComponentRef Id="ProductComponent" />
       <ComponentRef Id="ApplicationShortcutLifeBoard" />
